@@ -26,6 +26,14 @@ const users = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    phone_number: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     role: {
       type: DataTypes.ENUM(
         "admin",
@@ -51,6 +59,22 @@ const users = (sequelize, DataTypes) => {
         let token = jwt.sign(tokenObj, process.env.SECRET);
         return token;
       },
+    },
+    bio: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    institution_credentials: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
   });
   model.authUser = async (email, password) => {

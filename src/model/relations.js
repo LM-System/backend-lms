@@ -19,7 +19,7 @@ usersModel.belongsTo(usersModel,{
 usersModel.belongsTo(departmentsModel)
 
 // students courses relation
-coursesModel.belongsToMany(usersModel,{through:studentsCoursesModel,as:'students'})
+coursesModel.belongsToMany(usersModel, {through:studentsCoursesModel,as:'students'})
 
 // instructor courses relation
 coursesModel.belongsToMany(usersModel,{
