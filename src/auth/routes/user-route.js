@@ -1,17 +1,39 @@
 "use strict";
-
 const express = require("express");
-const model = require("../../model/index");
-const signupHandler = require("../handlers/signup-handler");
+const userRouter = express.Router();
+
+const signUpHandler = require("../handlers/signup-handler");
+const signInHandler = require("../handlers/signin-handler");
+const {
+  usersModel,
+  coursesModel,
+  departmentsModel,
+} = require('../../model/index');
+
 const basicAuth = require("../middleware/basic.auth");
-const usersRouter = express.Router();
 
-usersRouter.post("/signup", signupHandler);
-usersRouter.post("/signin", basicAuth, signinHandler);
+userRouter.post("/signup", signUpHandler);
+userRouter.post("/signin", basicAuth, signInHandler);
+userRouter.get("/users", handleGetAll);
 
-function signinHandler(req, res) {
-  res.status(200).json(req.user);
+async function handleGetAll(req, res) {
+  let allRecords = await usersModel.findAll({
+    attributes: ["id", "username", "email", "gender", "birth_date", "role"],
+    include: [
+      {
+        model: coursesModel,
+        attributes: ["id", "name", "description", "start_date", "end_date"],
+        include: { all: true },
+      },
+      {
+        model: usersModel,
+        as: "institution",
+        attributes: ["id", "username", "email", "gender", "birth_date", "role"],
+      },
+      { model: departmentsModel, attributes: ["id", "name"] },
+    ],
+  });
+  res.status(200).json(allRecords);
 }
-usersRouter.post("");
 
-module.exports = usersRouter;
+module.exports = userRouter;

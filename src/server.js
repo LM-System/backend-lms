@@ -1,23 +1,22 @@
-"use strict";
-
+require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
-const usersRouter = require("./auth/routes/user-route");
+const app = express();
+const courseRouter = require("./routes/coursesRouter");
+const userRouter = require("./auth/routes/user-route");
+const studentsCoursesRouter = require("./routes/studentsCoursesRouter");
+const instructorsCoursesRouter = require("./routes/instructorsCoursesRouter");
+const departmentsRouter = require("./routes/departmentsRouter");
 const notFoundHandler = require("./errorhandller/400");
 const internalError = require("./errorhandller/500");
-const bearerAuth = require("./auth/middleware/bearer.auth");
-const acl = require("./auth/middleware/acl.auth");
 
-const app = express();
 app.use(express.json());
-app.use(cors());
-app.use(usersRouter);
-
+app.use(courseRouter);
+app.use(userRouter);
+app.use(studentsCoursesRouter);
+app.use(instructorsCoursesRouter);
+app.use(departmentsRouter);
 app.get("/", (req, res) => {
-  res.send("Server is runing");
-});
-app.get("/checking", bearerAuth, acl("delete"), (req, res) => {
-  res.status(200).json(req.user);
+  res.json("welcome to the home page");
 });
 
 app.use(notFoundHandler);
@@ -25,10 +24,9 @@ app.use(internalError);
 
 function start(port) {
   app.listen(port, () => {
-    console.log(`server is running on port ${port}`);
+    console.log(`The website is up and listen on port ${port}`);
   });
 }
-
 module.exports = {
   app: app,
   start: start,
