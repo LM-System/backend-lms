@@ -1,26 +1,30 @@
-"use strict";
+require('dotenv').config();
 const { Sequelize, DataTypes } = require("sequelize");
-const Users = require("../auth/model/user.model");
-const POSTGRES_URI =
-  process.env.NODE_ENV === "test"
-    ? "sqlite::memory:"
-    : process.env.DATABASE_URL;
-
-let sequelizeOptions =
-  process.env.NODE_ENV === "production"
-    ? {
-        dialectOptions: {
-          ssl: {
+let sequelizeOptions = process.env.NODE_ENV === "production" ?
+{
+    dialectOptions: {
+        ssl: {
             require: true,
             rejectUnauthorized: false,
-          },
         },
-      }
-    : {};
+    },
+} :
+{}
+const POSTGRES_URI = process.env.NODE_ENV === "test" ? "sqlite::memory:" : process.env.DATABASE_URL;
+let sequelize = new Sequelize(POSTGRES_URI, sequelizeOptions);
 
-const sequelize = new Sequelize(POSTGRES_URI, sequelizeOptions);
+const usersModel = require('../auth/model/users/user.model')(sequelize, DataTypes)
+const coursesModel = require('./courses/courses')(sequelize, DataTypes)
+const departmentsModel = require('./department/departments')(sequelize, DataTypes)
+const studentsCoursesModel = require('./user-course/studentsCourses')(sequelize, DataTypes)
+const instructorsCoursesModel = require('./user-course/instructorsCourses')(sequelize, DataTypes)
 
 module.exports = {
-  db: sequelize,
-  Users: Users(sequelize, DataTypes),
-};
+    sequelize,
+    DataTypes,
+    usersModel,
+    coursesModel,
+    departmentsModel,
+    instructorsCoursesModel,
+    studentsCoursesModel
+}

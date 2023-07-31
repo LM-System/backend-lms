@@ -1,17 +1,27 @@
 "use strict";
 
-const { Users } = require("../../model/index");
+const { usersModel } = require("../../model/index");
 
-async function signupHandler(req, res) {
-  const { username, password, email, role, gender } = req.body;
-  const record = await Users.create({
-    username: username,
-    password: password,
-    email: email,
-    role: role,
-    gender: gender,
+const bcrypt = require("bcrypt");
+
+async function signUpHandler(req, res) {
+  const { password, email } = req.body;
+  console.log(req.body);
+  const record = await usersModel.findOne({
+    where: {
+      email: email,
+    },
   });
-  res.status(201).json(record);
+  if (!record) {
+    const hashedPassword = bcrypt.hashSync(password, 12);
+    const record = await usersModel.create({
+      ...req.body,
+      password: hashedPassword,
+    });
+    res.send(record);
+  } else {
+    res.send("user exists");
+  }
 }
 
-module.exports = signupHandler;
+module.exports = signUpHandler;

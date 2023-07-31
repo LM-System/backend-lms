@@ -1,18 +1,13 @@
 "use strict";
-
-const { Sequelize } = require("sequelize");
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { use } = require("../routes/user-route");
 
-const SECRET = process.env.SECRET;
-
-const Users = (sequelize, DataTypes) => {
+const users = (sequelize, DataTypes) => {
   const model = sequelize.define("users", {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -24,51 +19,46 @@ const Users = (sequelize, DataTypes) => {
       unique: true,
     },
     gender: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM("male", "female"),
+      allowNull: true,
     },
-    date_birth: {
+    birth_date: {
       type: DataTypes.DATE,
-    },
-
-    bio: {
-      type: DataTypes.STRING,
+      allowNull: true,
     },
     role: {
-      type: DataTypes.ENUM("student", "admin", "teacher"),
-      required: true,
+      type: DataTypes.ENUM(
+        "admin",
+        "institution",
+        "instructor",
+        "student",
+        "departmentHead"
+      ),
       defaultValue: "student",
     },
-    capabilities: {
-      type: DataTypes.VIRTUAL,
-      get() {
-        const acl = {
-          student: ["read"],
-          teacher: ["read", "create", "update"],
-          admin: ["read", "create", "update", "delete"],
-        };
-        return acl[this.role];
-      },
+    institutionId: {
+      type: DataTypes.INTEGER,
+    },
+    departmentId: {
+      type: DataTypes.INTEGER,
     },
     token: {
       type: DataTypes.VIRTUAL,
       get() {
-        return jwt.sign({ username: this.username }, SECRET);
+        return jwt.sign({ username: this.username }, process.env.SECRET);
       },
       set(tokenObj) {
-        let token = jwt.sign(tokenObj, SECRET);
+        let token = jwt.sign(tokenObj, process.env.SECRET);
         return token;
       },
     },
   });
-  model.beforeCreate(async (user) => {
-    let hashedPass = await bcrypt.hash(user.password, 10);
-    user.password = hashedPass;
-  });
-  model.authUser = async (username, password) => {
-    const user = await model.findOne({ where: { username: username } });
-    // console.log(user);
+  model.authUser = async (email, password) => {
+    const user = await model.findOne({ where: { email: email } });
+    console.log(user);
     if (user) {
       const validuser = await bcrypt.compare(password, user.password);
+      console.log(validuser);
       if (validuser) {
         return user;
       } else {
@@ -80,7 +70,7 @@ const Users = (sequelize, DataTypes) => {
   };
   model.bearerToken = async (token) => {
     try {
-      const userToken = jwt.verify(token, SECRET);
+      const userToken = jwt.verify(token, process.env.SECRET);
       // console.log(`User Token: ${JSON.stringify(userToken)}`);
       if (userToken) {
         const record = await model.findOne({
@@ -95,4 +85,4 @@ const Users = (sequelize, DataTypes) => {
   return model;
 };
 
-module.exports = Users;
+module.exports = users;

@@ -1,14 +1,14 @@
 "use strict";
 
 const base64 = require("base-64");
-const { Users } = require("../../model/index");
+const { usersModel } = require("../../model/index");
 
 function basicAuth(req, res, next) {
   if (req.headers.authorization) {
     const encodedUser = req.headers.authorization.split(" ")[1];
     const decodedUser = base64.decode(encodedUser).split(":");
     const [username, password] = decodedUser;
-    Users.authUser(username, password)
+    usersModel.authUser(username, password)
       .then((data) => {
         req.user = data;
         next();

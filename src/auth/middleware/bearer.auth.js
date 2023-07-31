@@ -1,11 +1,11 @@
 "use strict";
 
-const { Users } = require("../../model/index");
+const { usersModel } = require("../../model/index");
 
 function bearerAuth(req, res, next) {
   if (req.headers.authorization) {
     const parsedToken = req.headers.authorization.split(" ")[1];
-    Users.bearerToken(parsedToken)
+    usersModel.bearerToken(parsedToken)
       .then((data) => {
         req.user = data;
         next();
