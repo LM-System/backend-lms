@@ -1,6 +1,6 @@
 const express = require('express');
 const coursesRouter = express.Router();
-const {usersModel, coursesModel} = require('../model/index');
+const {usersModel, coursesModel} = require('../model/relations');
 
 coursesRouter.get('/courses', handleGetAll);
 coursesRouter.get('/course/:id', handleGetOne);

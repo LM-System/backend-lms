@@ -1,6 +1,6 @@
 const express = require('express');
 const studentsCoursesRouter = express.Router();
-const {studentsCoursesModel} = require('../model/index')
+const {studentsCoursesModel} = require('../model/relations')
 
 
 studentsCoursesRouter.get('/studentscourses', handleGetAll);

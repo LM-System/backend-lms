@@ -1,6 +1,6 @@
 const express = require('express');
 const departmentsRouter = express.Router();
-const {departmentsModel}= require('../model/index')
+const {departmentsModel}= require('../model/relations')
 departmentsRouter.get('/departments', handleGetAll);
 departmentsRouter.get('/department/:id', handleGetOne);
 departmentsRouter.post('/department', handleCreate);

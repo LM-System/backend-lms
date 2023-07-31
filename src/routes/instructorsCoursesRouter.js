@@ -1,7 +1,6 @@
 const express = require('express');
 const instructorsCoursesRouter = express.Router();
-const {instructorsCoursesModel} = require('../model/index')
-
+const {instructorsCoursesModel} = require('../model/relations')
 
 instructorsCoursesRouter.get('/instructorscourses', handleGetAll);
 instructorsCoursesRouter.post('/instructorscourses', handleCreate);

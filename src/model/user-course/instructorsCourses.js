@@ -8,6 +8,6 @@ Sequelize.define('instructorsCourses',{
         type:DataTypes.INTEGER,
         allowNull:false,
     }
-
 })
+
 module.exports = instructorsCourses
