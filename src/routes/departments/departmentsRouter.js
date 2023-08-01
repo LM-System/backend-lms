@@ -1,14 +1,15 @@
 const express = require('express');
 const departmentsRouter = express.Router();
-const {departmentsModel}= require('../model/relations')
-departmentsRouter.get('/departments', handleGetAll);
+const {departmentsModel}= require('../../model/relations')
+// departmentsRouter.get('/departments', handleGetAll);
+departmentsRouter.get('/institutionsdepartment/:id', handleGetAll);
 departmentsRouter.get('/department/:id', handleGetOne);
 departmentsRouter.post('/department', handleCreate);
 departmentsRouter.put('/department/:id', handleUpdate);
 departmentsRouter.delete('/department/:id', handleDelete);
 
 async function handleGetAll(req, res) {
-  let allRecords = await departmentsModel.findAll({include:{all:true}});
+  let allRecords = await departmentsModel.findAll({where:{institution_id:req.params.id},include:{all:true}});
   res.status(200).json(allRecords);
 }
 
