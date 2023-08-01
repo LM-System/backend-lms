@@ -1,43 +1,43 @@
 const sections = (Sequelize, DataTypes) =>
-Sequelize.define('sections',{
+  Sequelize.define("sections", {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
     },
     course_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
     },
     year: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
     },
     semester: {
-        type: DataTypes.STRING,
-        primaryKey: true,
+      type: DataTypes.STRING,
+      primaryKey: true,
     },
     name: {
-        type: DataTypes.STRING,
+      type: DataTypes.STRING,
     },
     room_no: {
-        type: DataTypes.STRING,
-        allowNull: true
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     status: {
-        type: DataTypes.Enum('Online', 'Offline'),
-        defaultValue: 'Offline'
+      type: DataTypes.ENUM("Online", "Offline"),
+      defaultValue: "Offline",
     },
     building: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     days: {
-        type: DataTypes.ARRAY(DataTypes.STRING)
+      type: DataTypes.ARRAY(DataTypes.STRING),
     },
-    institution_id:{
-        type: DataTypes.INTEGER
+    institution_id: {
+      type: DataTypes.INTEGER,
     },
     capacity: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
-})
-module.exports = sections
+  });
+module.exports = sections;

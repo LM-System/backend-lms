@@ -9,12 +9,15 @@ const departmentsRouter = require("./routes/departmentsRouter");
 const notFoundHandler = require("./errorhandller/400");
 const internalError = require("./errorhandller/500");
 
+const assignmentRouter = require("./routes/assignmentRouter");
+
 app.use(express.json());
 app.use(courseRouter);
 app.use(userRouter);
 app.use(studentsCoursesRouter);
 app.use(instructorsCoursesRouter);
 app.use(departmentsRouter);
+app.use(assignmentRouter);
 app.get("/", (req, res) => {
   res.json("welcome to the home page");
 });
