@@ -1,5 +1,6 @@
-const assignment = (Sequelize, DataTypes) =>
-Sequelize.define('assignment', {
+const assignments = (Sequelize, DataTypes) =>
+ Sequelize.define('assignment', {
+
   section_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -26,4 +27,4 @@ Sequelize.define('assignment', {
   },
 });
 
-module.exports = assignment
+module.exports = assignments

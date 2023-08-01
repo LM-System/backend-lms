@@ -1,20 +1,18 @@
 const sections = (Sequelize, DataTypes) =>
 Sequelize.define('sections',{
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-    },
+
     course_id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        unique:true,
     },
     year: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        unique:true
+
     },
     semester: {
         type: DataTypes.STRING,
-        primaryKey: true,
+        unique:true
     },
     name: {
         type: DataTypes.STRING,
@@ -39,5 +37,6 @@ Sequelize.define('sections',{
     capacity: {
         type: DataTypes.INTEGER
     },
+
 })
 module.exports = sections

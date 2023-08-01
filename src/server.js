@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const courseRouter = require("./routes/coursesRouter");
 const userRouter = require("./auth/routes/user-route");
-const studentsCoursesRouter = require("./routes/studentsCoursesRouter");
+const studentSectonRouter = require("./routes/studentSectionRouter");
 const instructorsCoursesRouter = require("./routes/instructorsCoursesRouter");
 const departmentsRouter = require("./routes/departments/departmentsRouter");
 const sectionAnnouncementRouter = require('./routes/announcments/sectionAnnouncementsRouter')
@@ -14,7 +14,7 @@ const institutionRouter = require('./routes/institutions/institutionsRouter')
 app.use(express.json());
 app.use(courseRouter);
 app.use(userRouter);
-app.use(studentsCoursesRouter);
+app.use(studentSectonRouter);
 app.use(instructorsCoursesRouter);
 app.use(departmentsRouter);
 app.use(announcementRouter)
