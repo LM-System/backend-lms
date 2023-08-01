@@ -1,4 +1,5 @@
-const assignment = sequelize.define('assignment', {
+const assignment = (Sequelize, DataTypes) =>
+Sequelize.define('assignment', {
   section_id: {
     type: DataTypes.INTEGER,
     allowNull: false,

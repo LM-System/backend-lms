@@ -24,15 +24,15 @@ Sequelize.define('sections',{
         allowNull: true
     },
     status: {
-        type: DataTypes.Enum('Online', 'Offline'),
+        type: DataTypes.ENUM('Online', 'Offline'),
         defaultValue: 'Offline'
     },
     building: {
         type: DataTypes.STRING
     },
-    days: {
-        type: DataTypes.ARRAY(DataTypes.STRING)
-    },
+    // days: {
+    //     type: DataTypes.ARRAY(DataTypes.STRING)
+    // },
     institution_id:{
         type: DataTypes.INTEGER
     },

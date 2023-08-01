@@ -18,7 +18,7 @@ async function signUpHandler(req, res) {
       ...req.body,
       password: hashedPassword,
     });
-    res.send(record);
+    res.status(201).send(record);
   } else {
     res.send("user exists");
   }
