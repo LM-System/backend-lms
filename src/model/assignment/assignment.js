@@ -4,7 +4,7 @@ const assignment = sequelize.define('assignment', {
     allowNull: false,
   },
   title: {
-    type: DataTypes.STRING(100),
+    type: DataTypes.STRING,
     allowNull: false,
   },
   description: {
@@ -16,11 +16,11 @@ const assignment = sequelize.define('assignment', {
     allowNull: false,
   },
   status: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.STRING,
     allowNull: false,
   },
   priority: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.STRING,
     allowNull: false,
   },
 });

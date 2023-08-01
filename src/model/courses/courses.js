@@ -9,7 +9,7 @@ Sequelize.define('courses',{
     syllabus: {
         type: DataTypes.STRING,
     },
-    departmentId:{
+    department_id:{
         type: DataTypes.INTEGER,
     },
     start_date: {

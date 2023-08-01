@@ -3,12 +3,11 @@ Sequelize.define('departments',{
     name: {
         type: DataTypes.STRING,
     },
-    departmentHeadId: {
-        type: DataTypes.INTEGER,
+    institution_id:{
+        type: DataTypes.INTEGER
     },
-    institutionId:{
+    user_id: {
         type: DataTypes.INTEGER
     }
-    
 })
 module.exports = departments

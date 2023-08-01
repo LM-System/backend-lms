@@ -5,7 +5,7 @@ Sequelize.define('prerequest',{
         type: DataTypes.INTEGER,
         primaryKey: true,
     },
-    prereq: {
+    prereq_id: {
         type: DataTypes.INTEGER,
     }
 })

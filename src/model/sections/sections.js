@@ -4,9 +4,6 @@ Sequelize.define('sections',{
         type: DataTypes.INTEGER,
         primaryKey: true,
     },
-    // section_number: {
-    //     type: DataTypes.INTEGER,
-    // },
     course_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -36,18 +33,11 @@ Sequelize.define('sections',{
     days: {
         type: DataTypes.ARRAY(DataTypes.STRING)
     },
-    departmentHeadId: {
-        type: DataTypes.INTEGER,
-    },
-    institutionId:{
+    institution_id:{
         type: DataTypes.INTEGER
     },
     capacity: {
         type: DataTypes.INTEGER
     },
-    sectionAnnouncment_id: {
-        type: DataTypes.INTEGER
-    }
-    
 })
 module.exports = sections

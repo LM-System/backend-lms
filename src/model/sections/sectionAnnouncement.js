@@ -5,6 +5,9 @@ Sequelize.define('sectionAnnouncement',{
     },
     body: {
       type: DataTypes.STRING
+    },
+    section_id: {
+      type: DataTypes.INTEGER
     }
 })
 
