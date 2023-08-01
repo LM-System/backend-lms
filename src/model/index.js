@@ -18,6 +18,15 @@ const coursesModel = require('./courses/courses')(sequelize, DataTypes)
 const departmentsModel = require('./department/departments')(sequelize, DataTypes)
 const studentsCoursesModel = require('./user-course/studentsCourses')(sequelize, DataTypes)
 const instructorsCoursesModel = require('./user-course/instructorsCourses')(sequelize, DataTypes)
+const institutionModel = require('./institutionModel/institution')(sequelize, DataTypes)
+const sectionsModel = require('./sections/sections')(sequelize, DataTypes)
+const sectionِAnnouncementModel = require('./sections/sectionِAnnouncement')(sequelize, DataTypes)
+const contentModel = require('./sections/content')(sequelize, DataTypes)
+const contentFileModel = require('./sections/contentFile')(sequelize, DataTypes)
+const prerequestModel = require('./courses/prerequest')(sequelize, DataTypes)
+const attendanceModel = require('./attendance/attendance')(sequelize, DataTypes)
+const assignmentModel = require('./assignment/assignment')(sequelize, DataTypes)
+const announcementModel = require('./announcement/announcement')(sequelize, DataTypes)
 
 module.exports = {
     sequelize,
@@ -26,5 +35,14 @@ module.exports = {
     coursesModel,
     departmentsModel,
     instructorsCoursesModel,
-    studentsCoursesModel
+    studentsCoursesModel,
+    institutionModel,
+    sectionsModel,
+    sectionِAnnouncementModel,
+    contentModel,
+    contentFileModel,
+    prerequestModel,
+    attendanceModel,
+    assignmentModel,
+    announcementModel
 }
