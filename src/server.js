@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const courseRouter = require("./routes/coursesRouter");
 const userRouter = require("./auth/routes/user-route");
-const studentsCoursesRouter = require("./routes/studentsCoursesRouter");
+const studentSectonRouter = require("./routes/studentSectionRouter");
 const instructorsCoursesRouter = require("./routes/instructorsCoursesRouter");
 const departmentsRouter = require("./routes/departmentsRouter");
 const notFoundHandler = require("./errorhandller/400");
@@ -12,7 +12,7 @@ const internalError = require("./errorhandller/500");
 app.use(express.json());
 app.use(courseRouter);
 app.use(userRouter);
-app.use(studentsCoursesRouter);
+app.use(studentSectonRouter);
 app.use(instructorsCoursesRouter);
 app.use(departmentsRouter);
 app.get("/", (req, res) => {

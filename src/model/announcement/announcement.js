@@ -1,4 +1,5 @@
-const announcement = sequelize.define('announcement', {
+const announcements = (Sequelize, DataTypes) =>
+Sequelize.define('announcement', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -13,4 +14,4 @@ const announcement = sequelize.define('announcement', {
   },
 });
 
-module.exports = announcement
+module.exports = announcements
