@@ -28,9 +28,9 @@ Sequelize.define('sections',{
     building: {
         type: DataTypes.STRING
     },
-    days: {
-        type: DataTypes.ARRAY(DataTypes.STRING)
-    },
+    // days: {
+    //     type: DataTypes.ARRAY(DataTypes.STRING)
+    // },
     institution_id:{
         type: DataTypes.INTEGER
     },

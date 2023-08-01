@@ -1,5 +1,6 @@
 const assignments = (Sequelize, DataTypes) =>
  Sequelize.define('assignment', {
+
   section_id: {
     type: DataTypes.INTEGER,
     allowNull: false,

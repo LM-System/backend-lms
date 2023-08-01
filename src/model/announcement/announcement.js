@@ -1,4 +1,5 @@
 const announcements = (Sequelize, DataTypes) =>
+
 Sequelize.define('announcement', {
   title: {
     type: DataTypes.STRING,
@@ -8,7 +9,7 @@ Sequelize.define('announcement', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  user_id: {
+  institution_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
