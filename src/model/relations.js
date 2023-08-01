@@ -15,7 +15,27 @@ const {
   announcementModel
   } = require('./index')
 
+// Users Relations
 
+// Courses Relations
+
+// Department Relations
+
+// Institution Relations
+
+// Sections Relations
+
+// Content Relations
+
+// ContentFile Relations
+
+// Prerequest Relations
+
+// Attendance Relations
+
+// Assignment Relations
+
+// Announcement Relations
 
 
 module.exports = {
