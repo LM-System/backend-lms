@@ -1,21 +1,28 @@
 const express = require('express');
 const coursesRouter = express.Router();
-const {usersModel, coursesModel} = require('../model/relations');
+const {usersModel, coursesModel} = require('../../model/relations');
 
-coursesRouter.get('/courses', handleGetAll);
+// coursesRouter.get('/courses', handleGetAll);
 coursesRouter.get('/course/:id', handleGetOne);
+coursesRouter.get('/courseprerequisite/:id', handleGetcourseprerequisite);
 coursesRouter.post('/course', handleCreate);
 coursesRouter.put('/course/:id', handleUpdate);
 coursesRouter.delete('/course/:id', handleDelete);
 
-async function handleGetAll(req, res) {
-  let allRecords = await coursesModel.findAll({include:{all:true}});
-  res.status(200).json(allRecords);
-}
+// async function handleGetAll(req, res) {
+//   let allRecords = await coursesModel.findAll({include:{all:true}});
+//   res.status(200).json(allRecords);
+// }
 
 async function handleGetOne(req, res) {
   const id = req.params.id;
   let theRecord = await coursesModel.findOne({where:{id:id},attributes:['name','description','start_date','end_date'],include:[{model:usersModel,as:'students',attributes:['username','email','gender','birth_date','role']},{model:usersModel,as:'instructor',attributes:['username','email','gender','birth_date','role']}]})
+  res.status(200).json(theRecord);
+}
+
+async function handleGetcourseprerequisite(req, res) {
+  const id = req.params.id;
+  let theRecord = await coursesModel.findAndCountAll({where:{prerequisite_id:id}})
   res.status(200).json(theRecord);
 }
 

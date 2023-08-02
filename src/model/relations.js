@@ -80,12 +80,12 @@ sectionsModel.belongsTo(coursesModel, {
 departmentsModel.hasMany(coursesModel, {
   //AbuEssa
   foreignKey: "department_id",
-  as: "courses",
+  // as: "courses",
 });
 coursesModel.belongsTo(departmentsModel, {
   //AbuEssa
   foreignKey: "department_id",
-  as: "department",
+  // as: "department",
 });
 
 
@@ -94,8 +94,8 @@ coursesModel.belongsTo(departmentsModel, {
 
 usersModel.belongsTo(departmentsModel, {
   //AbuEssa
-  foreignKey: "department_id",
-  as: "department",
+  // foreignKey: "department_id",
+  // as: "department",
 });
 departmentsModel.hasMany(usersModel, {
   //AbuEssa

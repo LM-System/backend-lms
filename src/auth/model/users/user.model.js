@@ -5,10 +5,10 @@ const jwt = require("jsonwebtoken");
 
 const users = (sequelize, DataTypes) => {
   const model = sequelize.define("users", {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-    },
+    // id: {
+    //   type: DataTypes.INTEGER,
+    //   primaryKey: true,
+    // },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -68,18 +68,10 @@ const users = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    institution_credentials: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     address: {
       type: DataTypes.STRING,
       allowNull: true
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
+    }
   });
   model.authUser = async (email, password) => {
     const user = await model.findOne({ where: { email: email } });
