@@ -1,4 +1,5 @@
 const sections = (Sequelize, DataTypes) =>
+
 Sequelize.define('sections',{
 
     course_id: {
@@ -15,28 +16,29 @@ Sequelize.define('sections',{
         unique:true
     },
     name: {
-        type: DataTypes.STRING,
+      type: DataTypes.STRING,
     },
     room_no: {
-        type: DataTypes.STRING,
-        allowNull: true
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     status: {
         type: DataTypes.ENUM('Online', 'Offline'),
         defaultValue: 'Offline'
     },
     building: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
-    // days: {
-    //     type: DataTypes.ARRAY(DataTypes.STRING)
-    // },
-    institution_id:{
-        type: DataTypes.INTEGER
+    days: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
+    institution_id: {
+      type: DataTypes.INTEGER,
+
     },
     capacity: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
+  });
+module.exports = sections;
 
-})
-module.exports = sections
