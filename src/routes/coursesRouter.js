@@ -1,6 +1,6 @@
 const express = require('express');
 const coursesRouter = express.Router();
-const {usersModel, coursesModel} = require('../model/relations');
+const {sectionsModel, coursesModel, usersModel} = require('../model/relations');
 
 coursesRouter.get('/courses', handleGetAll);
 coursesRouter.get('/course/:id', handleGetOne);
@@ -9,7 +9,7 @@ coursesRouter.put('/course/:id', handleUpdate);
 coursesRouter.delete('/course/:id', handleDelete);
 
 async function handleGetAll(req, res) {
-  let allRecords = await coursesModel.findAll({include:{all:true}});
+  let allRecords = await coursesModel.findAll({include:{model:sectionsModel}});
   res.status(200).json(allRecords);
 }
 

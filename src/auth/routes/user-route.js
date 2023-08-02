@@ -6,7 +6,7 @@ const signUpHandler = require("../handlers/signup-handler");
 const signInHandler = require("../handlers/signin-handler");
 const {
   usersModel,
-  coursesModel,
+  sectionsModel,
   departmentsModel,
 } = require('../../model/index');
 
@@ -21,7 +21,7 @@ async function handleGetAll(req, res) {
     attributes: ["id", "username", "email", "gender", "birth_date", "role"],
     include: [
       {
-        model: coursesModel,
+        model: sectionsModel,
         attributes: ["id", "name", "description", "start_date", "end_date"],
         include: { all: true },
       },
