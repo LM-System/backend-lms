@@ -3,21 +3,25 @@ const express = require("express");
 const app = express();
 const courseRouter = require("./routes/coursesRouter");
 const userRouter = require("./auth/routes/user-route");
-const studentsCoursesRouter = require("./routes/studentsCoursesRouter");
-const instructorsCoursesRouter = require("./routes/instructorsCoursesRouter");
-const departmentsRouter = require("./routes/departmentsRouter");
+const studentSectonRouter = require("./routes/studentSectionRouter");
+const departmentsRouter = require("./routes/departments/departmentsRouter");
+const sectionAnnouncementRouter = require('./routes/announcments/sectionAnnouncementsRouter')
+const announcementRouter = require('./routes/announcments/announcmentsRouter')
 const notFoundHandler = require("./errorhandller/400");
 const internalError = require("./errorhandller/500");
 
 const assignmentRouter = require("./routes/assignmentRouter");
 
+const institutionRouter = require('./routes/institutions/institutionsRouter')
 app.use(express.json());
 app.use(courseRouter);
 app.use(userRouter);
-app.use(studentsCoursesRouter);
-app.use(instructorsCoursesRouter);
+app.use(studentSectonRouter);
 app.use(departmentsRouter);
 app.use(assignmentRouter);
+app.use(announcementRouter)
+app.use(sectionAnnouncementRouter)
+app.use(institutionRouter)
 app.get("/", (req, res) => {
   res.json("welcome to the home page");
 });

@@ -5,6 +5,10 @@ const jwt = require("jsonwebtoken");
 
 const users = (sequelize, DataTypes) => {
   const model = sequelize.define("users", {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -27,3 +27,4 @@ const assignment = (Sequelize, DataTypes) =>
   });
 
 module.exports = assignment;
+

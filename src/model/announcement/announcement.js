@@ -15,3 +15,4 @@ const announcement = (Sequelize, DataTypes) =>
   });
 
 module.exports = announcement;
+
