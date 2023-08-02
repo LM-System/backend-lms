@@ -24,7 +24,7 @@ Sequelize.define('sections',{
         allowNull: true
     },
     status: {
-        type: DataTypes.Enum('Online', 'Offline'),
+        type: DataTypes.ENUM('Online', 'Offline'),
         defaultValue: 'Offline'
     },
     building: {
