@@ -9,17 +9,47 @@ const {
   sectionِAnnouncementModel,
   contentModel,
   contentFileModel,
-  prerequestModel,
+  prerequisiteModel,
   attendanceModel,
   assignmentModel,
   announcementModel,
 } = require("./index");
 
+// Users attendance Relations
+usersModel.hasMany(attendanceModel)
+attendanceModel.belongsTo(usersModel, {
+  foreignKey: 'user_id'
+})
+// Courses prerequisite Relations
+coursesModel.belongsToMany(coursesModel, {
+  as: 'prerequisite',through: "prerequisite_courses",
+  foreignKey: 'course_id',
+  otherKey: 'prerequisite_id'
+})
+
+// Institution users Relations
+institutionModel.hasMany(usersModel,{
+  foreignKey: 'institution_id'
+
+})
+usersModel.belongsTo(institutionModel, {
+  foreignKey: 'institution_id'
+})
+institutionModel.hasOne(usersModel, {
+  foreignKey: 'user_id'
+})
+usersModel.belongsTo(institutionModel)
+
+// Attendance sections Relations
+attendanceModel.hasMany(sectionsModel,{
+  foreignKey: 'attendance_id',
+})
+sectionsModel.belongsTo(attendanceModel, {
+  foreignKey: 'attendance_id',
+})
+
 
 // Users section Relations
-
-
-
 usersModel.belongsToMany(sectionsModel,{
   through: studentSectionModel
 })
@@ -75,8 +105,10 @@ departmentsModel.hasMany(usersModel, {
 
 departmentsModel.belongsTo(usersModel,{
   foreignKey:'user_id',
-  as:'department_head'
-// Institution Relations
+  as:'department_head'})
+
+
+// Institution departments Relations
 institutionModel.hasMany(departmentsModel, {
   foreignKey: 'institution_id'
 });
@@ -85,38 +117,33 @@ departmentsModel.belongsTo(institutionModel, {
   foreignKey: 'institution_id'
 });
 
-// Sections Relations
+// Sections content Relations
 sectionsModel.hasOne(contentModel, {
   foreignKey: 'section_id'
 });
+contentModel.belongsTo(sectionsModel, {
+  foreignKey: 'section_id'
+});
+
+// Sections assignment Relations
 
 sectionsModel.hasMany(assignmentModel, {
   foreignKey: "section_id",
   as: "Assignments",
 });
-
-contentModel.belongsTo(sectionsModel, {
-  foreignKey: 'section_id'
-});
-// Content Relations
-
-// ContentFile Relations
-contentFileModel.belongsTo(sectionsModel,{
-  foreignKey:'content_id'
-})   //zay
-// Prerequest Relations
-
-// Attendance Relations
-
-// Assignment Relations
-
 assignmentModel.belongsTo(sectionsModel, {
   //AbuEssa
   foreignKey: "section_id",
   as: "Sections",
 });
 
-// Announcement Relations
+// sections ContentFile Relations
+contentFileModel.belongsTo(sectionsModel,{
+  foreignKey:'content_id'
+})   //zay
+
+
+
 // Announcement Relations
 announcementModel.belongsTo(institutionModel,{
   foreignKey:'institution_id'
@@ -135,10 +162,9 @@ module.exports = {
   sectionِAnnouncementModel,
   contentModel,
   contentFileModel,
-  prerequestModel,
+  prerequisiteModel,
   attendanceModel,
   assignmentModel,
   announcementModel,
-};
   studentSectionModel
-}
+};

@@ -7,6 +7,6 @@ const { sequelize } = require("./src/model/index");
 const port = process.env.PORT || 4000;
 const db = sequelize;
 
-db.sync().then(() => {
+db.sync({force :false}).then(() => {
   start(port);
 });

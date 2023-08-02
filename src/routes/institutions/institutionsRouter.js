@@ -1,6 +1,5 @@
 const express = require('express');
 const institutionRouter = express.Router();
-const {institutionRouter} = require('../model/relations');
 const { institutionModel } = require('../../model');
 
 institutionRouter.get('/institutions', handleGetAll);
