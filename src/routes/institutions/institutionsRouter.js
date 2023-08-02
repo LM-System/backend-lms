@@ -31,7 +31,7 @@ async function handleGetinstitutiondepartments(req, res) {
 
 async function handleGetinstitutionstudents(req, res) {
   const id = req.params.id;
-  let theRecord = await usersModel.findAndCountAll({where:{institution_id:id,role:'student'}})
+  let theRecord = await usersModel.findAndCountAll({where:{institution_id:id,role:'student'},attributes:['id','username','email','gender','birth_date','phone_number','image','address']})
   res.status(200).json(theRecord);
 }
 
@@ -39,7 +39,7 @@ async function handleGetinstitutionemployees(req, res) {
   const id = req.params.id;
   let theRecord = await usersModel.findAndCountAll({where:[{institution_id:id},{[Op.not]: 
     { role: ['student','admin','institution'] },
-}]})
+}],attributes:['id','username','email','gender','birth_date','phone_number','role','image','address']})
   res.status(200).json(theRecord);
 }
 

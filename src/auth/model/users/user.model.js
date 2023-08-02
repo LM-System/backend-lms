@@ -48,10 +48,10 @@ const users = (sequelize, DataTypes) => {
       ),
       defaultValue: "student",
     },
-    institutionId: {
+    institution_id: {
       type: DataTypes.INTEGER,
     },
-    departmentId: {
+    department_id: {
       type: DataTypes.INTEGER,
     },
     token: {
