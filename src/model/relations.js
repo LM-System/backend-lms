@@ -13,6 +13,7 @@ const {
   attendanceModel,
   assignmentModel,
   announcementModel,
+  assignmentSubmittionModel
 } = require("./index");
 
 // Users attendance Relations
@@ -136,6 +137,34 @@ assignmentModel.belongsTo(sectionsModel, {
   foreignKey: "section_id",
   as: "Sections",
 });
+
+// Assignment Submittion assignment Relations
+
+assignmentModel.hasMany(assignmentSubmittionModel,{
+  //AbuEssa
+  foreignKey:"assignment_id",
+  as:"assignmentSubmit"
+})
+
+assignmentSubmittionModel.belongsTo(assignmentModel, {
+  //AbuEssa
+  foreignKey: "assignment_id",
+  as: "Assignments",
+});
+
+
+// User Assignment Submittion Relations
+
+usersModel.hasMany(assignmentSubmittionModel,{
+  //AbuEssa
+  foreignKey:"student_id"})
+
+assignmentSubmittionModel.belongsTo(usersModel, {
+  //AbuEssa
+  foreignKey: "student_id"
+});
+
+
 
 // sections ContentFile Relations
 contentFileModel.belongsTo(sectionsModel,{

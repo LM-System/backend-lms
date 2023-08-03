@@ -26,6 +26,7 @@ const prerequisiteModel = require('./courses/prerequisite')(sequelize, DataTypes
 const attendanceModel = require('./attendance/attendance')(sequelize, DataTypes)
 const assignmentModel = require('./assignment/assignment')(sequelize, DataTypes)
 const announcementModel = require('./announcement/announcement')(sequelize, DataTypes)
+const assignmentSubmittionModel=require('./assignment_submittion/assignment_submittion')(sequelize, DataTypes)
 module.exports = {
     sequelize,
     DataTypes,
@@ -41,5 +42,6 @@ module.exports = {
     prerequisiteModel,
     attendanceModel,
     assignmentModel,
-    announcementModel
+    announcementModel,
+    assignmentSubmittionModel
 }
