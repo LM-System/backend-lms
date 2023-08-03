@@ -1,16 +1,13 @@
 const attendance = (Sequelize, DataTypes) =>
-Sequelize.define('attendance',{
-    section_id: {
-      type: DataTypes.INTEGER
-    },
-    user_id: {
+Sequelize.define('attendance', {
+    id: {
       type: DataTypes.INTEGER
     },
     date: {
       type: DataTypes.DATE
     },
-    status: {
-      type: DataTypes.ENUM('Present', 'Absent', 'Late', 'Excused')
+    section_id: {
+      type: DataTypes.INTEGER
     }
 })
 

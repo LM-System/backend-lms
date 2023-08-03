@@ -1,7 +1,22 @@
 'use strict'
 const express = require('express');
 const attendanceRouter = express.Router();
-const {attendanceModel, sectionsModel, usersModel} = require('../../model/relations');
+const {attendanceModel, sectionsModel, userAttendanceModel} = require('../../model/relations');
+
+const acl = (role) => {
+  return (req, res, next) => {
+    if(role) {
+      if(role === req.user.role) {
+        next()
+      } else {
+        res.status(401).json({
+          status: 401,
+          msg: 'user not authorized'
+        })
+      }
+    }
+  }
+}
 
 // Get all attendance records for a specific section
 attendanceRouter.get('/course/section_id/attendance', async (req, res) => {
@@ -10,49 +25,31 @@ attendanceRouter.get('/course/section_id/attendance', async (req, res) => {
     where: {
       section_id: sectionId
     },
-    include: [{
-      model: sectionsModel
-    }]
+    include: {
+      model: 'section_attendance'
+    }
   })
   res.status(200).json(record)
 })
 
-// Student: Get attendance for a specific day
-attendanceRouter.get('/course/:section_id/attendance/:attendance_id', async (req, res) => {
-  const sectionId = req.params.section_id
-  const attendanceId = req.params.attendance_id
-  const student_id = req.body.user_id
-  const record = await attendanceModel.findOne({
-    where: {
-      id: attendanceId,
-      section_id: sectionId,
-      user_id: student_id
-    },
-    include: [{
-      model: sectionsModel,
-      model: usersModel
-    }]
-  })
-  res.status(200).json(record)
-})
-
-// Techer: Get attendance for a specific day
-attendanceRouter.get('/course/:section_id/attendance/:attendance_id', async (req, res) => {
+// Get attendance for a specific day
+attendanceRouter.get('/course/:section_id/attendance/:attendance_id' ,async (req, res) => {
   const sectionId = req.params.section_id
   const attendanceId = req.params.attendance_id
   const record = await attendanceModel.findAll({
     where: {
-      id: attendanceId,
+      attendance_id: attendanceId,
       section_id: sectionId
     },
-    include: [{
-      model: sectionsModel
-    },
-    {
-      model: usersModel
-    }]
+    include: [
+    { model: sectionsModel },
+    { model: userAttendanceModel }
+  ]
   })
-  res.status(200).json(record)
+  if(req.body.user.role === 'student') {
+    const studentRecord = record.filter(e => e.user_id = req.body.user.user_id)
+    res.status(200).json(studentRecord)
+  } else res.status(200).json(record)
 })
 
 // Creating new attendance
@@ -88,5 +85,6 @@ attendanceRouter.put('/course/:section_id/attendance/:attendance_id', async(req,
   }, updateData)
   res.status(200).json(record)
 })
+
 
 module.exports = attendanceRouter
