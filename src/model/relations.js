@@ -13,6 +13,7 @@ const {
   attendanceModel,
   assignmentModel,
   announcementModel,
+  assignmentSubmittionModel
 } = require("./index");
 
 // Users attendance Relations
@@ -35,10 +36,10 @@ institutionModel.hasMany(usersModel,{
 usersModel.belongsTo(institutionModel, {
   foreignKey: 'institution_id'
 })
-institutionModel.hasOne(usersModel, {
+institutionModel.belongsTo(usersModel, {
   foreignKey: 'user_id'
 })
-usersModel.belongsTo(institutionModel)
+// usersModel.belongsTo(institutionModel)
 
 // Attendance sections Relations
 attendanceModel.hasMany(sectionsModel,{
@@ -80,12 +81,12 @@ sectionsModel.belongsTo(coursesModel, {
 departmentsModel.hasMany(coursesModel, {
   //AbuEssa
   foreignKey: "department_id",
-  as: "courses",
+  // as: "courses",
 });
 coursesModel.belongsTo(departmentsModel, {
   //AbuEssa
   foreignKey: "department_id",
-  as: "department",
+  // as: "department",
 });
 
 
@@ -95,13 +96,13 @@ coursesModel.belongsTo(departmentsModel, {
 usersModel.belongsTo(departmentsModel, {
   //AbuEssa
   foreignKey: "department_id",
-  as: "department",
+  // as: "department",
 });
-departmentsModel.hasMany(usersModel, {
-  //AbuEssa
-  foreignKey: "departmentId",
-  as: "users",
-});
+// departmentsModel.hasMany(usersModel, {
+//   //AbuEssa
+//   foreignKey: "departmentId",
+//   as: "users",
+// });
 
 departmentsModel.belongsTo(usersModel,{
   foreignKey:'user_id',
@@ -136,6 +137,34 @@ assignmentModel.belongsTo(sectionsModel, {
   foreignKey: "section_id",
   as: "Sections",
 });
+
+// Assignment Submittion assignment Relations
+
+assignmentModel.hasMany(assignmentSubmittionModel,{
+  //AbuEssa
+  foreignKey:"assignment_id",
+  as:"assignmentSubmit"
+})
+
+assignmentSubmittionModel.belongsTo(assignmentModel, {
+  //AbuEssa
+  foreignKey: "assignment_id",
+  as: "Assignments",
+});
+
+
+// User Assignment Submittion Relations
+
+usersModel.hasMany(assignmentSubmittionModel,{
+  //AbuEssa
+  foreignKey:"student_id"})
+
+assignmentSubmittionModel.belongsTo(usersModel, {
+  //AbuEssa
+  foreignKey: "student_id"
+});
+
+
 
 // sections ContentFile Relations
 contentFileModel.belongsTo(sectionsModel,{

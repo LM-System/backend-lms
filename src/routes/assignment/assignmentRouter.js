@@ -1,7 +1,7 @@
 const express = require("express");
 const assignmentRouter = express.Router();
 
-const { sectionsModel, assignmentModel } = require("../model/relations");
+const { sectionsModel, assignmentModel } = require("../../model/relations");
 
 assignmentRouter.get("/assignment", handleGetAll);
 assignmentRouter.get("/assignment/:id", handleGetOne);

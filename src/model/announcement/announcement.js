@@ -8,7 +8,7 @@ const announcement = (Sequelize, DataTypes) =>
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user_id: {
+    institution_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
