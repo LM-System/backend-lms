@@ -1,21 +1,61 @@
 const express = require('express');
+const{Sequelize}= require('sequelize')
 const departmentsRouter = express.Router();
-const {departmentsModel}= require('../../model/relations')
+const {coursesModel,departmentsModel,usersModel}= require('../../model/relations')
 // departmentsRouter.get('/departments', handleGetAll);
-departmentsRouter.get('/institutionsdepartment/:id', handleGetAll);
+departmentsRouter.get('/departmentcourses/:id', handleGetDepartmentCourses);
+departmentsRouter.get('/departmentinstructors/:id', handleGetDepartmentInstructors);
+departmentsRouter.get('/departmentstudents/:id', handleGetDepartmentStudents);
 departmentsRouter.get('/department/:id', handleGetOne);
 departmentsRouter.post('/department', handleCreate);
 departmentsRouter.put('/department/:id', handleUpdate);
 departmentsRouter.delete('/department/:id', handleDelete);
 
-async function handleGetAll(req, res) {
-  let allRecords = await departmentsModel.findAll({where:{institution_id:req.params.id},include:{all:true}});
+// async function handleGetAll(req, res) {
+//   let allRecords = await departmentsModel.findAndCountAll();
+//   res.status(200).json(allRecords);
+// }
+
+async function handleGetDepartmentCourses(req, res) {
+  let allRecords = await coursesModel.findAndCountAll(
+    {
+      where:{department_id:req.params.id},
+      attributes:['id','name',"description","start_date","end_date"],
+      
+    });
+  res.status(200).json(allRecords);
+}
+
+async function handleGetDepartmentInstructors(req, res) {
+  let allRecords = await usersModel.findAndCountAll(
+    {
+      where:{role:"instructor",department_id:req.params.id},
+      attributes:['id','username','email','gender','birth_date','phone_number','role','image','address'],
+      
+    });
+  res.status(200).json(allRecords);
+}
+
+async function handleGetDepartmentStudents(req, res) {
+  let allRecords = await usersModel.findAndCountAll(
+    {
+      where:{role:"student",department_id:req.params.id},
+      attributes:['id','username','email','gender','birth_date','phone_number','role','image','address'],
+      
+    });
   res.status(200).json(allRecords);
 }
 
 async function handleGetOne(req, res) {
   const id = req.params.id;
-  let theRecord = await departmentsModel.findOne({where:{id:id},attributes:['name','description','start_date','end_date'],include:[{model:usersModel,as:'students',attributes:['username','email','gender','birth_date','role']},{model:usersModel,as:'instructor',attributes:['username','email','gender','birth_date','role']}]})
+  let theRecord = await departmentsModel.findOne(
+    {where:{id:id},
+    attributes:['id','name'],
+    include:[
+      // {model:usersModel,as:'users',
+      // attributes:['username','email','gender','birth_date','role']},
+      {model:usersModel,as:'department_head',
+      attributes:['username','email','gender','birth_date','role']}]})
   res.status(200).json(theRecord);
 }
 

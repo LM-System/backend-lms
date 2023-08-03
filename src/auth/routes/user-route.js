@@ -6,9 +6,9 @@ const signUpHandler = require("../handlers/signup-handler");
 const signInHandler = require("../handlers/signin-handler");
 const {
   usersModel,
-  coursesModel,
+  sectionsModel,
   departmentsModel,
-} = require('../../model/index');
+} = require('../../model/relations');
 
 const basicAuth = require("../middleware/basic.auth");
 
@@ -19,19 +19,7 @@ userRouter.get("/users", handleGetAll);
 async function handleGetAll(req, res) {
   let allRecords = await usersModel.findAll({
     attributes: ["id", "username", "email", "gender", "birth_date", "role"],
-    include: [
-      {
-        model: coursesModel,
-        attributes: ["id", "name", "description", "start_date", "end_date"],
-        include: { all: true },
-      },
-      {
-        model: usersModel,
-        as: "institution",
-        attributes: ["id", "username", "email", "gender", "birth_date", "role"],
-      },
-      { model: departmentsModel, attributes: ["id", "name"] },
-    ],
+    include: {all:true,nested: true},
   });
   res.status(200).json(allRecords);
 }

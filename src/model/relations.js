@@ -36,10 +36,10 @@ institutionModel.hasMany(usersModel,{
 usersModel.belongsTo(institutionModel, {
   foreignKey: 'institution_id'
 })
-institutionModel.hasOne(usersModel, {
+institutionModel.belongsTo(usersModel, {
   foreignKey: 'user_id'
 })
-usersModel.belongsTo(institutionModel)
+// usersModel.belongsTo(institutionModel)
 
 // Attendance sections Relations
 attendanceModel.hasMany(sectionsModel,{
@@ -81,12 +81,12 @@ sectionsModel.belongsTo(coursesModel, {
 departmentsModel.hasMany(coursesModel, {
   //AbuEssa
   foreignKey: "department_id",
-  as: "courses",
+  // as: "courses",
 });
 coursesModel.belongsTo(departmentsModel, {
   //AbuEssa
   foreignKey: "department_id",
-  as: "department",
+  // as: "department",
 });
 
 
@@ -96,13 +96,13 @@ coursesModel.belongsTo(departmentsModel, {
 usersModel.belongsTo(departmentsModel, {
   //AbuEssa
   foreignKey: "department_id",
-  as: "department",
+  // as: "department",
 });
-departmentsModel.hasMany(usersModel, {
-  //AbuEssa
-  foreignKey: "departmentId",
-  as: "users",
-});
+// departmentsModel.hasMany(usersModel, {
+//   //AbuEssa
+//   foreignKey: "departmentId",
+//   as: "users",
+// });
 
 departmentsModel.belongsTo(usersModel,{
   foreignKey:'user_id',

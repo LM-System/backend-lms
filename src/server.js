@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const courseRouter = require("./routes/coursesRouter");
+const courseRouter = require("./routes/courses/coursesRouter");
 const userRouter = require("./auth/routes/user-route");
 const studentSectonRouter = require("./routes/studentSectionRouter");
 const departmentsRouter = require("./routes/departments/departmentsRouter");
