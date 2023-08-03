@@ -1,8 +1,5 @@
 const attendance = (Sequelize, DataTypes) =>
 Sequelize.define('attendance',{
-    course_id: {
-      type: DataTypes.INTEGER
-    },
     section_id: {
       type: DataTypes.INTEGER
     },
