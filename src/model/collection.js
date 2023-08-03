@@ -16,6 +16,15 @@ class Collection{
             return itemFound;
         }
     }
+    async readWithAttributes(att,item_id){
+        if(item_id){
+            let itemFound=await this.model.findOne({where:{id:item_id},attributes:att});
+            return itemFound;
+        }else{
+            let itemFound=await this.model.findAll({attributes:att});
+            return itemFound;
+        }
+    }
     async update(obj,item_id){
         let foundItem = await this.model.findOne({ where: { id: item_id } });
         let itemUpdated=await foundItem.update(obj);
@@ -25,13 +34,20 @@ class Collection{
         let itemDeleted=await this.model.destroy({where:{id:item_id}});
         return itemDeleted;
     }
-    // async oneToMAny(id,model){
-    //     let record = await this.model.findOne({
-    //         where: { id },
-    //         include: model,
-    //     });
-    //     return record;
-    // }
+    async readWithRelation(model,id){
+        if(id){
+            let record = await this.model.findOne({
+                where: { id },
+                include: model,
+            });
+            return record;
+
+    }
+    let record = await this.model.findAll({
+        include: model,
+    });
+    return record;
+    }
 
 }
 module.exports=Collection

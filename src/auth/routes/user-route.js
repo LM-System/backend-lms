@@ -6,7 +6,7 @@ const signUpHandler = require("../handlers/signup-handler");
 const signInHandler = require("../handlers/signin-handler");
 const {
   usersModel,
-  coursesModel,
+  sectionsModel,
   departmentsModel,
 } = require('../../model/relations');
 
