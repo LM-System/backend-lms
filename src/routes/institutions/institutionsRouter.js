@@ -1,21 +1,45 @@
 const express = require('express');
 const institutionRouter = express.Router();
-const { institutionModel } = require('../../model');
+const { Op } = require("sequelize")
+const { institutionModel,usersModel,departmentsModel } = require('../../model');
 
 institutionRouter.get('/institutions', handleGetAll);
-institutionRouter.get('/institution/:id', handleGetOne);
+institutionRouter.get('/institution/:name', handleGetOne);
+institutionRouter.get('/institutiondepartments/:id', handleGetinstitutiondepartments);
+institutionRouter.get('/institutionemployees/:id', handleGetinstitutionemployees);
+institutionRouter.get('/institutionstudents/:id', handleGetinstitutionstudents);
 institutionRouter.post('/institution', handleCreate);
 institutionRouter.put('/institution/:id', handleUpdate);
 institutionRouter.delete('/institution/:id', handleDelete);
 
 async function handleGetAll(req, res) {
-  let allRecords = await institutionModel.findAll({include:{all:true}});
+  let allRecords = await institutionModel.findAndCountAll();
   res.status(200).json(allRecords);
 }
 
 async function handleGetOne(req, res) {
+  const name = req.params.name;
+  let theRecord = await institutionModel.findAll({where:{name:name}})
+  res.status(200).json(theRecord);
+}
+
+async function handleGetinstitutiondepartments(req, res) {
   const id = req.params.id;
-  let theRecord = await institutionModel.findOne({where:{id:id},attributes:['name','description','start_date','end_date'],include:[{model:usersModel,as:'students',attributes:['username','email','gender','birth_date','role']},{model:usersModel,as:'instructor',attributes:['username','email','gender','birth_date','role']}]})
+  let theRecord = await departmentsModel.findAndCountAll({where:{institution_id:id}})
+  res.status(200).json(theRecord);
+}
+
+async function handleGetinstitutionstudents(req, res) {
+  const id = req.params.id;
+  let theRecord = await usersModel.findAndCountAll({where:{institution_id:id,role:'student'},attributes:['id','username','email','gender','birth_date','phone_number','image','address']})
+  res.status(200).json(theRecord);
+}
+
+async function handleGetinstitutionemployees(req, res) {
+  const id = req.params.id;
+  let theRecord = await usersModel.findAndCountAll({where:[{institution_id:id},{[Op.not]: 
+    { role: ['student','admin','institution'] },
+}],attributes:['id','username','email','gender','birth_date','phone_number','role','image','address']})
   res.status(200).json(theRecord);
 }
 

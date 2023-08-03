@@ -4,16 +4,16 @@ Sequelize.define('sections',{
 
     course_id: {
         type: DataTypes.INTEGER,
-        unique:true,
+        // unique:true,
     },
     year: {
         type: DataTypes.INTEGER,
-        unique:true
+        // unique:true
 
     },
     semester: {
         type: DataTypes.STRING,
-        unique:true
+        // unique:true
     },
     name: {
       type: DataTypes.STRING,

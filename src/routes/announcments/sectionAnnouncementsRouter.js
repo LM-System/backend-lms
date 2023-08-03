@@ -3,10 +3,16 @@ const sectionAnnouncementRouter = express.Router();
 const {sectionِAnnouncementModel} = require('../../model/relations');
 
 
+sectionAnnouncementRouter.get('/sectionAnnouncement/:id', handleGetAnnoucementsByID);
 sectionAnnouncementRouter.post('/sectionAnnouncement', handleCreate);
 sectionAnnouncementRouter.put('/sectionAnnouncement/:id', handleUpdate);
 sectionAnnouncementRouter.delete('/sectionAnnouncement/:id', handleDelete);
 
+
+async function handleGetAnnoucementsByID(req, res) {
+  let newRecord = await sectionِAnnouncementModel.findAll({where:{id:req.params.id}});
+  res.status(201).json(newRecord);
+}
 
 async function handleCreate(req, res) {
   let obj = req.body;
