@@ -37,14 +37,14 @@ class Collection{
     async readWithRelation(model,id){
         if(id){
             let record = await this.model.findOne({
-                where: { id },
-                include: model,
+                where: { id:id },
+                include: {all:true},
             });
             return record;
 
     }
     let record = await this.model.findAll({
-        include: model,
+        include: {all:true},
     });
     return record;
     }
