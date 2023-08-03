@@ -29,12 +29,12 @@ async function handleGetAll(req, res) {
   
   async function handleGetOne(req, res) {
     const id = req.params.id;
-    let theRecord = await sectionCollection.findOne()
+    let theRecord = await sectionCollection.read(id)
     res.status(200).json(theRecord);
   }
   
   async function handleCreate(req, res) {
-    let obj = req.params;
+    let obj = req.body;
     console.log(obj);
     let newRecord = await sectionCollection.create(obj);
     res.status(201).json(newRecord);
