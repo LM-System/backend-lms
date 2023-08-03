@@ -20,7 +20,7 @@ async function handleGetDepartmentCourses(req, res) {
   let allRecords = await coursesModel.findAndCountAll(
     {
       where:{department_id:req.params.id},
-      attributes:['id','name',"description"],
+      attributes:['id','name',"description","start_date","end_date"],
       
     });
   res.status(200).json(allRecords);
@@ -29,8 +29,8 @@ async function handleGetDepartmentCourses(req, res) {
 async function handleGetDepartmentInstructors(req, res) {
   let allRecords = await usersModel.findAndCountAll(
     {
-      where:{role:"instructor",departmentId:req.params.id},
-      attributes:['id','username',"role"],
+      where:{role:"instructor",department_id:req.params.id},
+      attributes:['id','username','email','gender','birth_date','phone_number','role','image','address'],
       
     });
   res.status(200).json(allRecords);
@@ -39,8 +39,8 @@ async function handleGetDepartmentInstructors(req, res) {
 async function handleGetDepartmentStudents(req, res) {
   let allRecords = await usersModel.findAndCountAll(
     {
-      where:{role:"student",departmentId:req.params.id},
-      attributes:['id','username',"role"],
+      where:{role:"student",department_id:req.params.id},
+      attributes:['id','username','email','gender','birth_date','phone_number','role','image','address'],
       
     });
   res.status(200).json(allRecords);

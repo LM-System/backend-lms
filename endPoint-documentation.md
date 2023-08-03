@@ -373,15 +373,26 @@ http://localhost:3000
 
 * ## announcement Endpoint:
 
-   **Endpoint**:  /announcements  
+   **Endpoint**:  /institutionannouncements/:id  
    **method** : GET
 
     **The respose will be :**
 
     ```JSON
-    {
-        "id"://id
-    }
+    [
+      {
+        "title": "STRING",
+        "body": "STRING"
+      },
+      {
+        "title": "STRING",
+        "body": "STRING"
+      },
+      {
+        "title": "STRING",
+        "body": "STRING"
+      }
+    ]
     ```
     
    **Endpoint**:  /announcement       
@@ -400,7 +411,12 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "id": 2,
+      "title": "STRING",
+      "body": "STRING",
+      "institution_id": 4,
+      "updatedAt": "2023-08-03T07:37:54.510Z",
+      "createdAt": "2023-08-03T07:37:54.510Z"
     }
     ```
 
@@ -413,7 +429,7 @@ http://localhost:3000
     {
         "title":"STRING" ,
         "body": "STRING",
-        "user_id":1 //integer
+        "institution_id":1 //integer
     }
     ```
 
@@ -421,7 +437,12 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "id": 2,
+      "title": "STRING",
+      "body": "STRING",
+      "institution_id": 4,
+      "updatedAt": "2023-08-03T07:37:54.510Z",
+      "createdAt": "2023-08-03T07:37:54.510Z"
     }
     ```
 
@@ -498,7 +519,15 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "name": "STRING",
+      "description": "STRING",
+      "syllabus": "STRING",
+      "start_date": "2012-01-10T22:00:00.000Z",
+      "end_date": "2012-01-10T22:00:00.000Z",
+      "department": {
+        "id": 1,
+        "name": "STRING"
+      }
     }
     ```
     
@@ -532,7 +561,15 @@ http://localhost:3000
 
     ```JSON
     {
-        "id":1//id
+      "id": 3,
+      "name": "STRING",
+      "description": "STRING",
+      "syllabus": "STRING",
+      "start_date": "2012-01-10T22:00:00.000Z",
+      "end_date": "2012-01-10T22:00:00.000Z",
+      "department_id": 1,
+      "updatedAt": "2023-08-03T07:21:32.584Z",
+      "createdAt": "2023-08-03T07:21:32.584Z"
     }
     ```
 
@@ -556,7 +593,15 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "id": 3,
+      "name": "STRING",
+      "description": "STRING",
+      "syllabus": "STRING",
+      "start_date": "2012-01-10T22:00:00.000Z",
+      "end_date": "2012-01-10T22:00:00.000Z",
+      "department_id": 1,
+      "updatedAt": "2023-08-03T07:21:32.584Z",
+      "createdAt": "2023-08-03T07:21:32.584Z"
     }
     ```
 
@@ -574,7 +619,30 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "count": 3,
+      "rows": [
+        {
+          "id": 1,
+          "name": "STRING",
+          "description": "STRING",
+          "start_date": "year-month-day",
+          "end_date": "year-month-day"
+        },
+        {
+          "id": 2,
+          "name": "STRING",
+          "description": "STRING",
+          "start_date": "year-month-day",
+          "end_date": "year-month-day"
+        },
+        {
+          "id": 3,
+          "name": "STRING",
+          "description": "STRING",
+          "start_date": "year-month-day",
+          "end_date": "year-month-day"
+        }
+      ]
     }
     ```
     
@@ -585,7 +653,42 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "count": 3,
+      "rows": [
+        {
+          "id": 4,
+          "username": "STRING",
+          "email": "STRING",
+          "gender": "STRING",
+          "birth_date": "year-month-day",
+          "phone_number": "STRING",
+          "role": "instructor",
+          "image": "STRING",
+          "address": "STRING"
+        },
+        {
+          "id": 5,
+          "username": "STRING",
+          "email": "STRING",
+          "gender": "STRING",
+          "birth_date": "year-month-day",
+          "phone_number": "STRING",
+          "role": "instructor",
+          "image": "STRING",
+          "address": "STRING"
+        },
+        {
+          "id": 6,
+          "username": "STRING",
+          "email": "STRING",
+          "gender": "STRING",
+          "birth_date": "year-month-day",
+          "phone_number": "STRING",
+          "role": "instructor",
+          "image": "STRING",
+          "address": "STRING"
+        }
+      ]
     }
     ```
     
@@ -596,7 +699,42 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "count": 3,
+      "rows": [
+        {
+          "id": 4,
+          "username": "STRING",
+          "email": "STRING",
+          "gender": "STRING",
+          "birth_date": "year-month-day",
+          "phone_number": "STRING",
+          "role": "student",
+          "image": "STRING",
+          "address": "STRING"
+        },
+        {
+          "id": 5,
+          "username": "STRING",
+          "email": "STRING",
+          "gender": "STRING",
+          "birth_date": "year-month-day",
+          "phone_number": "STRING",
+          "role": "student",
+          "image": "STRING",
+          "address": "STRING"
+        },
+        {
+          "id": 6,
+          "username": "STRING",
+          "email": "STRING",
+          "gender": "STRING",
+          "birth_date": "year-month-day",
+          "phone_number": "STRING",
+          "role": "student",
+          "image": "STRING",
+          "address": "STRING"
+        }
+      ]
     }
     ```
     

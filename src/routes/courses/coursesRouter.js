@@ -1,6 +1,6 @@
 const express = require('express');
 const coursesRouter = express.Router();
-const {usersModel, coursesModel} = require('../../model/relations');
+const {departmentsModel, coursesModel} = require('../../model/relations');
 
 // coursesRouter.get('/courses', handleGetAll);
 coursesRouter.get('/course/:id', handleGetOne);
@@ -16,7 +16,7 @@ coursesRouter.delete('/course/:id', handleDelete);
 
 async function handleGetOne(req, res) {
   const id = req.params.id;
-  let theRecord = await coursesModel.findOne({where:{id:id},attributes:['name','description','start_date','end_date'],include:[{model:usersModel,as:'students',attributes:['username','email','gender','birth_date','role']},{model:usersModel,as:'instructor',attributes:['username','email','gender','birth_date','role']}]})
+  let theRecord = await coursesModel.findOne({where:{id:id},attributes:['name','description','syllabus','start_date','end_date'],include:{model:departmentsModel,attributes:["id",'name',]}})
   res.status(200).json(theRecord);
 }
 

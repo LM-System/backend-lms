@@ -97,11 +97,11 @@ usersModel.belongsTo(departmentsModel, {
   foreignKey: "department_id",
   // as: "department",
 });
-departmentsModel.hasMany(usersModel, {
-  //AbuEssa
-  foreignKey: "departmentId",
-  as: "users",
-});
+// departmentsModel.hasMany(usersModel, {
+//   //AbuEssa
+//   foreignKey: "departmentId",
+//   as: "users",
+// });
 
 departmentsModel.belongsTo(usersModel,{
   foreignKey:'user_id',
