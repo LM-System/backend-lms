@@ -21,7 +21,7 @@ prerequisiteRouter.post('/course/:course_id/prerequisite/:prerequisite_id', asyn
 
 // get course prerequisite courses
 prerequisiteRouter.get('/course/:course_id/prerequisite', async (req, res) => {
-  const course_id = req.body.course_id
+  const course_id = req.params.course_id
   const record = await prerequisiteModel.findAll({
     where: {
       course_id: course_id
