@@ -47,7 +47,7 @@ describe('department testing',()=>{
         // add department
         test('POST to /department to create new department',async ()=>{
             const response = await request.post('/department').set({
-                authorization:`Bearer ${jwt.sign('username:LTUC',Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             }).send({
                 "id":1,
                 "name":"tecnology",
@@ -61,7 +61,7 @@ describe('department testing',()=>{
         // update department
         test('PUT to /department/:id to update department',async ()=>{
             const response = await request.put('/department/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             }).send({
                 "id":1,
                 "name":"technology",
@@ -93,7 +93,7 @@ describe('department testing',()=>{
                 "department_id":1
             })
             const response = await request.get('/departmentstudents/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -121,7 +121,7 @@ describe('department testing',()=>{
                 "department_id":1
             })
             const response = await request.get('/departmentinstructors/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -150,7 +150,7 @@ describe('department testing',()=>{
             })
             
             const response = await request.get('/departmentcourses/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -162,7 +162,7 @@ describe('department testing',()=>{
             
             
             const response = await request.get('/department/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             })
             
             expect(response.status).toBe(200)

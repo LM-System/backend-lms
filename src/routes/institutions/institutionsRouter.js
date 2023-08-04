@@ -4,15 +4,16 @@ const { Op } = require("sequelize")
 const { institutionModel,usersModel,departmentsModel } = require('../../model');
 const acl = require('../../auth/middleware/acl.auth')
 const bearer = require('../../auth/middleware/bearer.auth')
+const idOf = require('../../auth/middleware/id.auth')
 
 institutionRouter.get('/institutions',bearer,acl(['admin']), handleGetAll);
-institutionRouter.get('/institution/:name', handleGetOne);
-institutionRouter.get('/institutiondepartments/:id', handleGetinstitutiondepartments);
-institutionRouter.get('/institutionemployees/:id', handleGetinstitutionemployees);
-institutionRouter.get('/institutionstudents/:id', handleGetinstitutionstudents);
-institutionRouter.post('/institution', handleCreate);
-institutionRouter.put('/institution/:id', handleUpdate);
-institutionRouter.delete('/institution/:id', handleDelete);
+institutionRouter.get('/institution/:name',bearer,acl(['admin']), handleGetOne);
+institutionRouter.get('/institutiondepartments/:id',bearer,acl(['admin','institution']),idOf('institution_id'), handleGetinstitutiondepartments);
+institutionRouter.get('/institutionemployees/:id',bearer,acl(['admin','institution']),idOf('institution_id'), handleGetinstitutionemployees);
+institutionRouter.get('/institutionstudents/:id',bearer,acl(['admin','institution']),idOf('institution_id'), handleGetinstitutionstudents);
+institutionRouter.post('/institution',bearer,acl(['admin']), handleCreate);
+institutionRouter.put('/institution/:id',bearer,acl(['admin','institution']),idOf('institution_id'), handleUpdate);
+institutionRouter.delete('/institution/:id',bearer,acl(['admin']), handleDelete);
 
 async function handleGetAll(req, res) {
   let allRecords = await institutionModel.findAndCountAll();

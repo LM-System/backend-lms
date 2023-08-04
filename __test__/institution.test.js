@@ -55,7 +55,7 @@ describe('institution testing',()=>{
         // update institution
         test('PUT to /institution/:id to update institution',async ()=>{
             const response = await request.put('/institution/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             }).send({
                 "id":1,
                 "name":"LTUC" ,
@@ -91,7 +91,7 @@ describe('institution testing',()=>{
                 "institution_id":1
             })
             const response = await request.get('/institutionstudents/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -119,7 +119,7 @@ describe('institution testing',()=>{
                 "institution_id":1
             })
             const response = await request.get('/institutionemployees/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -142,7 +142,7 @@ describe('institution testing',()=>{
             })
             
             const response = await request.get('/institutiondepartments/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -166,7 +166,7 @@ describe('institution testing',()=>{
             
             
             const response = await request.get('/institution/LTUC').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -176,7 +176,7 @@ describe('institution testing',()=>{
         test('DELETE to /institution/:id to delete the institution',async ()=>{
             
             const response = await request.delete('/institution/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
             })
             
             expect(response.status).toBe(204)
