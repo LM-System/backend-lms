@@ -30,6 +30,37 @@
     }
     ```
     
+   **Endpoint**:  /coursesections/:id  
+   **method** : GET
+
+    **The response will be :**
+
+    ```JSON
+    {
+      "count": 2,
+       "rows": [{
+        "building": "1",
+        "capacity": 20,
+        "days": "sun,tues",
+        "name": "js_A",
+        "room_no": "202", 
+        "semester": "first", 
+        "status": "Online", 
+        "year": 2023
+        },
+        {
+        "building": "1", 
+        "capacity": 20, 
+        "days": "mon,wen", 
+        "name": "js_B", 
+        "room_no": "202", 
+        "semester": "first", 
+        "status": "Online", 
+        "year": 2023
+        }]
+    }
+    ```
+    
    **Endpoint**:  /course       
    **method** : POST
 

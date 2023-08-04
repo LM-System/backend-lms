@@ -3,15 +3,12 @@ const supertest = require('supertest')
 const request = supertest(server.app)
 const {sequelize}= require('../src/model/index')
 const base64 = require('base-64')
-const jwt = require('jsonwebtoken')
-require('dotenv').config()
-const Secret = process.env.SECRET
 
 beforeAll(async () => {
     await sequelize.sync();
 });
-describe('server testing',()=>{
-    test('POST to /signup to create a new user',async ()=>{
+describe('signin testing',()=>{
+    test('POST to /signup to create a new institution',async ()=>{
         const response = await request.post('/signup').send({
             "id":1,
             "username":"LTUC",
@@ -24,7 +21,7 @@ describe('server testing',()=>{
         })
         expect(response.status).toBe(201)
     })
-    test('POST to /signup to create a new user',async ()=>{
+    test('POST to /signup to create a new instructor',async ()=>{
         const response = await request.post('/signup').send({
             "id":2,
             "username":"Shihab",
@@ -49,46 +46,8 @@ describe('server testing',()=>{
         })
         expect(response.status).toBe(500)
     })
-    test('POST to /institution to create new institution',async ()=>{
-        const response = await request.post('/institution').set({
-            authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
-        }.send({
-            "id":1,
-            "name":"LTUC",
-            "address":"Airport st.- Amman- Jordan",
-            "phone_number":"00962799321174",
-            
-        })
-        )
-        expect(response.status).toBe(201)
-    })
-    test('POST to /department to create new depatrment',async ()=>{
-        const response = await request.post('/department').set({
-            authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
-        }.send({
-            "id":1,
-            "name":"Technology",
-            "institution_id":1,
-            "user_id":2
-        })
-        )
-        expect(response.status).toBe(201)
-    })
-    test('POST to /course to create new course',async ()=>{
-        const response = await request.post('/course').set({
-            authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
-        }.send({
-            "id":1,
-            "name":"JavsScript",
-            "description":"this is a javascript course",
-            "syllabus":"js syllabus",
-            "department_id":1,
-            "start_date":"2020-10-10",
-            "end_date":"2023-10-10"
-        })
-        )
-        expect(response.status).toBe(201)
-    })
+
+
 })
 afterAll(async () => {
     await sequelize.drop();

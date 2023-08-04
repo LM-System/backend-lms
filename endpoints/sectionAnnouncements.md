@@ -1,6 +1,6 @@
 * ## sectionAnnouncement Endpoint:
 
-   **Endpoint**:  /sectionAnnouncement/:id  
+   **Endpoint**:  /sectionAnnouncements/:id  
    **method** : GET
 
     **The respose will be :**

@@ -9,7 +9,7 @@ departmentsRouter.get('/departmentstudents/:id', handleGetDepartmentStudents);
 departmentsRouter.get('/department/:id', handleGetOne);
 departmentsRouter.post('/department', handleCreate);
 departmentsRouter.put('/department/:id', handleUpdate);
-departmentsRouter.delete('/department/:id', handleDelete);
+// departmentsRouter.delete('/department/:id', handleDelete);
 
 // async function handleGetAll(req, res) {
 //   let allRecords = await departmentsModel.findAndCountAll();
@@ -68,15 +68,15 @@ async function handleCreate(req, res) {
 async function handleUpdate(req, res) {
   const id = req.params.id;
   const obj = req.body;
-  let updatedRecord = await departmentsModel.findOne({where:{id}}).update(obj)
-  res.status(200).json(updatedRecord);
+  let updatedRecord = await departmentsModel.findOne({where:{id}})
+  res.status(200).json(await updatedRecord.update(obj));
 }
 
-async function handleDelete(req, res) {
-  let id = req.params.id;
-  let deletedRecord = await departmentsModel.destroy({where:{id}});
-  res.status(204).json(deletedRecord);
-}
+// async function handleDelete(req, res) {
+//   let id = req.params.id;
+//   let deletedRecord = await departmentsModel.destroy({where:{id:id}});
+//   res.status(204).json(deletedRecord);
+// }
 
 
 module.exports = departmentsRouter;

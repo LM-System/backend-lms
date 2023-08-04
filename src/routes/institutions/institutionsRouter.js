@@ -2,8 +2,10 @@ const express = require('express');
 const institutionRouter = express.Router();
 const { Op } = require("sequelize")
 const { institutionModel,usersModel,departmentsModel } = require('../../model');
+const acl = require('../../auth/middleware/acl.auth')
+const bearer = require('../../auth/middleware/bearer.auth')
 
-institutionRouter.get('/institutions', handleGetAll);
+institutionRouter.get('/institutions',bearer,acl(['admin']), handleGetAll);
 institutionRouter.get('/institution/:name', handleGetOne);
 institutionRouter.get('/institutiondepartments/:id', handleGetinstitutiondepartments);
 institutionRouter.get('/institutionemployees/:id', handleGetinstitutionemployees);
@@ -52,8 +54,8 @@ async function handleCreate(req, res) {
 async function handleUpdate(req, res) {
   const id = req.params.id;
   const obj = req.body;
-  let updatedRecord = await institutionModel.findOne({where:{id}}).update(obj)
-  res.status(200).json(updatedRecord);
+  let updatedRecord = await institutionModel.findOne({where:{id:id}})
+  res.status(200).json(await updatedRecord.update(obj));
 }
 
 async function handleDelete(req, res) {
