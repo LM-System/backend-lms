@@ -36,6 +36,11 @@ institutionModel.hasMany(usersModel,{
 usersModel.belongsTo(institutionModel, {
   foreignKey: 'institution_id'
 })
+institutionModel.hasOne(usersModel,{
+  foreignKey: 'user_id'
+
+})
+
 institutionModel.belongsTo(usersModel, {
   foreignKey: 'user_id'
 })

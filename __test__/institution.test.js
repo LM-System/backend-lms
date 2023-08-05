@@ -2,7 +2,6 @@ const server =require('../src/server')
 const supertest = require('supertest')
 const request = supertest(server.app)
 const {sequelize}= require('../src/model/index')
-const base64 = require('base-64')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const Secret = process.env.SECRET
@@ -91,7 +90,7 @@ describe('institution testing',()=>{
                 "institution_id":1
             })
             const response = await request.get('/institutionstudents/1').set({
-                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -119,7 +118,7 @@ describe('institution testing',()=>{
                 "institution_id":1
             })
             const response = await request.get('/institutionemployees/1').set({
-                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -128,25 +127,25 @@ describe('institution testing',()=>{
 
         // institution departments
         test('GET to /institutiondepartments to show the institution departments',async ()=>{
-            departmentsModel.create({
-                "id":1,
-                "name":"technology" ,
-                "institution_id":1,
-                "user_id":5 
-            })
-            departmentsModel.create({
-                "id":2,
-                "name":"pharmacy" ,
-                "institution_id":1,
-                "user_id":6
-            })
-            
-            const response = await request.get('/institutiondepartments/1').set({
-                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
-            })
-            
-            expect(response.status).toBe(200)
-            expect(response.body.count).toEqual(2)
+                departmentsModel.create({
+                    "id":1,
+                    "name":"technology" ,
+                    "institution_id":1,
+                    "user_id":5 
+                })
+                departmentsModel.create({
+                    "id":2,
+                    "name":"pharmacy" ,
+                    "institution_id":1,
+                    "user_id":6
+                })
+                
+                const response = await request.get('/institutiondepartments/1').set({
+                    authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                })
+                
+                expect(response.status).toBe(200)
+                expect(response.body.count).toEqual(2)
         })
 
         // show all institutions
@@ -171,7 +170,7 @@ describe('institution testing',()=>{
             
             expect(response.status).toBe(200)
         })
-
+        
         // delete institution
         test('DELETE to /institution/:id to delete the institution',async ()=>{
             

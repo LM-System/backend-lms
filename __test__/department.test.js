@@ -74,30 +74,30 @@ describe('department testing',()=>{
 
         // department students
         test('GET to /departmentstudents to show the students of the department',async ()=>{
-            usersModel.create({
-                "id":3,
-                "username":"malek",
-                "password":"1234",
-                "email":"malek@gmail.com",
-                "phone_number":"00962799321174",
-                "role":"student",
-                "department_id":1
-            })
-            usersModel.create({
-                "id":4,
-                "username":"samer",
-                "password":"1234",
-                "email":"samer@gmail.com",
-                "phone_number":"00962799321174",
-                "role":"student",
-                "department_id":1
-            })
-            const response = await request.get('/departmentstudents/1').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
-            })
-            
-            expect(response.status).toBe(200)
-            expect(response.body.count).toEqual(2)
+                usersModel.create({
+                    "id":3,
+                    "username":"malek",
+                    "password":"1234",
+                    "email":"malek@gmail.com",
+                    "phone_number":"00962799321174",
+                    "role":"student",
+                    "department_id":1
+                })
+                usersModel.create({
+                    "id":4,
+                    "username":"samer",
+                    "password":"1234",
+                    "email":"samer@gmail.com",
+                    "phone_number":"00962799321174",
+                    "role":"student",
+                    "department_id":1
+                })
+                const response = await request.get('/departmentstudents/1').set({
+                    authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                })
+                
+                expect(response.status).toBe(200)
+                expect(response.body.count).toEqual(2)
         })
 
         // department instructors

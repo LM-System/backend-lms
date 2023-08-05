@@ -76,8 +76,9 @@ const users = (sequelize, DataTypes) => {
   });
   model.authUser = async (email, password) => {
     const user = await model.findOne({ where: { email: email } ,include:{all:true}});
-    console.log(user);
+    console.log('......................................................../////',user);
     if (user) {
+      console.log(user);
       const validuser = await bcrypt.compare(password, user.password);
       console.log(validuser);
       if (validuser) {
