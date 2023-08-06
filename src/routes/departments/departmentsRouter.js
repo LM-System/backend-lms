@@ -1,15 +1,18 @@
 const express = require('express');
 const{Sequelize}= require('sequelize')
 const departmentsRouter = express.Router();
+const acl = require('../../auth/middleware/acl.auth')
+const bearer = require('../../auth/middleware/bearer.auth')
+const specificity = require('../../auth/middleware/specificity.auth')
 const {coursesModel,departmentsModel,usersModel}= require('../../model/relations')
 // departmentsRouter.get('/departments', handleGetAll);
-departmentsRouter.get('/departmentcourses/:id', handleGetDepartmentCourses);
-departmentsRouter.get('/departmentinstructors/:id', handleGetDepartmentInstructors);
-departmentsRouter.get('/departmentstudents/:id', handleGetDepartmentStudents);
-departmentsRouter.get('/department/:id', handleGetOne);
-departmentsRouter.post('/department', handleCreate);
-departmentsRouter.put('/department/:id', handleUpdate);
-departmentsRouter.delete('/department/:id', handleDelete);
+departmentsRouter.get('/departmentcourses/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleGetDepartmentCourses);
+departmentsRouter.get('/departmentinstructors/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleGetDepartmentInstructors);
+departmentsRouter.get('/departmentstudents/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleGetDepartmentStudents);
+departmentsRouter.get('/department/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleGetOne);
+departmentsRouter.post('/department',bearer,acl(['institution']), handleCreate);
+departmentsRouter.put('/department/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleUpdate);
+// departmentsRouter.delete('/department/:id', handleDelete);
 
 // async function handleGetAll(req, res) {
 //   let allRecords = await departmentsModel.findAndCountAll();
@@ -68,15 +71,15 @@ async function handleCreate(req, res) {
 async function handleUpdate(req, res) {
   const id = req.params.id;
   const obj = req.body;
-  let updatedRecord = await departmentsModel.findOne({where:{id}}).update(obj)
-  res.status(200).json(updatedRecord);
+  let updatedRecord = await departmentsModel.findOne({where:{id}})
+  res.status(200).json(await updatedRecord.update(obj));
 }
 
-async function handleDelete(req, res) {
-  let id = req.params.id;
-  let deletedRecord = await departmentsModel.destroy({where:{id}});
-  res.status(204).json(deletedRecord);
-}
+// async function handleDelete(req, res) {
+//   let id = req.params.id;
+//   let deletedRecord = await departmentsModel.destroy({where:{id:id}});
+//   res.status(204).json(deletedRecord);
+// }
 
 
 module.exports = departmentsRouter;

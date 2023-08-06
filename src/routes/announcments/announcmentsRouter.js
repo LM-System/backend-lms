@@ -12,7 +12,7 @@ announcementRouter.delete('/announcement/:id', handleDelete);
 async function handleGetAll(req, res) {
   let newRecord = await announcementModel.findAll({where:{institution_id:req.params.id},
   attributes:['title','body']});
-  res.status(201).json(newRecord);
+  res.status(200).json(newRecord);
 }
 async function handleCreate(req, res) {
   let obj = req.body;
@@ -23,8 +23,8 @@ async function handleCreate(req, res) {
 async function handleUpdate(req, res) {
   const id = req.params.id;
   const obj = req.body;
-  let updatedRecord = await announcementModel.findOne({where:{id}}).update(obj)
-  res.status(200).json(updatedRecord);
+  let updatedRecord = await announcementModel.findOne({where:{id}})
+  res.status(200).json(await updatedRecord.update(obj));
 }
 
 async function handleDelete(req, res) {
