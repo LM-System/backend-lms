@@ -19,7 +19,7 @@ const acl = (role) => {
 }
 
 // Get all attendance records for a specific section
-attendanceRouter.get('/course/section_id/attendance', async (req, res) => {
+attendanceRouter.get('/course/:section_id/attendance', async (req, res) => {
   const sectionId = req.params.section_id
   const record = await attendanceModel.findAll({
     where: {

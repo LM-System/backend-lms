@@ -2,7 +2,7 @@
 // section router
 const express = require('express');
 const sectionRouter = express.Router();
-const {sectionsModel,usersModel}= require('../../model/relations')
+const {sectionsModel,usersModel, studentSectionModel}= require('../../model/relations')
 const Collection = require("../../model/collection");
 const sectionCollection =new Collection(sectionsModel);
 
@@ -17,8 +17,18 @@ sectionRouter.get('/classlist/:id', handleClasslist);
 
 
 async function handleClasslist(req, res) {
-    const id=req.params.id;
-    let allRecords = await sectionCollection.readWithRelation(usersModel,id);
+    const id = req.params.id;
+    let allRecords = await sectionsModel.findOne({
+      where: {
+        id: id
+      }, include: {
+        model: studentSectionModel,
+        attributes: ['userId'],
+        include: {
+          model: usersModel,
+          attributes: ['id', 'username', 'email'],
+        },
+    }});
     res.status(200).json(allRecords);
   }
 

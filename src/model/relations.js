@@ -18,15 +18,15 @@ const {
   messageModel,
 } = require("./index");
 
-// // Users attendance Relations
-usersModel.hasMany(attendanceModel);
-attendanceModel.belongsTo(usersModel, {
-  foreignKey: "user_id",
-});
-usersModel.belongsTo(attendanceModel, {
-  foreignKey: "attendance_id",
-  through: userAttendanceModel,
-});
+// // // Users attendance Relations
+// usersModel.hasMany(attendanceModel);
+// attendanceModel.belongsTo(usersModel, {
+//   foreignKey: "user_id",
+// });
+// usersModel.belongsTo(attendanceModel, {
+//   foreignKey: 'attendance_id',
+//   through: userAttendanceModel
+// }) 
 
 // // Courses prerequisite Relations
 // coursesModel.belongsToMany(prerequisiteModel, {
@@ -53,14 +53,17 @@ institutionModel.belongsTo(usersModel, {
 });
 // usersModel.belongsTo(institutionModel)
 
-// // Attendance sections Relations
-attendanceModel.belongsToMany(sectionsModel, {
-  foreignKey: "attendance_id",
-  through: "section_attendance",
-});
-sectionsModel.belongsToMany(attendanceModel, {
-  foreignKey: "section_id",
-  through: "section_attendance",
+// // // Attendance sections Relations
+// attendanceModel.belongsToMany(sectionsModel,{
+//   foreignKey: 'attendance_id',
+//   through: 'section_attendance'
+// })
+// sectionsModel.belongsToMany(attendanceModel, {
+//   foreignKey: 'section_id',
+//   through: 'section_attendance'
+// })
+
+usersModel.hasMany(studentSectionModel, {
 });
 
 usersModel.hasMany(studentSectionModel, {});
