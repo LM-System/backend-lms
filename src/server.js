@@ -4,6 +4,7 @@ const app = express();
 const courseRouter = require("./routes/courses/coursesRouter");
 const userRouter = require("./auth/routes/user-route");
 const studentSectonRouter = require("./routes/sections/studentSectionRouter");
+const instructorsSectionRouter = require("./routes/sections/instructorsSectionRouter");
 const sectonRouter = require("./routes/sections/sectionRouter");
 const departmentsRouter = require("./routes/departments/departmentsRouter");
 const sectionAnnouncementRouter = require("./routes/announcments/sectionAnnouncementsRouter");
@@ -18,9 +19,10 @@ const assignmentAssignmentSubmissionRouter = require("./routes/assignment/assign
 
 const institutionRouter = require("./routes/institutions/institutionsRouter");
 app.use(express.json());
-app.use(courseRouter);
 app.use(userRouter);
+app.use(courseRouter);
 app.use(studentSectonRouter);
+app.use(instructorsSectionRouter);
 app.use(sectonRouter);
 app.use(departmentsRouter);
 app.use(assignmentRouter);

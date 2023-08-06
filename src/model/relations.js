@@ -14,49 +14,35 @@ const {
   assignmentModel,
   announcementModel,
   assignmentSubmittionModel,
+  userAttendanceModel,
 } = require("./index");
 
-// Users attendance Relations
+// // Users attendance Relations
 usersModel.hasMany(attendanceModel);
 attendanceModel.belongsTo(usersModel, {
   foreignKey: "user_id",
 });
-// Courses prerequisite Relations
-coursesModel.belongsToMany(coursesModel, {
-  as: "prerequisite",
-  through: "prerequisite_courses",
-  foreignKey: "course_id",
-  otherKey: "prerequisite_id",
-});
-  userAttendanceModel
-} = require("./index");
-
-// Users attendance Relations
-attendanceModel.hasMany(usersModel, {
-  foreignKey: 'user_id',
-  through: userAttendanceModel
-})
-usersModel.belongsToMany(attendanceModel, {
+usersModel.belongsTo(attendanceModel, {
   foreignKey: 'attendance_id',
   through: userAttendanceModel
-})
-// Courses prerequisite Relations
-coursesModel.belongsToMany(coursesModel, {
-  through: prerequisiteModel,
-  foreignKey: 'course_id',
-  otherKey: 'prerequisite_id'
-})
+}) 
 
-// Institution users Relations
+// // Courses prerequisite Relations
+// coursesModel.belongsToMany(prerequisiteModel, {
+//   as:'prerequisite',
+//   through: prerequisiteModel,
+//   foreignKey: 'course_id',
+//   otherKey: 'prerequisite_id'
+// })
+
+// // Institution users Relations
 institutionModel.hasMany(usersModel, {
   foreignKey: "institution_id",
 });
 usersModel.belongsTo(institutionModel, {
   foreignKey: "institution_id",
 });
-=======
-  foreignKey: 'institution_id'
-})
+
 institutionModel.hasOne(usersModel,{
   foreignKey: 'user_id'
 
@@ -67,50 +53,30 @@ institutionModel.belongsTo(usersModel, {
 });
 // usersModel.belongsTo(institutionModel)
 
-// Attendance sections Relations
-attendanceModel.hasMany(sectionsModel, {
-  foreignKey: "attendance_id",
-});
-sectionsModel.belongsTo(attendanceModel, {
-  foreignKey: "attendance_id",
-});
-=======
-attendanceModel.hasMany(sectionsModel,{
+// // Attendance sections Relations
+attendanceModel.belongsToMany(sectionsModel,{
   foreignKey: 'attendance_id',
   through: 'section_attendance'
 })
-sectionsModel.belongsTo(attendanceModel, {
-  foreignKey: 'attendance_id',
+sectionsModel.belongsToMany(attendanceModel, {
+  foreignKey: 'section_id',
   through: 'section_attendance'
 })
 
-
-// Users section Relations
-usersModel.belongsToMany(sectionsModel, {
-  through: studentSectionModel,
-});
-sectionsModel.belongsToMany(usersModel, {
-  through: studentSectionModel,
+usersModel.hasMany(studentSectionModel, {
 });
 
-usersModel.hasMany(sectionsModel, {
-  foreignKey: "instructor_id",
+studentSectionModel.belongsTo(usersModel, {
 });
 
-sectionsModel.belongsTo(usersModel, {
-  foreignKey: "instructor_id",
+
+sectionsModel.hasMany(studentSectionModel, {
 });
 
-// Courses section Relations
-coursesModel.hasMany(sectionsModel, {
-  foreignKey: "course_id",
+studentSectionModel.belongsTo(sectionsModel, {
 });
 
-sectionsModel.belongsTo(coursesModel, {
-  foreignKey: "course_id",
-});
-
-// Courses department Relations
+// // Courses department Relations
 
 departmentsModel.hasMany(coursesModel, {
   //AbuEssa
@@ -123,25 +89,25 @@ coursesModel.belongsTo(departmentsModel, {
   // as: "department",
 });
 
-// Department Users Relations
+// // Department Users Relations
 
 usersModel.belongsTo(departmentsModel, {
   //AbuEssa
   foreignKey: "department_id",
   // as: "department",
 });
-// departmentsModel.hasMany(usersModel, {
-//   //AbuEssa
-//   foreignKey: "departmentId",
-//   as: "users",
-// });
+departmentsModel.hasMany(usersModel, {
+  //AbuEssa
+  foreignKey: "departmentId",
+  as: "users",
+});
 
 departmentsModel.belongsTo(usersModel, {
   foreignKey: "user_id",
   as: "department_head",
 });
 
-// Institution departments Relations
+// // Institution departments Relations
 institutionModel.hasMany(departmentsModel, {
   foreignKey: "institution_id",
 });
@@ -150,7 +116,7 @@ departmentsModel.belongsTo(institutionModel, {
   foreignKey: "institution_id",
 });
 
-// Sections content Relations
+// // Sections content Relations
 sectionsModel.hasOne(contentModel, {
   foreignKey: "section_id",
 });
@@ -158,7 +124,7 @@ contentModel.belongsTo(sectionsModel, {
   foreignKey: "section_id",
 });
 
-// Sections assignment Relations
+// // Sections assignment Relations
 
 sectionsModel.hasMany(assignmentModel, {
   foreignKey: "section_id",
@@ -170,7 +136,7 @@ assignmentModel.belongsTo(sectionsModel, {
   // as: "Sections",
 });
 
-// Assignment Submittion assignment Relations
+// // Assignment Submittion assignment Relations
 
 assignmentModel.hasMany(assignmentSubmittionModel, {
   //AbuEssa
@@ -184,7 +150,7 @@ assignmentSubmittionModel.belongsTo(assignmentModel, {
   // as: "Assignments",
 });
 
-// User Assignment Submittion Relations
+// // User Assignment Submittion Relations
 
 usersModel.hasMany(assignmentSubmittionModel, {
   //AbuEssa
