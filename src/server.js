@@ -19,8 +19,8 @@ const assignmentAssignmentSubmissionRouter = require("./routes/assignment/assign
 
 const institutionRouter = require("./routes/institutions/institutionsRouter");
 app.use(express.json());
-app.use(courseRouter);
 app.use(userRouter);
+app.use(courseRouter);
 app.use(studentSectonRouter);
 app.use(instructorsSectionRouter);
 app.use(sectonRouter);
