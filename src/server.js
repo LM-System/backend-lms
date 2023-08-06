@@ -16,7 +16,7 @@ const assignmentRouter = require("./routes/assignment/assignmentRouter");
 const sectionAssignmentRouter = require("./routes/assignment/assignmentSectionRouter");
 const assignmentSubmittionRouter = require("./routes/assignment/assignmentSubmissionRouter");
 const assignmentAssignmentSubmissionRouter = require("./routes/assignment/assignmentAssignmentSubmissionRouter");
-
+const messageRouter = require("./routes/message/message");
 const institutionRouter = require("./routes/institutions/institutionsRouter");
 app.use(express.json());
 app.use(userRouter);
@@ -32,6 +32,7 @@ app.use(institutionRouter);
 app.use(sectionAssignmentRouter);
 app.use(assignmentSubmittionRouter);
 app.use(assignmentAssignmentSubmissionRouter);
+app.use(messageRouter);
 app.get("/", (req, res) => {
   res.json("welcome to the home page");
 });

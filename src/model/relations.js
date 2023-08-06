@@ -15,6 +15,7 @@ const {
   announcementModel,
   assignmentSubmittionModel,
   userAttendanceModel,
+  messageModel,
 } = require("./index");
 
 // // Users attendance Relations
@@ -23,9 +24,9 @@ attendanceModel.belongsTo(usersModel, {
   foreignKey: "user_id",
 });
 usersModel.belongsTo(attendanceModel, {
-  foreignKey: 'attendance_id',
-  through: userAttendanceModel
-}) 
+  foreignKey: "attendance_id",
+  through: userAttendanceModel,
+});
 
 // // Courses prerequisite Relations
 // coursesModel.belongsToMany(prerequisiteModel, {
@@ -43,10 +44,9 @@ usersModel.belongsTo(institutionModel, {
   foreignKey: "institution_id",
 });
 
-institutionModel.hasOne(usersModel,{
-  foreignKey: 'user_id'
-
-})
+institutionModel.hasOne(usersModel, {
+  foreignKey: "user_id",
+});
 
 institutionModel.belongsTo(usersModel, {
   foreignKey: "user_id",
@@ -54,27 +54,22 @@ institutionModel.belongsTo(usersModel, {
 // usersModel.belongsTo(institutionModel)
 
 // // Attendance sections Relations
-attendanceModel.belongsToMany(sectionsModel,{
-  foreignKey: 'attendance_id',
-  through: 'section_attendance'
-})
+attendanceModel.belongsToMany(sectionsModel, {
+  foreignKey: "attendance_id",
+  through: "section_attendance",
+});
 sectionsModel.belongsToMany(attendanceModel, {
-  foreignKey: 'section_id',
-  through: 'section_attendance'
-})
-
-usersModel.hasMany(studentSectionModel, {
+  foreignKey: "section_id",
+  through: "section_attendance",
 });
 
-studentSectionModel.belongsTo(usersModel, {
-});
+usersModel.hasMany(studentSectionModel, {});
 
+studentSectionModel.belongsTo(usersModel, {});
 
-sectionsModel.hasMany(studentSectionModel, {
-});
+sectionsModel.hasMany(studentSectionModel, {});
 
-studentSectionModel.belongsTo(sectionsModel, {
-});
+studentSectionModel.belongsTo(sectionsModel, {});
 
 // // Courses department Relations
 
@@ -176,6 +171,18 @@ sectionِAnnouncementModel.belongsTo(sectionsModel, {
   foreignKey: "section_id",
 }); //zay
 
+// User Message Relation
+
+usersModel.hasMany(messageModel, {
+  //AbuEssa
+  foreignKey: "senderId",
+});
+
+messageModel.belongsTo(usersModel, {
+  //AbuEssa
+  foreignKey: "senderId",
+});
+
 module.exports = {
   usersModel,
   coursesModel,
@@ -191,5 +198,6 @@ module.exports = {
   announcementModel,
   studentSectionModel,
   assignmentSubmittionModel,
-  userAttendanceModel
+  userAttendanceModel,
+  messageModel,
 };
