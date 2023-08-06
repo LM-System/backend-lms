@@ -28,6 +28,24 @@ coursesModel.belongsToMany(coursesModel, {
   foreignKey: "course_id",
   otherKey: "prerequisite_id",
 });
+  userAttendanceModel
+} = require("./index");
+
+// Users attendance Relations
+attendanceModel.hasMany(usersModel, {
+  foreignKey: 'user_id',
+  through: userAttendanceModel
+})
+usersModel.belongsToMany(attendanceModel, {
+  foreignKey: 'attendance_id',
+  through: userAttendanceModel
+})
+// Courses prerequisite Relations
+coursesModel.belongsToMany(coursesModel, {
+  through: prerequisiteModel,
+  foreignKey: 'course_id',
+  otherKey: 'prerequisite_id'
+})
 
 // Institution users Relations
 institutionModel.hasMany(usersModel, {
@@ -36,6 +54,14 @@ institutionModel.hasMany(usersModel, {
 usersModel.belongsTo(institutionModel, {
   foreignKey: "institution_id",
 });
+=======
+  foreignKey: 'institution_id'
+})
+institutionModel.hasOne(usersModel,{
+  foreignKey: 'user_id'
+
+})
+
 institutionModel.belongsTo(usersModel, {
   foreignKey: "user_id",
 });
@@ -48,6 +74,16 @@ attendanceModel.hasMany(sectionsModel, {
 sectionsModel.belongsTo(attendanceModel, {
   foreignKey: "attendance_id",
 });
+=======
+attendanceModel.hasMany(sectionsModel,{
+  foreignKey: 'attendance_id',
+  through: 'section_attendance'
+})
+sectionsModel.belongsTo(attendanceModel, {
+  foreignKey: 'attendance_id',
+  through: 'section_attendance'
+})
+
 
 // Users section Relations
 usersModel.belongsToMany(sectionsModel, {
@@ -189,4 +225,5 @@ module.exports = {
   announcementModel,
   studentSectionModel,
   assignmentSubmittionModel,
+  userAttendanceModel
 };

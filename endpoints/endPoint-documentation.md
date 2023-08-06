@@ -462,9 +462,16 @@ http://localhost:3000
     **The respose will be :**
 
     ```JSON
-    {
-        "id"://id
-    }
+    [
+      {
+        "id": 2,
+        "title": "STRING",
+        "body": "STRING",
+        "section_id": 4,
+        "createdAt": "2023-08-03T09:32:38.861Z",
+        "updatedAt": "2023-08-03T09:32:38.861Z"
+      }
+    ]
     ```
     
    **Endpoint**:  /sectionAnnouncement       
@@ -483,7 +490,12 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "id": 2,
+      "title": "STRING",
+      "body": "STRING",
+      "section_id": 4,
+      "updatedAt": "2023-08-03T09:32:38.861Z",
+      "createdAt": "2023-08-03T09:32:38.861Z"
     }
     ```
 
@@ -504,7 +516,12 @@ http://localhost:3000
 
     ```JSON
     {
-        "id"://id
+      "id": 2,
+      "title": "STRING",
+      "body": "STRING",
+      "section_id": 4,
+      "updatedAt": "2023-08-03T09:32:38.861Z",
+      "createdAt": "2023-08-03T09:32:38.861Z"
     }
     ```
 

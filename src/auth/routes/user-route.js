@@ -18,8 +18,8 @@ userRouter.get("/users", handleGetAll);
 
 async function handleGetAll(req, res) {
   let allRecords = await usersModel.findAll({
-    attributes: ["id", "username", "email", "gender", "birth_date", "role"],
-    include: {all:true,nested: true},
+    // attributes: ["id", "username", "email", "gender", "birth_date", "role"],
+    include: {all:true},
   });
   res.status(200).json(allRecords);
 }
