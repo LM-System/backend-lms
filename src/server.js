@@ -13,6 +13,9 @@ const internalError = require("./errorhandller/500");
 
 const assignmentRouter = require("./routes/assignment/assignmentRouter");
 const sectionAssignmentRouter = require("./routes/assignment/assignmentSectionRouter");
+const assignmentSubmittionRouter = require("./routes/assignment/assignmentSubmissionRouter");
+const assignmentAssignmentSubmissionRouter = require("./routes/assignment/assignmentAssignmentSubmissionRouter");
+
 const institutionRouter = require("./routes/institutions/institutionsRouter");
 app.use(express.json());
 app.use(courseRouter);
@@ -25,6 +28,8 @@ app.use(announcementRouter);
 app.use(sectionAnnouncementRouter);
 app.use(institutionRouter);
 app.use(sectionAssignmentRouter);
+app.use(assignmentSubmittionRouter);
+app.use(assignmentAssignmentSubmissionRouter);
 app.get("/", (req, res) => {
   res.json("welcome to the home page");
 });
