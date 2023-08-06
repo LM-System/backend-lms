@@ -1,8 +1,8 @@
 "use strict";
 
-function acl(perm) {
+function acl(params) {
   return (req, res, next) => {
-    if (req.user.capabilities.includes(perm)) {
+    if (params.includes(req.user.role)) {
       next();
     } else {
       next("Not allowd to enter");

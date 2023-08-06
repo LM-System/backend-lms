@@ -3,15 +3,15 @@ const sectionAnnouncementRouter = express.Router();
 const {sectionِAnnouncementModel} = require('../../model/relations');
 
 
-sectionAnnouncementRouter.get('/sectionAnnouncement/:id', handleGetAnnoucementsByID);
+sectionAnnouncementRouter.get('/sectionAnnouncements/:id', handleGetAnnoucementsforOneSection);
 sectionAnnouncementRouter.post('/sectionAnnouncement', handleCreate);
 sectionAnnouncementRouter.put('/sectionAnnouncement/:id', handleUpdate);
 sectionAnnouncementRouter.delete('/sectionAnnouncement/:id', handleDelete);
 
 
-async function handleGetAnnoucementsByID(req, res) {
-  let newRecord = await sectionِAnnouncementModel.findAll({where:{id:req.params.id}});
-  res.status(201).json(newRecord);
+async function handleGetAnnoucementsforOneSection(req, res) {
+  let newRecord = await sectionِAnnouncementModel.findAll({where:{section_id:req.params.id}});
+  res.status(200).json(newRecord);
 }
 
 async function handleCreate(req, res) {
@@ -23,8 +23,8 @@ async function handleCreate(req, res) {
 async function handleUpdate(req, res) {
   const id = req.params.id;
   const obj = req.body;
-  let updatedRecord = await sectionِAnnouncementModel.findOne({where:{id}}).update(obj)
-  res.status(200).json(updatedRecord);
+  let updatedRecord = await sectionِAnnouncementModel.findOne({where:{id}})
+  res.status(200).json(await updatedRecord.update(obj));
 }
 
 async function handleDelete(req, res) {

@@ -57,10 +57,11 @@ const users = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.VIRTUAL,
       get() {
-        return jwt.sign({ username: this.username }, process.env.SECRET);
+        return jwt.sign({ email: this.email,role:this.role }, process.env.SECRET);
       },
       set(tokenObj) {
         let token = jwt.sign(tokenObj, process.env.SECRET);
+        console.log('the token include .............',token);
         return token;
       },
     },
@@ -74,9 +75,10 @@ const users = (sequelize, DataTypes) => {
     }
   });
   model.authUser = async (email, password) => {
-    const user = await model.findOne({ where: { email: email } });
-    console.log(user);
+    const user = await model.findOne({ where: { email: email } ,include:{all:true}});
+    console.log('......................................................../////',user);
     if (user) {
+      console.log(user);
       const validuser = await bcrypt.compare(password, user.password);
       console.log(validuser);
       if (validuser) {
@@ -94,7 +96,7 @@ const users = (sequelize, DataTypes) => {
       // console.log(`User Token: ${JSON.stringify(userToken)}`);
       if (userToken) {
         const record = await model.findOne({
-          where: { username: userToken.username },
+          where: { email: userToken.email },
         });
         return record;
       }

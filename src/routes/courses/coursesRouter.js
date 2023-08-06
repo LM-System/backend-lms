@@ -1,9 +1,10 @@
 const express = require('express');
 const coursesRouter = express.Router();
-const {departmentsModel, coursesModel} = require('../../model/relations');
+const {departmentsModel, coursesModel,sectionsModel} = require('../../model/relations');
 
 // coursesRouter.get('/courses', handleGetAll);
 coursesRouter.get('/course/:id', handleGetOne);
+coursesRouter.get('/coursesections/:id', handleGetcourseSections);
 coursesRouter.get('/courseprerequisite/:id', handleGetcourseprerequisite);
 coursesRouter.post('/course', handleCreate);
 coursesRouter.put('/course/:id', handleUpdate);
@@ -16,7 +17,16 @@ coursesRouter.delete('/course/:id', handleDelete);
 
 async function handleGetOne(req, res) {
   const id = req.params.id;
-  let theRecord = await coursesModel.findOne({where:{id:id},attributes:['name','description','syllabus','start_date','end_date'],include:{model:departmentsModel,attributes:["id",'name',]}})
+  let theRecord = await coursesModel.findOne({where:{id:id},
+    attributes:['name','description','syllabus','start_date','end_date'],
+    include:{model:departmentsModel,attributes:["id",'name',]}})
+  res.status(200).json(theRecord);
+}
+async function handleGetcourseSections(req, res) {
+  const id = req.params.id;
+  let theRecord = await sectionsModel.findAndCountAll({where:{course_id:id},
+    attributes:['name','year','semester','room_no','status','building','days','capacity'],
+    })
   res.status(200).json(theRecord);
 }
 
@@ -35,8 +45,8 @@ async function handleCreate(req, res) {
 async function handleUpdate(req, res) {
   const id = req.params.id;
   const obj = req.body;
-  let updatedRecord = await coursesModel.findOne({where:{id}}).update(obj)
-  res.status(200).json(updatedRecord);
+  let updatedRecord = await coursesModel.findOne({where:{id}})
+  res.status(200).json(await updatedRecord.update(obj));
 }
 
 async function handleDelete(req, res) {
