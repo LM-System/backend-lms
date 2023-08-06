@@ -2,6 +2,7 @@
 // section router
 const express = require('express');
 const studentSectionRouter = express.Router();
+const {sequelize}= require('../../model/index')
 const {studentSectionModel, usersModel,sectionsModel}= require('../../model/relations')
 const Collection = require("../../model/collection");
 const studentSectionCollection =new Collection(studentSectionModel);
@@ -18,17 +19,15 @@ studentSectionRouter.delete('/registersection/:sectionId', handleRegisterDelete)
 
 // student can register , delete , change or get the classlist the section with this function bellow
 
-
 async function handleGetAllStudentSections(req, res) {
-  const id=req.params.id;
-  console.log(id);
-  let allRecords = await usersModel.findOne({
-    where:{id:id}
-    ,include:{
-      model:sectionsModel
-    }
-  })
-  res.status(200).json(allRecords)
+  const id = req.params.id;
+  const att1=['id','username','email','role','institution_id','department_id'];
+  const att2=['sectionId'];
+  const att3=['id','name','course_id','year','semester','room_no','status','building','days','instructor_id'];
+  const att4=['id','username','email','role','institution_id','department_id'];
+  // console.log(id);
+  let allRecords = await userCollection.readAllThingsNestdRelations(studentSectionModel,sectionsModel,usersModel,id,att1,att2,att3,att4)
+  res.status(200).json(allRecords);
 }
 
 async function handleRead(req, res) { //for testing
@@ -37,7 +36,7 @@ async function handleRead(req, res) { //for testing
 }
 async function handleRegisterCreate(req, res) {
   let obj = req.params;
-  console.log(obj);
+  // console.log(obj);
   let newRecord = await studentSectionCollection.create(obj);
   res.status(201).json(newRecord);
 }

@@ -49,14 +49,18 @@ sectionsModel.belongsTo(attendanceModel, {
   foreignKey: 'attendance_id',
 })
 
+usersModel.hasMany(studentSectionModel, {
+});
 
-// Users section Relations
-usersModel.belongsToMany(sectionsModel,{
-  through: studentSectionModel
-})
-sectionsModel.belongsToMany(usersModel,{
-  through: studentSectionModel
-})
+studentSectionModel.belongsTo(usersModel, {
+});
+
+
+sectionsModel.hasMany(studentSectionModel, {
+});
+
+studentSectionModel.belongsTo(sectionsModel, {
+});
 
 
 usersModel.hasMany(sectionsModel, {
