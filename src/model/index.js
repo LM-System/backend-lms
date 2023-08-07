@@ -23,6 +23,7 @@ const sectionِAnnouncementModel = require('./sections/sectionAnnouncement')(seq
 const contentModel = require('./sections/content')(sequelize, DataTypes)
 const contentFileModel = require('./sections/contentFile')(sequelize, DataTypes)
 const prerequisiteModel = require('./courses/prerequisite')(sequelize, DataTypes)
+const coursePrerequisite = require('./courses/coursePrerequisite')(sequelize, DataTypes)
 const attendanceModel = require('./attendance/attendance')(sequelize, DataTypes)
 const assignmentModel = require('./assignment/assignment')(sequelize, DataTypes)
 const announcementModel = require('./announcement/announcement')(sequelize, DataTypes)
@@ -43,6 +44,7 @@ module.exports = {
     contentModel,
     contentFileModel,
     prerequisiteModel,
+    coursePrerequisite,
     attendanceModel,
     assignmentModel,
     announcementModel,
