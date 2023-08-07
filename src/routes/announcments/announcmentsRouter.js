@@ -1,12 +1,15 @@
 const express = require('express');
 const announcementRouter = express.Router();
 const {announcementModel, coursesModel} = require('../../model/relations');
+const acl = require('../../auth/middleware/acl.auth')
+const bearer = require('../../auth/middleware/bearer.auth')
+const specificity = require('../../auth/middleware/specificity.auth')
+const head = require('../../auth/middleware/head')
 
-
-announcementRouter.get('/institutionannouncements/:id', handleGetAll);
-announcementRouter.post('/announcement', handleCreate);
-announcementRouter.put('/announcement/:id', handleUpdate);
-announcementRouter.delete('/announcement/:id', handleDelete);
+announcementRouter.get('/institutionannouncements/:id',bearer,handleGetAll);
+announcementRouter.post('/announcement',bearer,acl(['institutionHead']), handleCreate);
+announcementRouter.put('/announcement/:id',bearer,acl(['institutionHead']), handleUpdate);
+announcementRouter.delete('/announcement/:id',bearer,acl(['institutionHead']), handleDelete);
 
 
 async function handleGetAll(req, res) {

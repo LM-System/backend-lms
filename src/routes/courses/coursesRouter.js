@@ -1,14 +1,18 @@
 const express = require('express');
 const coursesRouter = express.Router();
 const {departmentsModel, coursesModel,sectionsModel} = require('../../model/relations');
+const acl = require('../../auth/middleware/acl.auth')
+const bearer = require('../../auth/middleware/bearer.auth')
+const specificity = require('../../auth/middleware/specificity.auth')
+const head = require('../../auth/middleware/head')
 
 // coursesRouter.get('/courses', handleGetAll);
-coursesRouter.get('/course/:id', handleGetOne);
-coursesRouter.get('/coursesections/:id', handleGetcourseSections);
-coursesRouter.get('/courseprerequisite/:id', handleGetcourseprerequisite);
-coursesRouter.post('/course', handleCreate);
-coursesRouter.put('/course/:id', handleUpdate);
-coursesRouter.delete('/course/:id', handleDelete);
+coursesRouter.get('/course/:id',bearer,acl(['institutionHead','departmentHead','instructor']), handleGetOne);
+coursesRouter.get('/coursesections/:id',bearer,acl(['institutionHead','departmentHead','instructor']), handleGetcourseSections);
+coursesRouter.get('/courseprerequisite/:id',bearer,acl(['institutionHead','departmentHead','instructor']), handleGetcourseprerequisite);
+coursesRouter.post('/course',bearer,acl(['institutionHead','departmentHead']), handleCreate);
+coursesRouter.put('/course/:id',bearer,acl(['institutionHead','departmentHead','instructor']), handleUpdate);
+coursesRouter.delete('/course/:id',bearer,acl(['institutionHead','departmentHead']), handleDelete);
 
 // async function handleGetAll(req, res) {
 //   let allRecords = await coursesModel.findAll({include:{all:true}});
