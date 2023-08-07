@@ -28,6 +28,7 @@ const assignmentModel = require('./assignment/assignment')(sequelize, DataTypes)
 const announcementModel = require('./announcement/announcement')(sequelize, DataTypes)
 const assignmentSubmittionModel=require('./assignment_submittion/assignment_submittion')(sequelize, DataTypes)
 const userAttendanceModel = require('./attendance/userAttendance')(sequelize, DataTypes)
+const chatsModel = require('./chat/chat')(sequelize, DataTypes)
 
 module.exports = {
     sequelize,
@@ -46,5 +47,6 @@ module.exports = {
     assignmentModel,
     announcementModel,
     assignmentSubmittionModel,
-    userAttendanceModel
+    userAttendanceModel,
+    chatsModel
 }
