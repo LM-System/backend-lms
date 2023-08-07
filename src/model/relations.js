@@ -28,12 +28,15 @@ const {
 //   through: userAttendanceModel
 // }) 
 
-// // Courses prerequisite Relations
-// coursesModel.belongsToMany(prerequisiteModel, {
-//   as:'prerequisite',
+// Courses prerequisite Relations
+// coursesModel.belongsToMany(coursesModel, {
 //   through: prerequisiteModel,
-//   foreignKey: 'course_id',
-//   otherKey: 'prerequisite_id'
+//   as: "course"
+// })
+// coursesModel.belongsToMany(coursesModel, {
+//   through: prerequisiteModel,
+//   foreignKey: 'prerequisite_id',
+//   as:'prerequest'
 // })
 
 // // Institution users Relations

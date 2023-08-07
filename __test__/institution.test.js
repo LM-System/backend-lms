@@ -15,7 +15,7 @@ beforeAll(async () => {
         "password":"1234",
         "email":"codingHunters@gmail.com",
         "phone_number":"00962799321174",
-        "role":"admin",
+        "role":"superAdmin",
         "bio":"luminous technology university college",
         "address":"Airport st.- Amman- Jordan"
     })
@@ -25,7 +25,7 @@ beforeAll(async () => {
         "password":"1234",
         "email":"ltuc@gmail.com",
         "phone_number":"00962799321174",
-        "role":"institution",
+        "role":"institutionHead",
         "bio":"luminous technology university college",
         "address":"Airport st.- Amman- Jordan"
     })
@@ -35,7 +35,7 @@ describe('institution testing',()=>{
         test('POST to /institution to create new institution',async ()=>{
            
                 const response = await request.post('/institution').set({
-                    authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
+                    authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com'},Secret)}`
                 }).send({
                     "id":1,
                     "name":"LTUC" ,
@@ -54,7 +54,7 @@ describe('institution testing',()=>{
         // update institution
         test('PUT to /institution/:id to update institution',async ()=>{
             const response = await request.put('/institution/1').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "name":"LTUC" ,
@@ -90,7 +90,7 @@ describe('institution testing',()=>{
                 "institution_id":1
             })
             const response = await request.get('/institutionstudents/1').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -118,7 +118,7 @@ describe('institution testing',()=>{
                 "institution_id":1
             })
             const response = await request.get('/institutionemployees/1').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -141,7 +141,7 @@ describe('institution testing',()=>{
                 })
                 
                 const response = await request.get('/institutiondepartments/1').set({
-                    authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                    authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
                 })
                 
                 expect(response.status).toBe(200)
@@ -153,11 +153,11 @@ describe('institution testing',()=>{
             
             
             const response = await request.get('/institutions').set({
-                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
-            expect(response.body.count).toEqual(1)
+            expect(response.body).toEqual(1)
         })
 
         // show institution according to its name
@@ -165,7 +165,7 @@ describe('institution testing',()=>{
             
             
             const response = await request.get('/institution/LTUC').set({
-                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -175,7 +175,7 @@ describe('institution testing',()=>{
         test('DELETE to /institution/:id to delete the institution',async ()=>{
             
             const response = await request.delete('/institution/1').set({
-                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com',role:'admin'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'codingHunters@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(204)

@@ -16,7 +16,7 @@ beforeAll(async () => {
         "password":"1234",
         "email":"ltuc@gmail.com",
         "phone_number":"00962799321174",
-        "role":"institution",
+        "role":"institutionHead",
         "bio":"luminous technology university college",
         "address":"Airport st.- Amman- Jordan"
     })
@@ -47,7 +47,7 @@ describe('department testing',()=>{
         // add department
         test('POST to /department to create new department',async ()=>{
             const response = await request.post('/department').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "name":"tecnology",
@@ -61,7 +61,7 @@ describe('department testing',()=>{
         // update department
         test('PUT to /department/:id to update department',async ()=>{
             const response = await request.put('/department/1').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "name":"technology",
@@ -93,7 +93,7 @@ describe('department testing',()=>{
                     "department_id":1
                 })
                 const response = await request.get('/departmentstudents/1').set({
-                    authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                    authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
                 })
                 
                 expect(response.status).toBe(200)
@@ -121,7 +121,7 @@ describe('department testing',()=>{
                 "department_id":1
             })
             const response = await request.get('/departmentinstructors/1').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -150,7 +150,7 @@ describe('department testing',()=>{
             })
             
             const response = await request.get('/departmentcourses/1').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -162,7 +162,7 @@ describe('department testing',()=>{
             
             
             const response = await request.get('/department/1').set({
-                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com',role:'institution'},Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)

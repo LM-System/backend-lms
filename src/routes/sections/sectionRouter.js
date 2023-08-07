@@ -45,7 +45,6 @@ async function handleGetAll(req, res) {
   
   async function handleCreate(req, res) {
     let obj = req.body;
-    console.log(obj);
     let newRecord = await sectionCollection.create(obj);
     res.status(201).json(newRecord);
   }
