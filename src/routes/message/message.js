@@ -5,8 +5,8 @@ const messageRouter = express.Router();
 
 const { messageModel } = require("../../model/relations");
 
-messageRouter.get("/getMessage", handleGetAll);
-messageRouter.post("/addMessage", handleCreate);
+messageRouter.post("/getMessage", handleGetAll);
+messageRouter.post("/message", handleCreate);
 
 async function handleGetAll(req, res, next) {
   try {
@@ -33,19 +33,26 @@ async function handleGetAll(req, res, next) {
   }
 }
 
-async function handleCreate(req, res, next) {
+async function handleCreate(req, res) {
   try {
     const { from, to, message } = req.body;
+
+    // Create a new message using the message model
     const data = await messageModel.create({
       text: message,
       users: [from, to],
       senderId: from,
     });
 
-    if (data) return res.json({ msg: "Message added successfully." });
-    else return res.json({ msg: "Failed to add message to the database" });
+    if (data) {
+      return res.json({ msg: "Message added successfully." });
+    } else {
+      return res.json({ msg: "Failed to add message to the database" });
+    }
   } catch (ex) {
-    next(ex);
+    // Handle any errors that might occur during the database operation
+    console.error(ex);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
