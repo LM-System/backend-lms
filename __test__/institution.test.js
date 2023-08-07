@@ -157,7 +157,7 @@ describe('institution testing',()=>{
             })
             
             expect(response.status).toBe(200)
-            expect(response.body).toEqual(1)
+            expect(response.body.count).toEqual(1)
         })
 
         // show institution according to its name
