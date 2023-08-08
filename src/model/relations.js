@@ -20,14 +20,14 @@ const {
 } = require("./index");
 
 // // Users attendance Relations
-usersModel.hasMany(attendanceModel);
-attendanceModel.belongsTo(usersModel, {
-  foreignKey: "user_id",
-});
-usersModel.belongsTo(attendanceModel, {
+usersModel.belongsToMany(attendanceModel, {
   foreignKey: 'attendance_id',
   through: userAttendanceModel
-}) 
+});
+attendanceModel.belongsToMany(usersModel, {
+  foreignKey: "user_id",
+  through: userAttendanceModel
+});
 
 // Courses prerequisite Relations
 coursesModel.belongsToMany(prerequisiteModel, {
