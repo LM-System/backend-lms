@@ -40,6 +40,16 @@ beforeAll(async () => {
         "bio":"luminous technology university college",
         "address":"Airport st.- Amman- Jordan"
     })
+    usersModel.create({
+        "id":3,
+        "username":"helmi",
+        "password":"1234",
+        "email":"helmi@gmail.com",
+        "phone_number":"00962799321174",
+        "role":"instructor",
+        "bio":"luminous technology university college",
+        "address":"Airport st.- Amman- Jordan"
+    })
     departmentsModel.create({
         "id":1,
         "name":"tecnology",
@@ -73,7 +83,7 @@ describe('sectionAnnouncement testing',()=>{
         // add sectionAnnouncement
         test('POST to /sectionAnnouncement to create new sectionAnnouncement',async ()=>{
             const response = await request.post('/sectionAnnouncement').set({
-                authorization:`Bearer ${jwt.sign('username:LTUC',Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'helmi@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "title":"welcoming " ,
@@ -87,7 +97,7 @@ describe('sectionAnnouncement testing',()=>{
         // update sectionAnnouncement
         test('PUT to /sectionAnnouncement/:id to update sectionAnnouncement',async ()=>{
             const response = await request.put('/sectionAnnouncement/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'helmi@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "title":"welcoming and some instructions" ,
@@ -102,7 +112,7 @@ describe('sectionAnnouncement testing',()=>{
         test('GET to /sectionAnnouncements/:id to show Announcements of one section',async ()=>{
             
             const response = await request.get('/sectionAnnouncements/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'helmi@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -114,7 +124,7 @@ describe('sectionAnnouncement testing',()=>{
         test('DELETE to /sectionAnnouncement/:id to delete the sectionAnnouncement',async ()=>{
             
             const response = await request.delete('/sectionAnnouncement/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'helmi@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(204)

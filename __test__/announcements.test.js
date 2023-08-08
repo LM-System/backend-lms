@@ -51,7 +51,7 @@ describe('announcement testing',()=>{
         // add announcement
         test('POST to /announcement to create new announcement',async ()=>{
             const response = await request.post('/announcement').set({
-                authorization:`Bearer ${jwt.sign('username:LTUC',Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "title":"Welcoming" ,
@@ -65,7 +65,7 @@ describe('announcement testing',()=>{
         // update announcement
         test('PUT to /announcement/:id to update announcement',async ()=>{
             const response = await request.put('/announcement/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "title":"Welcoming announcement" ,
@@ -91,7 +91,7 @@ describe('announcement testing',()=>{
                 "institution_id":1
             })
             const response = await request.get('/institutionannouncements/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -103,7 +103,7 @@ describe('announcement testing',()=>{
         test('DELETE to /announcement/:id to delete the announcement',async ()=>{
             
             const response = await request.delete('/announcement/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(204)
