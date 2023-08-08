@@ -11,15 +11,16 @@ profileImageRouter.post('/profile/:user_id/image', upload.single('file'), async 
   const fileBase64String = fileBuffer.toString('base64');
   const userId = req.params.user_id
   const user = await usersModel.update(
-  {
-    image: fileBase64String
-  },
+    {
+      image: fileBase64String
+    },
   { where: {
     id: userId
   }})
   if(user) {
     res.sendStatus(200)
   }
+  fs.unlinkSync(req.file.path); 
 })
 
 module.exports = profileImageRouter
