@@ -24,7 +24,10 @@ const assignment = (Sequelize, DataTypes) =>
       type: DataTypes.STRING,
       allowNull: false,
     },
+    attachment: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 
 module.exports = assignment;
-
