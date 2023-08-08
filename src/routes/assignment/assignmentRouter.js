@@ -1,11 +1,12 @@
 const express = require("express");
 const assignmentRouter = express.Router();
-
-const {  assignmentModel } = require("../../model/relations");
+const multer = require("multer");
+const path = require("path");
+const { assignmentModel } = require("../../model/relations");
 
 assignmentRouter.get("/assignment", handleGetAll);
 assignmentRouter.get("/assignment/:id", handleGetOne);
-assignmentRouter.post("/assignment", handleCreate);
+// assignmentRouter.post("/assignment", handleCreate);
 assignmentRouter.put("/assignment/:id", handleUpdate);
 assignmentRouter.delete("/assignment/:id", handleDelete);
 
@@ -24,11 +25,69 @@ async function handleGetOne(req, res) {
   }
 }
 
-async function handleCreate(req, res) {
-  let obj = req.body;
-  let newRecord = await assignmentModel.create(obj);
-  res.status(201).json(newRecord);
-}
+/// Attach file to assignment
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "assets");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const extname = path.extname(file.originalname);
+    cb(null, file.fieldname + "-" + uniqueSuffix + extname);
+  },
+});
+
+const upload = multer({ storage });
+
+// async function handleCreate(req, res) {
+//   try {
+//     const obj = req.body;
+//     const attachmentUrl = req.file ? req.file.path : null; // The file path where the attachment is stored or null if no file is uploaded
+
+//     // Create the assignment with the attachment URL
+//     const newRecord = await assignmentModel.create({
+//       ...obj,
+//       attachment: attachmentUrl,
+//     });
+
+//     res.status(201).json(newRecord);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to create assignment." });
+//   }
+// }
+
+assignmentRouter.post(
+  "/assignment",
+  upload.single("assignmentFile"),
+  async (req, res) => {
+    try {
+      const { section_id, title, description, due_date, status, priority } =
+        req.body;
+      const attachmentUrl = req.file ? req.file.path : null; // The file path where the attachment is stored or null if no file is uploaded
+
+      // Create the assignment with the attachment URL
+      const newAssignment = await assignmentModel.create({
+        section_id,
+        title,
+        description,
+        due_date,
+        status,
+        priority,
+        attachment: attachmentUrl,
+      });
+
+      res.json({
+        message: "Assignment created with attachment.",
+        assignment: newAssignment,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to create assignment." });
+    }
+  }
+);
 
 /*
 {
