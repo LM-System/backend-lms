@@ -10,6 +10,7 @@ const {
   contentModel,
   contentFileModel,
   prerequisiteModel,
+  coursePrerequisite,
   attendanceModel,
   assignmentModel,
   announcementModel,
@@ -18,26 +19,25 @@ const {
   chatsModel
 } = require("./index");
 
-// // // Users attendance Relations
-// usersModel.hasMany(attendanceModel);
-// attendanceModel.belongsTo(usersModel, {
-//   foreignKey: "user_id",
-// });
-// usersModel.belongsTo(attendanceModel, {
-//   foreignKey: 'attendance_id',
-//   through: userAttendanceModel
-// }) 
+// // Users attendance Relations
+usersModel.hasMany(attendanceModel);
+attendanceModel.belongsTo(usersModel, {
+  foreignKey: "user_id",
+});
+usersModel.belongsTo(attendanceModel, {
+  foreignKey: 'attendance_id',
+  through: userAttendanceModel
+}) 
 
 // Courses prerequisite Relations
-// coursesModel.belongsToMany(coursesModel, {
-//   through: prerequisiteModel,
-//   as: "course"
-// })
-// coursesModel.belongsToMany(coursesModel, {
-//   through: prerequisiteModel,
-//   foreignKey: 'prerequisite_id',
-//   as:'prerequest'
-// })
+coursesModel.belongsToMany(prerequisiteModel, {
+  foreignKey: 'course_id',
+  through: coursePrerequisite
+})
+prerequisiteModel.belongsToMany(coursesModel, {
+  foreignKey: 'prerequisite_id',
+  through: coursePrerequisite
+})
 
 // // Institution users Relations
 institutionModel.hasMany(usersModel, {
@@ -57,15 +57,16 @@ institutionModel.belongsTo(usersModel, {
 });
 // usersModel.belongsTo(institutionModel)
 
-// // // Attendance sections Relations
-// attendanceModel.belongsToMany(sectionsModel,{
-//   foreignKey: 'attendance_id',
-//   through: 'section_attendance'
-// })
-// sectionsModel.belongsToMany(attendanceModel, {
-//   foreignKey: 'section_id',
-//   through: 'section_attendance'
-// })
+// // Attendance sections Relations
+attendanceModel.belongsToMany(sectionsModel,{
+  foreignKey: 'attendance_id',
+  through: 'section_attendance'
+})
+
+sectionsModel.belongsToMany(attendanceModel, {
+  foreignKey: 'section_id',
+  through: 'section_attendance'
+})
 
 usersModel.hasMany(studentSectionModel, {
 });
