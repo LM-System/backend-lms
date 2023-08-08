@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 
 async function signUpHandler(req, res) {
   const { password, email } = req.body;
-  console.log(req.body);
   const record = await usersModel.findOne({
     where: {
       email: email,

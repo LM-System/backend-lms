@@ -15,7 +15,7 @@ describe('signin testing',()=>{
             "password":"1234",
             "email":"ltuc@gmail.com",
             "phone_number":"00962799321174",
-            "role":"institution",
+            "role":"institutionHead",
             "bio":"luminous technology university college",
             "address":"Airport st.- Amman- Jordan"
         })

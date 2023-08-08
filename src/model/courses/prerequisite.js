@@ -3,10 +3,11 @@ const prerequisite = (Sequelize, DataTypes) =>
 Sequelize.define('prerequisite',{
     course_id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        allowNull: false,
     },
     prerequisite_id: {
         type: DataTypes.INTEGER,
+        allowNull: false,
     }
 })
 

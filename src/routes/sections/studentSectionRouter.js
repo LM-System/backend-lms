@@ -25,7 +25,6 @@ async function handleGetAllStudentSections(req, res) {
   const att2=['sectionId'];
   const att3=['id','name','course_id','year','semester','room_no','status','building','days','instructor_id'];
   const att4=['id','username','email','role','institution_id','department_id'];
-  // console.log(id);
   let allRecords = await userCollection.readAllThingsNestdRelations(studentSectionModel,sectionsModel,usersModel,id,att1,att2,att3,att4)
   res.status(200).json(allRecords);
 }
@@ -36,7 +35,6 @@ async function handleRead(req, res) { //for testing
 }
 async function handleRegisterCreate(req, res) {
   let obj = req.params;
-  // console.log(obj);
   let newRecord = await studentSectionCollection.create(obj);
   res.status(201).json(newRecord);
 }

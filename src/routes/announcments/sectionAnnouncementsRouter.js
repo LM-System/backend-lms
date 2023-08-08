@@ -1,12 +1,15 @@
 const express = require('express');
 const sectionAnnouncementRouter = express.Router();
 const {sectionِAnnouncementModel} = require('../../model/relations');
+const acl = require('../../auth/middleware/acl.auth')
+const bearer = require('../../auth/middleware/bearer.auth')
+const specificity = require('../../auth/middleware/specificity.auth')
+const head = require('../../auth/middleware/head')
 
-
-sectionAnnouncementRouter.get('/sectionAnnouncements/:id', handleGetAnnoucementsforOneSection);
-sectionAnnouncementRouter.post('/sectionAnnouncement', handleCreate);
-sectionAnnouncementRouter.put('/sectionAnnouncement/:id', handleUpdate);
-sectionAnnouncementRouter.delete('/sectionAnnouncement/:id', handleDelete);
+sectionAnnouncementRouter.get('/sectionAnnouncements/:id',bearer,acl(['instructor','student']), handleGetAnnoucementsforOneSection);
+sectionAnnouncementRouter.post('/sectionAnnouncement',bearer,acl(['instructor']), handleCreate);
+sectionAnnouncementRouter.put('/sectionAnnouncement/:id',bearer,acl(['instructor']), handleUpdate);
+sectionAnnouncementRouter.delete('/sectionAnnouncement/:id',bearer,acl(['instructor']), handleDelete);
 
 
 async function handleGetAnnoucementsforOneSection(req, res) {

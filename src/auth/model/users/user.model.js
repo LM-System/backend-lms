@@ -40,8 +40,8 @@ const users = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.ENUM(
-        "admin",
-        "institution",
+        "superAdmin",
+        "institutionHead",
         "instructor",
         "student",
         "departmentHead"
@@ -57,11 +57,10 @@ const users = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.VIRTUAL,
       get() {
-        return jwt.sign({ email: this.email,role:this.role }, process.env.SECRET);
+        return jwt.sign({ email: this.email}, process.env.SECRET);
       },
       set(tokenObj) {
         let token = jwt.sign(tokenObj, process.env.SECRET);
-        console.log('the token include .............',token);
         return token;
       },
     },
@@ -76,11 +75,8 @@ const users = (sequelize, DataTypes) => {
   });
   model.authUser = async (email, password) => {
     const user = await model.findOne({ where: { email: email } ,include:{all:true}});
-    console.log('......................................................../////',user);
     if (user) {
-      console.log(user);
       const validuser = await bcrypt.compare(password, user.password);
-      console.log(validuser);
       if (validuser) {
         return user;
       } else {
@@ -93,7 +89,6 @@ const users = (sequelize, DataTypes) => {
   model.bearerToken = async (token) => {
     try {
       const userToken = jwt.verify(token, process.env.SECRET);
-      // console.log(`User Token: ${JSON.stringify(userToken)}`);
       if (userToken) {
         const record = await model.findOne({
           where: { email: userToken.email },

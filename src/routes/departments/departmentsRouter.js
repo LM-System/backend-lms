@@ -4,14 +4,15 @@ const departmentsRouter = express.Router();
 const acl = require('../../auth/middleware/acl.auth')
 const bearer = require('../../auth/middleware/bearer.auth')
 const specificity = require('../../auth/middleware/specificity.auth')
+const head = require('../../auth/middleware/head')
 const {coursesModel,departmentsModel,usersModel}= require('../../model/relations')
 // departmentsRouter.get('/departments', handleGetAll);
-departmentsRouter.get('/departmentcourses/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleGetDepartmentCourses);
-departmentsRouter.get('/departmentinstructors/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleGetDepartmentInstructors);
-departmentsRouter.get('/departmentstudents/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleGetDepartmentStudents);
-departmentsRouter.get('/department/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleGetOne);
-departmentsRouter.post('/department',bearer,acl(['institution']), handleCreate);
-departmentsRouter.put('/department/:id',bearer,acl(['institution','departmentHead']),specificity('departmentHeader'), handleUpdate);
+departmentsRouter.get('/departmentcourses/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleGetDepartmentCourses);
+departmentsRouter.get('/departmentinstructors/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleGetDepartmentInstructors);
+departmentsRouter.get('/departmentstudents/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleGetDepartmentStudents);
+departmentsRouter.get('/department/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleGetOne);
+departmentsRouter.post('/department',bearer,acl(['institutionHead']),head('departmentHead'), handleCreate);
+departmentsRouter.put('/department/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleUpdate);
 // departmentsRouter.delete('/department/:id', handleDelete);
 
 // async function handleGetAll(req, res) {

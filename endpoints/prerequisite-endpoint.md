@@ -4,12 +4,12 @@
    **method** : POST
     **Body**:
 
-    ```JSON
-      {
-        course_id: 'INTEGER'
-        prerequisite_id: 'INTEGER'
-      }
-    ```
+  ```JSON
+        {
+          course_id: 'INTEGER'
+          prerequisite_id: 'INTEGER'
+        }
+  ```
 
 
 **Endpoint**: /course/:course_id/prerequisite
@@ -17,15 +17,15 @@
   **Response**:
 
   ```JSON
-  [
-    {
-      course_id: 'INTEGER',
-      prerequisite_id: 'INTEGER'
-    },
-    {
-      course_id: 'INTEGER',
-      prerequisite_id: 'INTEGER'
-    },
-    ...
-  ]
+    [
+      {
+        course_id: 'INTEGER',
+        prerequisite_id: 'INTEGER'
+      },
+      {
+        course_id: 'INTEGER',
+        prerequisite_id: 'INTEGER'
+      },
+
+    ]
   ```

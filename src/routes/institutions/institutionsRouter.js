@@ -5,15 +5,16 @@ const { institutionModel,usersModel,departmentsModel } = require('../../model');
 const acl = require('../../auth/middleware/acl.auth')
 const bearer = require('../../auth/middleware/bearer.auth')
 const specificity = require('../../auth/middleware/specificity.auth')
+const head = require('../../auth/middleware/head')
 
-institutionRouter.get('/institutions',bearer,acl(['admin']), handleGetAll);
-institutionRouter.get('/institution/:name',bearer,acl(['admin']), handleGetOne);
-institutionRouter.get('/institutiondepartments/:id',bearer,acl(['institution']),specificity('institutionHeader'), handleGetinstitutiondepartments);
-institutionRouter.get('/institutionemployees/:id',bearer,acl(['institution']),specificity('institutionHeader'), handleGetinstitutionemployees);
-institutionRouter.get('/institutionstudents/:id',bearer,acl(['institution']),specificity('institutionHeader'), handleGetinstitutionstudents);
-institutionRouter.post('/institution',bearer,acl(['admin']), handleCreate);
-institutionRouter.put('/institution/:id',bearer,acl(['admin','institution']),specificity('institutionHeader'), handleUpdate);
-institutionRouter.delete('/institution/:id',bearer,acl(['admin']), handleDelete);
+institutionRouter.get('/institutions',bearer,acl(['superAdmin']), handleGetAll);
+institutionRouter.get('/institution/:name',bearer,acl(['superAdmin']), handleGetOne);
+institutionRouter.get('/institutiondepartments/:id',bearer,acl(['institutionHead']),specificity('institutionHeader'), handleGetinstitutiondepartments);
+institutionRouter.get('/institutionemployees/:id',bearer,acl(['institutionHead']),specificity('institutionHeader'), handleGetinstitutionemployees);
+institutionRouter.get('/institutionstudents/:id',bearer,acl(['institutionHead']),specificity('institutionHeader'), handleGetinstitutionstudents);
+institutionRouter.post('/institution',bearer,acl(['superAdmin']),head('institutionHead'), handleCreate);
+institutionRouter.put('/institution/:id',bearer,acl(['superAdmin','institutionHead']),specificity('institutionHeader'), handleUpdate);
+institutionRouter.delete('/institution/:id',bearer,acl(['superAdmin']), handleDelete);
 
 async function handleGetAll(req, res) {
   let allRecords = await institutionModel.findAndCountAll();
@@ -41,7 +42,7 @@ async function handleGetinstitutionstudents(req, res) {
 async function handleGetinstitutionemployees(req, res) {
   const id = req.params.id;
   let theRecord = await usersModel.findAndCountAll({where:[{institution_id:id},{[Op.not]: 
-    { role: ['student','admin','institution'] },
+    { role: ['student','superAdmin','institutionHead'] },
 }],attributes:['id','username','email','gender','birth_date','phone_number','role','image','address']})
   res.status(200).json(theRecord);
 }
