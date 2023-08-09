@@ -5,16 +5,18 @@ const studentSectionRouter = express.Router();
 const {sequelize}= require('../../model/index')
 const {studentSectionModel, usersModel,sectionsModel}= require('../../model/relations')
 const Collection = require("../../model/collection");
+const bearerAuth = require('../../auth/middleware/bearer.auth');
+const acl = require('../../auth/middleware/acl.auth');
 const studentSectionCollection =new Collection(studentSectionModel);
 const userCollection =new Collection(usersModel);
 
 
 // student can register delet or change the section with this Endpoints
-studentSectionRouter.get('/studentsections/:id', handleGetAllStudentSections);
-studentSectionRouter.get('/studentsections', handleRead);//for testing
-studentSectionRouter.post('/registersection/:userId/:sectionId', handleRegisterCreate);
-studentSectionRouter.put('/registersection/:sectionId', handleRegisterUpdate);
-studentSectionRouter.delete('/registersection/:sectionId', handleRegisterDelete);
+studentSectionRouter.get('/studentsections/:id',acl('student'),bearerAuth, handleGetAllStudentSections);
+studentSectionRouter.get('/studentsections',acl('student'),bearerAuth, handleRead);//for testing
+studentSectionRouter.post('/registersection/:userId/:sectionId',acl('student'),bearerAuth, handleRegisterCreate);
+studentSectionRouter.put('/registersection/:sectionId',acl('student'),bearerAuth, handleRegisterUpdate);
+studentSectionRouter.delete('/registersection/:sectionId',acl('student'),bearerAuth, handleRegisterDelete);
 
 
 // student can register , delete , change or get the classlist the section with this function bellow
