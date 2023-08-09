@@ -31,6 +31,7 @@ attendanceModel.belongsToMany(usersModel, {
   through: userAttendanceModel
 }) 
 
+
 // Courses prerequisite Relations
 coursesModel.belongsToMany(prerequisiteModel, {
   foreignKey: 'course_id',

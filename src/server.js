@@ -13,6 +13,7 @@ const sectonRouter = require("./routes/sections/sectionRouter");
 const departmentsRouter = require("./routes/departments/departmentsRouter");
 const sectionAnnouncementRouter = require("./routes/announcments/sectionAnnouncementsRouter");
 const announcementRouter = require("./routes/announcments/announcmentsRouter");
+const profileImageRouter = require('./routes/profile-image/profile-image-router')
 const notFoundHandler = require("./errorhandller/400");
 const internalError = require("./errorhandller/500");
 const contentRouter = require('./routes/sections/contentRouter')
@@ -45,6 +46,7 @@ app.use(chatRouter)
 app.use(contentRouter)
 app.use(contentFileRouter)
 app.use(feedbackRouter)
+app.use(profileImageRouter)
 app.get("/", (req, res) => {
   res.json("welcome to the home page");
 });

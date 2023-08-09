@@ -2,11 +2,13 @@ const express = require('express');
 const instructorsSectionsRouter = express.Router();
 const {usersModel, sectionsModel} = require('../../model/relations')
 const Collection = require("../../model/collection");
+const bearerAuth = require('../../auth/middleware/bearer.auth');
+const acl = require('../../auth/middleware/acl.auth');
 const userCollection = new Collection(usersModel)
 
 
-instructorsSectionsRouter.get('/instructorSection', handleGetAll);
-instructorsSectionsRouter.get('/instructorSection/:id', handleGetOne);
+instructorsSectionsRouter.get('/instructorSection',acl('instructor'),bearerAuth, handleGetAll);
+instructorsSectionsRouter.get('/instructorSection/:id',acl('instructor'),bearerAuth, handleGetOne);
 
 
 async function handleGetAll(req, res) {
