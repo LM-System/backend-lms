@@ -9,16 +9,17 @@ const acl = require('../../auth/middleware/acl.auth');
 const sectionCollection =new Collection(sectionsModel);
 
 
-sectionRouter.get('/section',acl(['departmentHead','institutionHead']),bearerAuth, handleGetAll);
-sectionRouter.get('/section/:id',acl(['departmentHead','institutionHead']),bearerAuth, handleGetOne);
-sectionRouter.post('/section',acl(['departmentHead','institutionHead']),bearerAuth, handleCreate);
-sectionRouter.put('/section/:id',acl(['departmentHead','institutionHead']),bearerAuth, handleUpdate);
-sectionRouter.delete('/section/:id',acl(['departmentHead','institutionHead']),bearerAuth, handleDelete);
-sectionRouter.get('/classlist/:id',acl(acl(['departmentHead','instructor','student']),bearerAuth),bearerAuth, handleClasslist);
+sectionRouter.get('/section',bearerAuth,acl(['departmentHead','institutionHead']), handleGetAll);
+sectionRouter.get('/section/:id',bearerAuth,acl(['departmentHead','institutionHead']), handleGetOne);
+sectionRouter.post('/section',bearerAuth,acl(['departmentHead','institutionHead']), handleCreate);
+sectionRouter.put('/section/:id',bearerAuth,acl(['departmentHead','institutionHead']), handleUpdate);
+sectionRouter.delete('/section/:id',bearerAuth,acl(['departmentHead','institutionHead']), handleDelete);
+sectionRouter.get('/classlist/:id',bearerAuth,acl(['departmentHead','instructor','student']), handleClasslist);
 
 
 
 async function handleClasslist(req, res) {
+  try{
     const id = req.params.id;
     let allRecords = await sectionsModel.findOne({
       where: {
@@ -32,35 +33,47 @@ async function handleClasslist(req, res) {
         },
     }});
     res.status(200).json(allRecords);
+  } catch (e){next(e)}
   }
 
 async function handleGetAll(req, res) {
-    let allRecords = await sectionCollection.read();
+  try{
+  let allRecords = await sectionCollection.read();
     res.status(200).json(allRecords);
+  } catch (e){next(e)}
   }
-  
+
   async function handleGetOne(req, res) {
+    try{
     const id = req.params.id;
     let theRecord = await sectionCollection.read(id)
     res.status(200).json(theRecord);
+  } catch (e){next(e)}
   }
-  
+
   async function handleCreate(req, res) {
+    try{
     let obj = req.body;
     let newRecord = await sectionCollection.create(obj);
     res.status(201).json(newRecord);
+  } catch (e){next(e)}
   }
-  
+
   async function handleUpdate(req, res) {
+    try{
     const id = req.params.id;
     const obj = req.body;
     let updatedRecord = await sectionCollection.update(obj,id)
     res.status(200).json(updatedRecord);
+  } catch (e){next(e)}
   }
-  
+
   async function handleDelete(req, res) {
+    try{
     let id = req.params.id;
     let deletedRecord = await sectionCollection.delete(id);
     res.status(204).json(deletedRecord);
+  } catch (e){next(e)}
   }
+
   module.exports = sectionRouter;

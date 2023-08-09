@@ -11,27 +11,36 @@ announcementRouter.delete('/announcement/:id',bearer,acl(['institutionHead']), h
 
 
 async function handleGetAll(req, res) {
-  let newRecord = await announcementModel.findAll({where:{institution_id:req.params.id},
-  attributes:['title','body']});
-  res.status(200).json(newRecord);
+  try{
+    let newRecord = await announcementModel.findAll({where:{institution_id:req.params.id},
+    attributes:['title','body']});
+    res.status(200).json(newRecord);
+  } catch (e){next(e)}
 }
 async function handleCreate(req, res) {
+  try{
   let obj = req.body;
   let newRecord = await announcementModel.create(obj);
   res.status(201).json(newRecord);
+} catch (e){next(e)}
 }
 
+
 async function handleUpdate(req, res) {
+  try{
   const id = req.params.id;
   const obj = req.body;
   let updatedRecord = await announcementModel.findOne({where:{id}})
   res.status(200).json(await updatedRecord.update(obj));
+} catch (e){next(e)}
 }
 
 async function handleDelete(req, res) {
+  try{
   let id = req.params.id;
   let deletedRecord = await announcementModel.destroy({where:{id}});
   res.status(204).json(deletedRecord);
+} catch (e){next(e)}
 }
 
 

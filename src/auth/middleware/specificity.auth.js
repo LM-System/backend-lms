@@ -1,6 +1,7 @@
 "use strict";
 const {institutionModel,departmentsModel} = require('../../model/relations')
 function specificity(params) {
+  try{
   return async (req, res, next) => {
     if(req.user.role === 'superAdmin'){
         next()
@@ -33,6 +34,7 @@ function specificity(params) {
     }
   }
   };
+} catch (e){next(e)}
 }
 
 module.exports = specificity;

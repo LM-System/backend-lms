@@ -17,11 +17,14 @@ assignmentRouter.delete(
 );
 
 async function handleGetAll(req, res) {
+  try{
   let allRecords = await assignmentModel.findAll({ include: { all: true } });
   res.status(200).json(allRecords);
+} catch (e){next(e)}
 }
 
 async function handleGetOne(req, res) {
+  try{
   const id = req.params.id;
   let theRecord = await assignmentModel.findByPk(id);
   if (theRecord === null) {
@@ -29,6 +32,7 @@ async function handleGetOne(req, res) {
   } else {
     res.status(200).json(theRecord);
   }
+} catch (e){next(e)}
 }
 
 /// Attach file to assignment
@@ -80,6 +84,7 @@ assignmentRouter.post(
 );
 
 async function handleUpdate(req, res) {
+  try{
   const id = req.params.id;
   const obj = req.body;
   const assignmentRecord = await assignmentModel.findOne({ where: { id } });
@@ -89,12 +94,17 @@ async function handleUpdate(req, res) {
   await assignmentRecord.update(obj);
 
   res.status(200).json(assignmentRecord);
+} catch (e){next(e)}
 }
 
+
 async function handleDelete(req, res) {
+  try{
   let id = req.params.id;
   let deletedRecord = await assignmentModel.destroy({ where: { id } });
   res.status(204).json(deletedRecord);
+} catch (e){next(e)}
 }
+
 
 module.exports = assignmentRouter;

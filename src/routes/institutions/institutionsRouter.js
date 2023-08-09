@@ -17,53 +17,69 @@ institutionRouter.put('/institution/:id',bearer,acl(['superAdmin','institutionHe
 institutionRouter.delete('/institution/:id',bearer,acl(['superAdmin']), handleDelete);
 
 async function handleGetAll(req, res) {
+  try{
   let allRecords = await institutionModel.findAndCountAll();
   res.status(200).json(allRecords);
+} catch (e){next(e)}
 }
 
 async function handleGetOne(req, res) {
+  try{
   const name = req.params.name;
   let theRecord = await institutionModel.findAll({where:{name:name}})
   res.status(200).json(theRecord);
+} catch (e){next(e)}
 }
 
 async function handleGetinstitutiondepartments(req, res) {
+  try{
   const id = req.params.id;
   let theRecord = await departmentsModel.findAndCountAll({where:{institution_id:id}})
   res.status(200).json(theRecord);
+} catch (e){next(e)}
 }
 
 async function handleGetinstitutionstudents(req, res) {
+  try{
   const id = req.params.id;
   let theRecord = await usersModel.findAndCountAll({where:{institution_id:id,role:'student'},attributes:['id','username','email','gender','birth_date','phone_number','image','address']})
   res.status(200).json(theRecord);
+} catch (e){next(e)}
 }
 
 async function handleGetinstitutionemployees(req, res) {
+  try{
   const id = req.params.id;
   let theRecord = await usersModel.findAndCountAll({where:[{institution_id:id},{[Op.not]: 
     { role: ['student','superAdmin','institutionHead'] },
 }],attributes:['id','username','email','gender','birth_date','phone_number','role','image','address']})
   res.status(200).json(theRecord);
+} catch (e){next(e)}
 }
 
 async function handleCreate(req, res) {
+  try{
   let obj = req.body;
   let newRecord = await institutionModel.create(obj);
   res.status(201).json(newRecord);
+} catch (e){next(e)}
 }
 
 async function handleUpdate(req, res) {
+  try{
   const id = req.params.id;
   const obj = req.body;
   let updatedRecord = await institutionModel.findOne({where:{id:id}})
   res.status(200).json(await updatedRecord.update(obj));
+} catch (e){next(e)}
 }
 
 async function handleDelete(req, res) {
+  try{
   let id = req.params.id;
   let deletedRecord = await institutionModel.destroy({where:{id}});
   res.status(204).json(deletedRecord);
+} catch (e){next(e)}
 }
 
 

@@ -3,6 +3,7 @@
 const { usersModel } = require("../../model/index");
 
 function bearerAuth(req, res, next) {
+  try{
   if (req.headers.authorization) {
     const parsedToken = req.headers.authorization.split(" ")[1];
     usersModel.bearerToken(parsedToken)
@@ -16,6 +17,8 @@ function bearerAuth(req, res, next) {
   } else {
     next("Error in bear");
   }
+} catch (e){next(e)}
 }
+
 
 module.exports = bearerAuth;

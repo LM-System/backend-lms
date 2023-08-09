@@ -86,29 +86,31 @@ describe('course testing',()=>{
         test('GET to /coursesections to show the course sections',async ()=>{
             sectionsModel.create({
                 "id":1,
-                'course_id':1,
-                'year': 2023,
-                'semester':'first',
-                'name':'js_A',
-                'room_no':"202",
-                'status': 'Online',
-                'building':'1',
-                'days': 'sun,tues',
-                'institution_id': 1,
-                'capacity': 20
+                "course_id":1,
+                "year": 2023,
+                "semester":"first",
+                "name":"js_A",
+                "room_no":"202",
+                "status": "Online",
+                "building":"1",
+                "days": "sun,tues",
+                "institution_id": 1,
+                "capacity": 20,
+                "instructor_id":4
             })
             sectionsModel.create({
                 "id":2,
-                'course_id':1,
-                'year': 2023,
-                'semester':'first',
-                'name':'js_B',
-                'room_no':"202",
-                'status': 'Online',
-                'building':'1',
-                'days': 'mon,wen',
-                'institution_id': 1,
-                'capacity': 20,
+                "course_id":1,
+                "year": 2023,
+                "semester":"first",
+                "name":"js_B",
+                "room_no":"202",
+                "status": "Online",
+                "building":"1",
+                "days": "mon,wed",
+                "institution_id": 1,
+                "capacity": 20,
+                "instructor_id":4
             })
             const response = await request.get('/coursesections/1').set({
                 authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`

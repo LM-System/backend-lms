@@ -5,13 +5,16 @@ const {coursesModel, prerequisiteModel} = require('../../model/relations');
 
 // post course prerequisite courses
 prerequisiteRouter.post('/courseprerequisite', async (req, res) => {
+  try{
   const obj = req.body
   const record = await prerequisiteModel.create(obj)
   res.status(201).json(record)
+} catch (e){next(e)}
 })
 
 // get course prerequisite courses
 prerequisiteRouter.get('/course/:course_id/prerequisite', async (req, res) => {
+  try{
   const course_id = req.params.course_id
   const record = await coursesModel.findOne({
     where: {
@@ -29,6 +32,7 @@ prerequisiteRouter.get('/course/:course_id/prerequisite', async (req, res) => {
       msg: 'Course has no prerequisites'
     })
   }
+} catch (e){next(e)}
 })
 
 

@@ -1,6 +1,7 @@
 "use strict";
 const {usersModel} = require('../../model/relations')
 function head(params) {
+  try{
   return async (req, res, next) => {
    
       let user_id_model =await usersModel.findOne({where:{id:req.body.user_id}})
@@ -11,6 +12,8 @@ function head(params) {
       }
     
   };
+} catch (e){next(e)}
 }
+
 
 module.exports = head;

@@ -4,9 +4,11 @@ const {usersModel} = require('../../model/relations')
 const profileImageRouter = require('express').Router()
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' });
+const bearerAuth = require('../../auth/middleware/bearer.auth');
 
 
-profileImageRouter.post('/profile/:user_id/image', upload.single('file'), async (req, res) => {
+profileImageRouter.post('/profile/:user_id/image',bearerAuth, upload.single('file'), async (req, res) => {
+  try{
   const fileBuffer = fs.readFileSync(req.file.path);
   const fileBase64String = fileBuffer.toString('base64');
   const userId = req.params.user_id
@@ -21,6 +23,7 @@ profileImageRouter.post('/profile/:user_id/image', upload.single('file'), async 
     res.sendStatus(200)
   }
   fs.unlinkSync(req.file.path); 
+} catch (e){next(e)}
 })
 
 module.exports = profileImageRouter

@@ -20,6 +20,8 @@ const {
   feedbackModel
 } = require("./index");
 
+
+
 // Users attendance Relations
 
 usersModel.belongsToMany(attendanceModel, {
@@ -71,10 +73,19 @@ sectionsModel.belongsToMany(attendanceModel, {
   through: 'section_attendance'
 })
 
+// section user relations
 usersModel.hasMany(studentSectionModel, {
 });
 
 studentSectionModel.belongsTo(usersModel, {
+});
+
+usersModel.hasMany(sectionsModel, {
+  foreignKey:'instructor_id'
+});
+
+sectionsModel.belongsTo(usersModel, {
+  foreignKey:'instructor_id'
 });
 
 
