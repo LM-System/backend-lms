@@ -57,7 +57,7 @@ assignmentRouter.post(
         req.body;
       const attachmentUrl = req.file ? req.file.path : null; // The file path where the attachment is stored or null if no file is uploaded
 
-      // Create the assignment with the attachment URL
+      // Create the assignment with the attachment  URL
       const newAssignment = await assignmentModel.create({
         section_id,
         title,
