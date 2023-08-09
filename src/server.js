@@ -16,15 +16,16 @@ const announcementRouter = require("./routes/announcments/announcmentsRouter");
 const profileImageRouter = require('./routes/profile-image/profile-image-router')
 const notFoundHandler = require("./errorhandller/400");
 const internalError = require("./errorhandller/500");
-
+const contentRouter = require('./routes/sections/contentRouter')
 const assignmentRouter = require("./routes/assignment/assignmentRouter");
 const sectionAssignmentRouter = require("./routes/assignment/assignmentSectionRouter");
 const assignmentSubmittionRouter = require("./routes/assignment/assignmentSubmissionRouter");
 const assignmentAssignmentSubmissionRouter = require("./routes/assignment/assignmentAssignmentSubmissionRouter");
 const chatRouter = require('./routes/chat/chatRouter')
 const prerequisiteRouter= require('./routes/courses/prerequisiteRouter')
-
+const contentFileRouter = require('./routes/sections/contentFileRouter')
 const institutionRouter = require("./routes/institutions/institutionsRouter");
+const feedbackRouter = require("./routes/feedback/feedbackRouter");
 app.use(cors());
 app.use(express.json());
 app.use(userRouter);
@@ -42,6 +43,9 @@ app.use(assignmentSubmittionRouter);
 app.use(assignmentAssignmentSubmissionRouter);
 app.use(prerequisiteRouter)
 app.use(chatRouter)
+app.use(contentRouter)
+app.use(contentFileRouter)
+app.use(feedbackRouter)
 app.use(profileImageRouter)
 app.get("/", (req, res) => {
   res.json("welcome to the home page");
