@@ -1,5 +1,5 @@
 const userAttendance = (Sequelize, DataTypes) =>
-Sequelize.define('attendance', {
+Sequelize.define('userAttendance', {
     attendance_id: {
       type: DataTypes.INTEGER
     },
