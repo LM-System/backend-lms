@@ -11,7 +11,8 @@
    "status":" ", // String value
    "priority":" ", // String value
    "assignment_id":" ", //Integer Value
-   "student_id":" " //Integer Value
+   "student_id":" ", //Integer Value
+   "assignmentSubmissionFile":" " // File to submit
   }
   ```
 
@@ -19,14 +20,18 @@
 
   ```JSON
   response:{
-    "id": 5,
-    "content": "assignmentSubmittion 2",
-    "status": "Submitted",
-    "priority": "High",
-    "assignment_id": 1,
-    "student_id": 2,
-    "updatedAt": "2023-08-05T13:09:42.635Z",
-    "createdAt": "2023-08-05T13:09:42.635Z"
+    "message": "Assignment submission created with attachment.",
+    "assignmentSubmission": {
+        "id": 1,
+        "content": "Submit passed on",
+        "status": "Submitted",
+        "priority": "High ",
+        "assignment_id": 1,
+        "student_id": 1,
+        "attachment": "assets/assignmentSubmissionFile-1691494133823-541095121.png",
+        "updatedAt": "2023-08-08T11:28:53.881Z",
+        "createdAt": "2023-08-08T11:28:53.881Z"
+    }
   }
   ```
 

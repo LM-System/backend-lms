@@ -3,12 +3,18 @@ const assignmentRouter = express.Router();
 const multer = require("multer");
 const path = require("path");
 const { assignmentModel } = require("../../model/relations");
+const acl = require("../../auth/middleware/acl.auth");
+const bearer = require("../../auth/middleware/bearer.auth");
 
-assignmentRouter.get("/assignment", handleGetAll);
-assignmentRouter.get("/assignment/:id", handleGetOne);
-// assignmentRouter.post("/assignment", handleCreate);
-assignmentRouter.put("/assignment/:id", handleUpdate);
-assignmentRouter.delete("/assignment/:id", handleDelete);
+assignmentRouter.get("/assignment", bearer, acl(["superAdmin"]), handleGetAll);
+assignmentRouter.get("/assignment/:id", bearer, handleGetOne);
+assignmentRouter.put("/assignment/:id", bearer, handleUpdate);
+assignmentRouter.delete(
+  "/assignment/:id",
+  bearer,
+  acl(["superAdmin", "institutionHead", "instructor", "departmentHead"]),
+  handleDelete
+);
 
 async function handleGetAll(req, res) {
   let allRecords = await assignmentModel.findAll({ include: { all: true } });
@@ -40,26 +46,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// async function handleCreate(req, res) {
-//   try {
-//     const obj = req.body;
-//     const attachmentUrl = req.file ? req.file.path : null; // The file path where the attachment is stored or null if no file is uploaded
-
-//     // Create the assignment with the attachment URL
-//     const newRecord = await assignmentModel.create({
-//       ...obj,
-//       attachment: attachmentUrl,
-//     });
-
-//     res.status(201).json(newRecord);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to create assignment." });
-//   }
-// }
-
 assignmentRouter.post(
   "/assignment",
+  bearer,
+  acl(["superAdmin", "institutionHead", "instructor", "departmentHead"]),
   upload.single("assignmentFile"),
   async (req, res) => {
     try {
@@ -88,18 +78,6 @@ assignmentRouter.post(
     }
   }
 );
-
-/*
-{
-  "section_id": 1,
-  "title": "Sample Assignment 2 updated",
-  "description": "This is a sample assignment.",
-  "due_date": "2023-08-10",
-  "status": "Pending",
-  "priority": "High"
-}
-
-*/
 
 async function handleUpdate(req, res) {
   const id = req.params.id;
