@@ -1,4 +1,7 @@
 const express = require("express");
+const acl = require("../../auth/middleware/acl.auth");
+const bearer = require("../../auth/middleware/bearer.auth");
+
 const assignmentAssignmentSubmissionRouter = express.Router();
 
 const {
@@ -8,16 +11,18 @@ const {
 
 assignmentAssignmentSubmissionRouter.get(
   "/assignmentAssignmentSubmission",
+  bearer,
+  acl(["superAdmin"]),
   handleGetAll
 );
 assignmentAssignmentSubmissionRouter.get(
   "/assignmentAssignmentSubmission/:id",
+  bearer,
   handleGetOne
 );
 
 async function handleGetAll(req, res) {
   const records = await assignmentModel.findAll({
-    /// need test after adding section route
     include: [
       {
         model: assignmentSubmittionModel,

@@ -20,6 +20,10 @@ const assignment_submittion = (Sequelize, DataTypes) =>
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    attachment: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 
 module.exports = assignment_submittion;

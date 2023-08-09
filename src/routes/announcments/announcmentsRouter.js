@@ -3,8 +3,6 @@ const announcementRouter = express.Router();
 const {announcementModel, coursesModel} = require('../../model/relations');
 const acl = require('../../auth/middleware/acl.auth')
 const bearer = require('../../auth/middleware/bearer.auth')
-const specificity = require('../../auth/middleware/specificity.auth')
-const head = require('../../auth/middleware/head')
 
 announcementRouter.get('/institutionannouncements/:id',bearer,handleGetAll);
 announcementRouter.post('/announcement',bearer,acl(['institutionHead']), handleCreate);

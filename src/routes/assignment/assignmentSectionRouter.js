@@ -1,10 +1,17 @@
 const express = require("express");
 const sectionAssignmentRouter = express.Router();
+const acl = require("../../auth/middleware/acl.auth");
+const bearer = require("../../auth/middleware/bearer.auth");
 
 const { sectionsModel, assignmentModel } = require("../../model/relations");
 
-sectionAssignmentRouter.get("/sectionAssignment", handleGetAll);
-sectionAssignmentRouter.get("/sectionAssignment/:id", handleGetOne);
+sectionAssignmentRouter.get(
+  "/sectionAssignment",
+  bearer,
+  acl(["superAdmin"]),
+  handleGetAll
+);
+sectionAssignmentRouter.get("/sectionAssignment/:id", bearer, handleGetOne);
 
 async function handleGetAll(req, res) {
   const records = await sectionsModel.findAll({

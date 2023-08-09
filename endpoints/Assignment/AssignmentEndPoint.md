@@ -13,7 +13,8 @@
   "description": " ", // String value
   "due_date": " ", // Date Value
   "status": " ", // String value
-  "priority": " " // String value
+  "priority": " ",
+  "assignmentFile": " " // String value that should be a file
   }
   ```
 
@@ -21,19 +22,21 @@
 
   ```JSON
   response:{
-    "id": 4,
-    "section_id": 1,
-    "title": "Sample Assignment 4 ",
-    "description": "This is a sample assignment.",
-    "due_date": "2023-08-10T00:00:00.000Z",
-    "status": "Pending",
-    "priority": "High",
-    "updatedAt": "2023-08-03T11:58:11.868Z",
-    "createdAt": "2023-08-03T11:58:11.868Z"
-
+    "message": "Assignment created with attachment.",
+    "assignment": {
+        "id": 1,
+        "section_id": 1,
+        "title": "Example Assignment 2",
+        "description": "This is an example assignment.",
+        "due_date": "2023-08-15T00:00:00.000Z",
+        "status": "in-progress",
+        "priority": "high",
+        "attachment": "assets/assignmentFile-1691493206868-419691138.png",
+        "updatedAt": "2023-08-08T11:13:26.882Z",
+        "createdAt": "2023-08-08T11:13:26.882Z"
+    }
   }
   ```
-
 
 ---
 
@@ -228,7 +231,6 @@ response:{
 
 **Endpoint**: /assignment/:id<br>
 **method** : delete
-
 
 **The respose will be :**
 

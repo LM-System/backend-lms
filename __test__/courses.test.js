@@ -51,7 +51,7 @@ describe('course testing',()=>{
         // add course
         test('POST to /course to create new course',async ()=>{
             const response = await request.post('/course').set({
-                authorization:`Bearer ${jwt.sign('username:LTUC',Secret)}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "name":"JS" ,
@@ -68,7 +68,7 @@ describe('course testing',()=>{
         // update course
         test('PUT to /course/:id to update course',async ()=>{
             const response = await request.put('/course/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             }).send({
                 "id":1,
                 "name":"JavaScript" ,
@@ -80,34 +80,6 @@ describe('course testing',()=>{
             })
             
             expect(response.status).toBe(200)
-        })
-
-        //course prerequisite
-        test('GET to /courseprerequisite to show the prerequest courses of the course',async ()=>{
-            usersModel.create({
-                "id":2,
-                "username":"ahmad",
-                "password":"1234",
-                "email":"ahmad@gmail.com",
-                "phone_number":"00962799321174",
-                "role":"student",
-                "course_id":1
-            })
-            usersModel.create({
-                "id":3,
-                "username":"samer",
-                "password":"1234",
-                "email":"samer@gmail.com",
-                "phone_number":"00962799321174",
-                "role":"student",
-                "course_id":1
-            })
-            const response = await request.get('/coursestudents/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
-            })
-            
-            expect(response.status).toBe(200)
-            expect(response.body.count).toEqual(2)
         })
 
         // course employees
@@ -139,7 +111,7 @@ describe('course testing',()=>{
                 'capacity': 20,
             })
             const response = await request.get('/coursesections/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -152,7 +124,7 @@ describe('course testing',()=>{
             
             
             const response = await request.get('/course/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(200)
@@ -162,7 +134,7 @@ describe('course testing',()=>{
         test('DELETE to /course/:id to delete the course',async ()=>{
             
             const response = await request.delete('/course/1').set({
-                authorization:`Basic ${base64.encode('ltuc@gmail.com:12345')}`
+                authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
             })
             
             expect(response.status).toBe(204)

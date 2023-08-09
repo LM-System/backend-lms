@@ -5,6 +5,7 @@ Sequelize.define('attendance', {
     },
     section_id: {
       type: DataTypes.INTEGER
+      
     }
 })
 

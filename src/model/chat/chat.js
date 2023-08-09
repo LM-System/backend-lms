@@ -2,7 +2,8 @@ const chats = (Sequelize, DataTypes) =>
 Sequelize.define('chats',{
     
     sender_id: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     reciever_id:{
         type: DataTypes.INTEGER
@@ -12,10 +13,12 @@ Sequelize.define('chats',{
       allowNull: false
     },
     message: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     time:{
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     }
 })
 
