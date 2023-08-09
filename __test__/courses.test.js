@@ -82,34 +82,6 @@ describe('course testing',()=>{
             expect(response.status).toBe(200)
         })
 
-        // //course prerequisite
-        // test('GET to /courseprerequisite to show the prerequest courses of the course',async ()=>{
-        //     usersModel.create({
-        //         "id":2,
-        //         "username":"ahmad",
-        //         "password":"1234",
-        //         "email":"ahmad@gmail.com",
-        //         "phone_number":"00962799321174",
-        //         "role":"student",
-        //         "course_id":1
-        //     })
-        //     usersModel.create({
-        //         "id":3,
-        //         "username":"samer",
-        //         "password":"1234",
-        //         "email":"samer@gmail.com",
-        //         "phone_number":"00962799321174",
-        //         "role":"student",
-        //         "course_id":1
-        //     })
-        //     const response = await request.get('/coursestudents/1').set({
-        //         authorization:`Bearer ${jwt.sign({email:'ltuc@gmail.com'},Secret)}`
-        //     })
-            
-        //     expect(response.status).toBe(200)
-        //     expect(response.body.count).toEqual(2)
-        // })
-
         // course employees
         test('GET to /coursesections to show the course sections',async ()=>{
             sectionsModel.create({

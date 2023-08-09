@@ -2,6 +2,7 @@ const courses = (Sequelize,DataTypes)=>
 Sequelize.define('courses',{
     name: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     description: {
         type: DataTypes.STRING,
@@ -11,6 +12,7 @@ Sequelize.define('courses',{
     },
     department_id:{
         type: DataTypes.INTEGER,
+        allowNull: false,
     },
     start_date: {
         type: DataTypes.DATE,

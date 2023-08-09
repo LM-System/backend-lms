@@ -16,7 +16,8 @@ const {
   announcementModel,
   assignmentSubmittionModel,
   userAttendanceModel,
-  chatsModel
+  chatsModel,
+  feedbackModel
 } = require("./index");
 
 // Users attendance Relations
@@ -104,7 +105,7 @@ usersModel.belongsTo(departmentsModel, {
 });
 departmentsModel.hasMany(usersModel, {
   //AbuEssa
-  foreignKey: "departmentId",
+  foreignKey: "department_id",
   as: "users",
 });
 
@@ -169,7 +170,7 @@ assignmentSubmittionModel.belongsTo(usersModel, {
 });
 
 // sections ContentFile Relations
-contentFileModel.belongsTo(sectionsModel, {
+contentFileModel.belongsTo(contentModel, {
   foreignKey: "content_id",
 }); //zay
 
@@ -192,6 +193,14 @@ chatsModel.belongsTo(usersModel,{
   sourceKey:'id'
 })
 
+// feedback section relation
+feedbackModel.belongsTo(sectionsModel,{
+  foreignKey:"section_id"
+})
+sectionsModel.hasMany(feedbackModel,{
+  foreignKey:"section_id"
+})
+
 
 module.exports = {
   usersModel,
@@ -209,5 +218,6 @@ module.exports = {
   studentSectionModel,
   assignmentSubmittionModel,
   userAttendanceModel,
-  chatsModel
+  chatsModel,
+  feedbackModel
 };
