@@ -50,10 +50,6 @@ app.use(contentRouter)
 app.use(contentFileRouter)
 app.use(feedbackRouter)
 app.use(profileImageRouter)
-app.get("/", (req, res) => {
-  res.json("welcome to the home page");
-});
-
 app.use(notFoundHandler);
 app.use(internalError);
 
