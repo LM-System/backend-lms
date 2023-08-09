@@ -1,13 +1,32 @@
 const express = require("express");
 const assignmentSubmittionRouter = express.Router();
-
+const bearer = require("../../auth/middleware/bearer.auth");
+const acl = require("../../auth/middleware/acl.auth");
+const multer = require("multer");
+const path = require("path");
 const { assignmentSubmittionModel } = require("../../model/relations");
 
-assignmentSubmittionRouter.get("/assignmentSubmittion", handleGetAll);
-assignmentSubmittionRouter.get("/assignmentSubmittion/:id", handleGetOne);
-assignmentSubmittionRouter.post("/assignmentSubmittion", handleCreate);
-assignmentSubmittionRouter.put("/assignmentSubmittion/:id", handleUpdate);
-assignmentSubmittionRouter.delete("/assignmentSubmittion/:id", handleDelete);
+assignmentSubmittionRouter.get(
+  "/assignmentSubmittion",
+  bearer,
+  acl(["superAdmin"]),
+  handleGetAll
+);
+assignmentSubmittionRouter.get(
+  "/assignmentSubmittion/:id",
+  bearer,
+  handleGetOne
+);
+assignmentSubmittionRouter.put(
+  "/assignmentSubmittion/:id",
+  bearer,
+  handleUpdate
+);
+assignmentSubmittionRouter.delete(
+  "/assignmentSubmittion/:id",
+  bearer,
+  handleDelete
+);
 
 async function handleGetAll(req, res) {
   let allRecords = await assignmentSubmittionModel.findAll({
@@ -26,23 +45,51 @@ async function handleGetOne(req, res) {
   }
 }
 
-async function handleCreate(req, res) {
-  let obj = req.body;
-  let newRecord = await assignmentSubmittionModel.create(obj);
-  res.status(201).json(newRecord);
-}
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "assets");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const extname = path.extname(file.originalname);
+    cb(null, file.fieldname + "-" + uniqueSuffix + extname);
+  },
+});
 
-/*
-{
-  "section_id": 1,
-  "title": "Sample Assignment 2 updated",
-  "description": "This is a sample assignment.",
-  "due_date": "2023-08-10",
-  "status": "Pending",
-  "priority": "High"
-}
+const upload = multer({ storage });
 
-*/
+assignmentSubmittionRouter.post(
+  "/assignmentSubmittion",
+  bearer,
+  acl(["superAdmin", "institutionHead", "instructor", "departmentHead"]),
+  upload.single("assignmentSubmissionFile"),
+  async (req, res) => {
+    try {
+      const { content, status, priority, assignment_id, student_id } = req.body;
+      const attachmentUrl = req.file ? req.file.path : null; // The file path where the attachment is stored or null if no file is uploaded
+
+      // Create the assignment submission with the attachment URL
+      const newAssignmentSubmission = await assignmentSubmittionModel.create({
+        content,
+        status,
+        priority,
+        assignment_id,
+        student_id,
+        attachment: attachmentUrl,
+      });
+
+      res.json({
+        message: "Assignment submission created with attachment.",
+        assignmentSubmission: newAssignmentSubmission,
+      });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ error: "Failed to create assignment submission." });
+    }
+  }
+);
 
 async function handleUpdate(req, res) {
   const id = req.params.id;
