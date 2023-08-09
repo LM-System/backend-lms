@@ -4,7 +4,7 @@ const prerequisiteRouter = express.Router();
 const {coursesModel, prerequisiteModel} = require('../../model/relations');
 
 // post course prerequisite courses
-prerequisiteRouter.post('/courseprerequisite', async (req, res) => {
+prerequisiteRouter.post('/courseprerequisite', async (req, res,next) => {
   try{
   const obj = req.body
   const record = await prerequisiteModel.create(obj)
@@ -13,7 +13,7 @@ prerequisiteRouter.post('/courseprerequisite', async (req, res) => {
 })
 
 // get course prerequisite courses
-prerequisiteRouter.get('/course/:course_id/prerequisite', async (req, res) => {
+prerequisiteRouter.get('/course/:course_id/prerequisite', async (req, res,next) => {
   try{
   const course_id = req.params.course_id
   const record = await coursesModel.findOne({

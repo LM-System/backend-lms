@@ -71,7 +71,7 @@ async function handleGetOne(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleCreate(req, res) {
+async function handleCreate(req, res,next) {
   try{
   let obj = req.body;
   let newRecord = await departmentsModel.create(obj);
@@ -79,7 +79,7 @@ async function handleCreate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleUpdate(req, res) {
+async function handleUpdate(req, res,next) {
   try{
   const id = req.params.id;
   const obj = req.body;

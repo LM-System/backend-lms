@@ -95,7 +95,7 @@ assignmentSubmittionRouter.post(
   }
 );
 
-async function handleUpdate(req, res) {
+async function handleUpdate(req, res,next) {
   try{
   const id = req.params.id;
   const obj = req.body;
@@ -109,7 +109,7 @@ async function handleUpdate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleDelete(req, res) {
+async function handleDelete(req, res,next) {
   try{
   let id = req.params.id;
   let deletedRecord = await assignmentSubmittionModel.destroy({

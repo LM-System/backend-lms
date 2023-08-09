@@ -7,7 +7,7 @@ const upload = multer({ dest: 'uploads/' });
 const bearerAuth = require('../../auth/middleware/bearer.auth');
 
 
-profileImageRouter.post('/profile/:user_id/image',bearerAuth, upload.single('file'), async (req, res) => {
+profileImageRouter.post('/profile/:user_id/image',bearerAuth, upload.single('file'), async (req, res,next) => {
   try{
   const fileBuffer = fs.readFileSync(req.file.path);
   const fileBase64String = fileBuffer.toString('base64');

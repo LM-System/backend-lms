@@ -21,7 +21,7 @@ async function handleGetAll(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleCreate(req, res) {
+async function handleCreate(req, res,next) {
   try{
   const fileBuffer = fs.readFileSync(req.file.path);
   const fileBase64String = fileBuffer.toString('base64');
@@ -31,7 +31,7 @@ async function handleCreate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleUpdate(req, res) {
+async function handleUpdate(req, res,next) {
   try{
   const id = req.params.id;
   const obj = req.body;
@@ -40,7 +40,7 @@ async function handleUpdate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleDelete(req, res) {
+async function handleDelete(req, res,next) {
   try{
   let id = req.params.id;
   let deletedRecord = await feedbackModel.destroy({where:{id:id}});

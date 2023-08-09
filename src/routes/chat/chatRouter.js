@@ -10,7 +10,7 @@ chatRouter.put('/chat/:id',bearerAuth, handleUpdate);
 chatRouter.delete('/chat/:id',bearerAuth, handleDelete);
 
 
-async function handleGetOne(req, res) {
+async function handleGetOne(req, res,next) {
   try{
   const id = req.params.id;
   let theRecord = await chatsModel.findAll({where:{room_id:id}})
@@ -19,7 +19,7 @@ async function handleGetOne(req, res) {
 }
 
 
-async function handleUpdate(req, res) {
+async function handleUpdate(req, res,next) {
   try{
   const id = req.params.id;
   const obj = req.body;
@@ -28,7 +28,7 @@ async function handleUpdate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleDelete(req, res) {
+async function handleDelete(req, res,next) {
   try{
   let id = req.params.id;
   let deletedRecord = await chatsModel.destroy({where:{id}});

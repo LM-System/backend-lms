@@ -10,14 +10,14 @@ announcementRouter.put('/announcement/:id',bearer,acl(['institutionHead']), hand
 announcementRouter.delete('/announcement/:id',bearer,acl(['institutionHead']), handleDelete);
 
 
-async function handleGetAll(req, res) {
+async function handleGetAll(req, res,next) {
   try{
     let newRecord = await announcementModel.findAll({where:{institution_id:req.params.id},
     attributes:['title','body']});
     res.status(200).json(newRecord);
   } catch (e){next(e)}
 }
-async function handleCreate(req, res) {
+async function handleCreate(req, res,next) {
   try{
   let obj = req.body;
   let newRecord = await announcementModel.create(obj);
@@ -26,7 +26,7 @@ async function handleCreate(req, res) {
 }
 
 
-async function handleUpdate(req, res) {
+async function handleUpdate(req, res,next) {
   try{
   const id = req.params.id;
   const obj = req.body;
@@ -35,7 +35,7 @@ async function handleUpdate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleDelete(req, res) {
+async function handleDelete(req, res,next) {
   try{
   let id = req.params.id;
   let deletedRecord = await announcementModel.destroy({where:{id}});

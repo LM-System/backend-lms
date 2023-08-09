@@ -16,14 +16,14 @@ institutionRouter.post('/institution',bearer,acl(['superAdmin']),head('instituti
 institutionRouter.put('/institution/:id',bearer,acl(['superAdmin','institutionHead']),specificity('institutionHeader'), handleUpdate);
 institutionRouter.delete('/institution/:id',bearer,acl(['superAdmin']), handleDelete);
 
-async function handleGetAll(req, res) {
+async function handleGetAll(req, res,next) {
   try{
   let allRecords = await institutionModel.findAndCountAll();
   res.status(200).json(allRecords);
 } catch (e){next(e)}
 }
 
-async function handleGetOne(req, res) {
+async function handleGetOne(req, res,next) {
   try{
   const name = req.params.name;
   let theRecord = await institutionModel.findAll({where:{name:name}})
@@ -31,7 +31,7 @@ async function handleGetOne(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleGetinstitutiondepartments(req, res) {
+async function handleGetinstitutiondepartments(req, res,next) {
   try{
   const id = req.params.id;
   let theRecord = await departmentsModel.findAndCountAll({where:{institution_id:id}})
@@ -39,7 +39,7 @@ async function handleGetinstitutiondepartments(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleGetinstitutionstudents(req, res) {
+async function handleGetinstitutionstudents(req, res,next) {
   try{
   const id = req.params.id;
   let theRecord = await usersModel.findAndCountAll({where:{institution_id:id,role:'student'},attributes:['id','username','email','gender','birth_date','phone_number','image','address']})
@@ -47,7 +47,7 @@ async function handleGetinstitutionstudents(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleGetinstitutionemployees(req, res) {
+async function handleGetinstitutionemployees(req, res,next) {
   try{
   const id = req.params.id;
   let theRecord = await usersModel.findAndCountAll({where:[{institution_id:id},{[Op.not]: 
@@ -57,7 +57,7 @@ async function handleGetinstitutionemployees(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleCreate(req, res) {
+async function handleCreate(req, res,next) {
   try{
   let obj = req.body;
   let newRecord = await institutionModel.create(obj);
@@ -65,7 +65,7 @@ async function handleCreate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleUpdate(req, res) {
+async function handleUpdate(req, res,next) {
   try{
   const id = req.params.id;
   const obj = req.body;
@@ -74,7 +74,7 @@ async function handleUpdate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleDelete(req, res) {
+async function handleDelete(req, res,next) {
   try{
   let id = req.params.id;
   let deletedRecord = await institutionModel.destroy({where:{id}});

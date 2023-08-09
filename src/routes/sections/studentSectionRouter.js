@@ -33,14 +33,14 @@ async function handleGetAllStudentSections(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleRead(req, res) { //for testing
+async function handleRead(req, res,next) { //for testing
   try{
   let newRecord = await studentSectionCollection.read();
   res.status(201).json(newRecord);
 } catch (e){next(e)}
 }
 
-async function handleRegisterCreate(req, res) {
+async function handleRegisterCreate(req, res,next) {
   try{
   let obj = req.params;
   let newRecord = await studentSectionCollection.create(obj);
@@ -48,7 +48,7 @@ async function handleRegisterCreate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleRegisterUpdate(req, res) {
+async function handleRegisterUpdate(req, res,next) {
   try{
   const id = req.params.id;
   const obj = req.body;
@@ -57,7 +57,7 @@ async function handleRegisterUpdate(req, res) {
 } catch (e){next(e)}
 }
 
-async function handleRegisterDelete(req, res) {
+async function handleRegisterDelete(req, res,next) {
   try{
   let id = req.params.id;
   let deletedRecord = await studentSectionCollection.delete(id);

@@ -17,7 +17,7 @@ userRouter.post("/signin", basicAuth, signInHandler);
 userRouter.put("/user/:id", handleUpdateUser);
 userRouter.post("/users", upload('excel'),handleAddMany);
 
-async function handleUpdateUser(req, res) {
+async function handleUpdateUser(req, res,next) {
   try{
   let user = await usersModel.findOne({
     where:{id:req.params.id}

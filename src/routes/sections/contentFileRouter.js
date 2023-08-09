@@ -29,7 +29,7 @@ contentFileRouter.delete('/contentfile/:id',bearerAuth,acl(['instructor','depart
 
 
   
-  async function handleGetOne(req, res) {
+  async function handleGetOne(req, res,next) {
     try{
     const id = req.params.id;
     let theRecord = await contentFileModel.findOne({where:{id:id},include:{all:true}})
@@ -37,7 +37,7 @@ contentFileRouter.delete('/contentfile/:id',bearerAuth,acl(['instructor','depart
   } catch (e){next(e)}
   }
 
-  async function handleCreate(req, res) {
+  async function handleCreate(req, res,next) {
     try{
     const attachmentUrl = req.file ? req.file.path : null;
     let obj = req.body;
@@ -46,7 +46,7 @@ contentFileRouter.delete('/contentfile/:id',bearerAuth,acl(['instructor','depart
   } catch (e){next(e)}
   }
 
-  async function handleUpdate(req, res) {
+  async function handleUpdate(req, res,next) {
     try{
     const id = req.params.id;
     const obj = req.body;
@@ -55,7 +55,7 @@ contentFileRouter.delete('/contentfile/:id',bearerAuth,acl(['instructor','depart
   } catch (e){next(e)}
   }
 
-  async function handleDelete(req, res) {
+  async function handleDelete(req, res,next) {
     try{
     let id = req.params.id;
     let deletedRecord = await contentFileModel.destroy({where:{id:id}});

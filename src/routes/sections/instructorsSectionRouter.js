@@ -11,7 +11,7 @@ instructorsSectionsRouter.get('/instructorSection',bearerAuth,acl('instructor'),
 instructorsSectionsRouter.get('/instructorSection/:id',bearerAuth,acl('instructor'), handleGetOne);
 
 
-async function handleGetAll(req, res) {
+async function handleGetAll(req, res,next) {
   try{
   let allRecords = await usersModel.findAll({where:{
     role:'instructor',
@@ -27,7 +27,7 @@ async function handleGetAll(req, res) {
 }
 
 
-async function handleGetOne(req, res) {
+async function handleGetOne(req, res,next) {
   try{
   let id = req.params.id;
   let newRecord = await usersModel.findOne({where:{

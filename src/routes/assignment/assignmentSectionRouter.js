@@ -13,7 +13,7 @@ sectionAssignmentRouter.get(
 );
 sectionAssignmentRouter.get("/sectionAssignment/:id", bearer, handleGetOne);
 
-async function handleGetAll(req, res) {
+async function handleGetAll(req, res,next) {
   try{
   const records = await sectionsModel.findAll({
     /// need test after adding section route
@@ -28,7 +28,7 @@ async function handleGetAll(req, res) {
 }
 
 
-async function handleGetOne(req, res) {
+async function handleGetOne(req, res,next) {
   try{
   const id = req.params.id;
   const theRecord = await sectionsModel.findByPk(id, {

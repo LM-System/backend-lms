@@ -21,7 +21,7 @@ assignmentAssignmentSubmissionRouter.get(
   handleGetOne
 );
 
-async function handleGetAll(req, res) {
+async function handleGetAll(req, res,next) {
   try{
   const records = await assignmentModel.findAll({
     include: [
@@ -35,7 +35,7 @@ async function handleGetAll(req, res) {
 }
 
 
-async function handleGetOne(req, res) {
+async function handleGetOne(req, res,next) {
   try{
   const id = req.params.id;
   const theRecord = await assignmentModel.findByPk(id, {

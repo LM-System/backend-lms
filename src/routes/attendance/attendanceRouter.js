@@ -7,7 +7,7 @@ const acl = require('../../auth/middleware/acl.auth');
 
 
 // Get all attendance records for a specific section
-attendanceRouter.get('/course/:section_id/attendance',bearerAuth, async (req, res) => {
+attendanceRouter.get('/course/:section_id/attendance',bearerAuth, async (req, res,next) => {
   try{
   const sectionId = req.params.section_id
   const record = await attendanceModel.findAll({
@@ -24,7 +24,7 @@ attendanceRouter.get('/course/:section_id/attendance',bearerAuth, async (req, re
 
 
 // Get attendance for a specific day
-attendanceRouter.get('/course/:section_id/attendance/:attendance_id',bearerAuth,async (req, res) => {
+attendanceRouter.get('/course/:section_id/attendance/:attendance_id',bearerAuth,async (req, res,next) => {
   try{
   const sectionId = req.params.section_id
   const attendanceId = req.params.attendance_id
@@ -46,7 +46,7 @@ attendanceRouter.get('/course/:section_id/attendance/:attendance_id',bearerAuth,
 })
 
 // Creating new attendance
-attendanceRouter.post('/course/:section_id/attendance',bearerAuth, async(req, res) => {
+attendanceRouter.post('/course/:section_id/attendance',bearerAuth, async(req, res,next) => {
   try{
   const attendanceData = req.body
   const sectionId = req.params.section_id
@@ -59,7 +59,7 @@ attendanceRouter.post('/course/:section_id/attendance',bearerAuth, async(req, re
 })
 
 // Teacher removes attendance for a specific day
-attendanceRouter.delete('/course/:section_id/attendance/:attendance_id',bearerAuth, async(req, res) => {
+attendanceRouter.delete('/course/:section_id/attendance/:attendance_id',bearerAuth, async(req, res,next) => {
   try{
   const attendanceId = req.params.attendance_id
   const record = await attendanceModel.destroy({
@@ -73,7 +73,7 @@ attendanceRouter.delete('/course/:section_id/attendance/:attendance_id',bearerAu
 
 
 // Update attendance information for a specific day
-attendanceRouter.put('/course/:section_id/attendance/:attendance_id',bearerAuth, async(req, res) => {
+attendanceRouter.put('/course/:section_id/attendance/:attendance_id',bearerAuth, async(req, res,next) => {
   try{
   const updateData = req.body
   const attendanceId = req.params.attendance_id

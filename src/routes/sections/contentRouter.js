@@ -14,7 +14,7 @@ contentRouter.delete('/content/:id',bearerAuth,acl(['instructor','departmentHead
 
 
   
-  async function handleGetOne(req, res) {
+  async function handleGetOne(req, res,next) {
     try{
     const id = req.params.id;
     let theRecord = await contentModel.findOne({where:{id:id},include:{all:true}})
@@ -22,7 +22,7 @@ contentRouter.delete('/content/:id',bearerAuth,acl(['instructor','departmentHead
   } catch (e){next(e)}
   }
 
-  async function handleGetcontentFiles(req, res) {
+  async function handleGetcontentFiles(req, res,next) {
     try{
     const id = req.params.id;
     let theRecord = await contentFileModel.findAndCountAll({where:{content_id:id}})
@@ -30,7 +30,7 @@ contentRouter.delete('/content/:id',bearerAuth,acl(['instructor','departmentHead
   } catch (e){next(e)}
   }
 
-  async function handleCreate(req, res) {
+  async function handleCreate(req, res,next) {
     try{
     let obj = req.body;
     let newRecord = await contentModel.create(obj);
@@ -38,7 +38,7 @@ contentRouter.delete('/content/:id',bearerAuth,acl(['instructor','departmentHead
   } catch (e){next(e)}
   }
 
-  async function handleUpdate(req, res) {
+  async function handleUpdate(req, res,next) {
     try{
     const id = req.params.id;
     const obj = req.body;
@@ -47,7 +47,7 @@ contentRouter.delete('/content/:id',bearerAuth,acl(['instructor','departmentHead
   } catch (e){next(e)}
   }
 
-  async function handleDelete(req, res) {
+  async function handleDelete(req, res,next) {
     try{
     let id = req.params.id;
     let deletedRecord = await contentModel.destroy({where:{id:id}});
