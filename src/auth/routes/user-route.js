@@ -13,10 +13,12 @@ const {
 const basicAuth = require("../middleware/basic.auth");
 const { upload } = require("../middleware/upload");
 const handleAddMany = require("../handlers/addMany-handler");
+const bearerAuth = require("../middleware/bearer.auth");
+const acl = require("../middleware/acl.auth");
 
 userRouter.post("/signup", signUpHandler);
 userRouter.post("/signin", basicAuth, signInHandler);
-userRouter.get("/users", handleGetAll);
+userRouter.get("/users",acl(['departmentHead','institutionHead']),bearerAuth, handleGetAll);
 userRouter.post("/users", upload('excel'),handleAddMany);
 
 async function handleGetAll(req, res) {

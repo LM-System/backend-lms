@@ -4,15 +4,17 @@ const express = require('express');
 const sectionRouter = express.Router();
 const {sectionsModel,usersModel, studentSectionModel}= require('../../model/relations')
 const Collection = require("../../model/collection");
+const bearerAuth = require('../../auth/middleware/bearer.auth');
+const acl = require('../../auth/middleware/acl.auth');
 const sectionCollection =new Collection(sectionsModel);
 
 
-sectionRouter.get('/section', handleGetAll);
-sectionRouter.get('/section/:id', handleGetOne);
-sectionRouter.post('/section', handleCreate);
-sectionRouter.put('/section/:id', handleUpdate);
-sectionRouter.delete('/section/:id', handleDelete);
-sectionRouter.get('/classlist/:id', handleClasslist);
+sectionRouter.get('/section',acl(['departmentHead','institutionHead']),bearerAuth, handleGetAll);
+sectionRouter.get('/section/:id',acl(['departmentHead','institutionHead']),bearerAuth, handleGetOne);
+sectionRouter.post('/section',acl(['departmentHead','institutionHead']),bearerAuth, handleCreate);
+sectionRouter.put('/section/:id',acl(['departmentHead','institutionHead']),bearerAuth, handleUpdate);
+sectionRouter.delete('/section/:id',acl(['departmentHead','institutionHead']),bearerAuth, handleDelete);
+sectionRouter.get('/classlist/:id',acl(acl(['departmentHead','instructor','student']),bearerAuth),bearerAuth, handleClasslist);
 
 
 
