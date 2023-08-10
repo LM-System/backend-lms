@@ -29,13 +29,16 @@ assignmentSubmittionRouter.delete(
 );
 
 async function handleGetAll(req, res) {
+  try{
   let allRecords = await assignmentSubmittionModel.findAll({
     include: { all: true },
   });
   res.status(200).json(allRecords);
+} catch (e){next(e)}
 }
 
 async function handleGetOne(req, res) {
+  try{
   const id = req.params.id;
   let theRecord = await assignmentSubmittionModel.findByPk(id);
   if (theRecord === null) {
@@ -43,6 +46,7 @@ async function handleGetOne(req, res) {
   } else {
     res.status(200).json(theRecord);
   }
+} catch (e){next(e)}
 }
 
 const storage = multer.diskStorage({
@@ -61,7 +65,7 @@ const upload = multer({ storage });
 assignmentSubmittionRouter.post(
   "/assignmentSubmittion",
   bearer,
-  acl(["superAdmin", "institutionHead", "instructor", "departmentHead"]),
+  acl(["student"]),
   upload.single("assignmentSubmissionFile"),
   async (req, res) => {
     try {
@@ -91,7 +95,8 @@ assignmentSubmittionRouter.post(
   }
 );
 
-async function handleUpdate(req, res) {
+async function handleUpdate(req, res,next) {
+  try{
   const id = req.params.id;
   const obj = req.body;
   const theRecord = await assignmentSubmittionModel.findOne({ where: { id } });
@@ -101,14 +106,17 @@ async function handleUpdate(req, res) {
   await theRecord.update(obj);
 
   res.status(200).json(theRecord);
+} catch (e){next(e)}
 }
 
-async function handleDelete(req, res) {
+async function handleDelete(req, res,next) {
+  try{
   let id = req.params.id;
   let deletedRecord = await assignmentSubmittionModel.destroy({
     where: { id },
   });
   res.status(204).json(deletedRecord);
+} catch (e){next(e)}
 }
 
 module.exports = assignmentSubmittionRouter;

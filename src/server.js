@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const cors = require("cors");
+const bodyParser = require('body-parser')
 const { Server } = require("socket.io");
 const {chatsModel} = require('./model/relations')
 const courseRouter = require("./routes/courses/coursesRouter");
@@ -28,6 +29,8 @@ const institutionRouter = require("./routes/institutions/institutionsRouter");
 const feedbackRouter = require("./routes/feedback/feedbackRouter");
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json ({limit: '500mb'}));
+app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
 app.use(userRouter);
 app.use(courseRouter);
 app.use(studentSectonRouter);
@@ -47,10 +50,6 @@ app.use(contentRouter)
 app.use(contentFileRouter)
 app.use(feedbackRouter)
 app.use(profileImageRouter)
-app.get("/", (req, res) => {
-  res.json("welcome to the home page");
-});
-
 app.use(notFoundHandler);
 app.use(internalError);
 

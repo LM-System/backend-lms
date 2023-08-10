@@ -4,6 +4,8 @@ const contentFileRouter = express.Router();
 const {sectionsModel,contentFileModel}= require('../../model/relations')
 const multer = require("multer");
 const path = require("path");
+const bearerAuth = require('../../auth/middleware/bearer.auth');
+const acl = require('../../auth/middleware/acl.auth');
 /// Attach file to content
 
 const storage = multer.diskStorage({
@@ -20,36 +22,45 @@ const storage = multer.diskStorage({
   const upload = multer({ storage });
 ///
 
-contentFileRouter.get('/contentfile/:id', handleGetOne);
-contentFileRouter.post('/contentfile',upload.single("file"), handleCreate);
-contentFileRouter.put('/contentfile/:id', handleUpdate);
-contentFileRouter.delete('/contentfile/:id', handleDelete);
+contentFileRouter.get('/contentfile/:id',bearerAuth,acl(['instructor','departmentHead']), handleGetOne);
+contentFileRouter.post('/contentfile',bearerAuth,acl(['instructor','departmentHead']),upload.single("file"), handleCreate);
+contentFileRouter.put('/contentfile/:id',bearerAuth,acl(['instructor','departmentHead']), handleUpdate);
+contentFileRouter.delete('/contentfile/:id',bearerAuth,acl(['instructor','departmentHead']), handleDelete);
 
 
   
-  async function handleGetOne(req, res) {
+  async function handleGetOne(req, res,next) {
+    try{
     const id = req.params.id;
     let theRecord = await contentFileModel.findOne({where:{id:id},include:{all:true}})
     res.status(200).json(theRecord);
+  } catch (e){next(e)}
   }
-  
-  async function handleCreate(req, res) {
+
+  async function handleCreate(req, res,next) {
+    try{
     const attachmentUrl = req.file ? req.file.path : null;
     let obj = req.body;
     let newRecord = await contentFileModel.create({...obj,file:attachmentUrl});
     res.status(201).json(newRecord);
+  } catch (e){next(e)}
   }
-  
-  async function handleUpdate(req, res) {
+
+  async function handleUpdate(req, res,next) {
+    try{
     const id = req.params.id;
     const obj = req.body;
     let updatedRecord = await contentFileModel.findOne({where:{id:id}})
     res.status(200).json(await updatedRecord.update(obj));
+  } catch (e){next(e)}
   }
-  
-  async function handleDelete(req, res) {
+
+  async function handleDelete(req, res,next) {
+    try{
     let id = req.params.id;
     let deletedRecord = await contentFileModel.destroy({where:{id:id}});
     res.status(204).json(deletedRecord);
+  } catch (e){next(e)}
   }
+
   module.exports = contentFileRouter;

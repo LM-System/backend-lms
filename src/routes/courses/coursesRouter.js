@@ -19,44 +19,58 @@ coursesRouter.delete('/course/:id',bearer,acl(['institutionHead','departmentHead
 //   res.status(200).json(allRecords);
 // }
 
-async function handleGetOne(req, res) {
+async function handleGetOne(req, res,next) {
+  try{
   const id = req.params.id;
   let theRecord = await coursesModel.findOne({where:{id:id},
     attributes:['name','description','syllabus','start_date','end_date'],
     include:{model:departmentsModel,attributes:["id",'name',]}})
   res.status(200).json(theRecord);
+} catch (e){next(e)}
 }
-async function handleGetcourseSections(req, res) {
+
+async function handleGetcourseSections(req, res,next) {
+  try{
   const id = req.params.id;
   let theRecord = await sectionsModel.findAndCountAll({where:{course_id:id},
     attributes:['name','year','semester','room_no','status','building','days','capacity'],
     })
   res.status(200).json(theRecord);
+} catch (e){next(e)}
 }
 
-async function handleGetcourseprerequisite(req, res) {
+
+async function handleGetcourseprerequisite(req, res,next) {
+  try{
   const id = req.params.id;
   let theRecord = await coursesModel.findAndCountAll({where:{prerequisite_id:id}})
   res.status(200).json(theRecord);
+} catch (e){next(e)}
 }
 
-async function handleCreate(req, res) {
+async function handleCreate(req, res,next) {
+  try{
   let obj = req.body;
   let newRecord = await coursesModel.create(obj);
   res.status(201).json(newRecord);
+} catch (e){next(e)}
 }
 
-async function handleUpdate(req, res) {
+async function handleUpdate(req, res,next) {
+  try{
   const id = req.params.id;
   const obj = req.body;
   let updatedRecord = await coursesModel.findOne({where:{id}})
   res.status(200).json(await updatedRecord.update(obj));
+} catch (e){next(e)}
 }
 
-async function handleDelete(req, res) {
+async function handleDelete(req, res,next) {
+  try{
   let id = req.params.id;
   let deletedRecord = await coursesModel.destroy({where:{id}});
   res.status(204).json(deletedRecord);
+} catch (e){next(e)}
 }
 
 

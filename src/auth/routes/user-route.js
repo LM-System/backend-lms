@@ -15,15 +15,16 @@ const acl = require("../middleware/acl.auth");
 userRouter.post("/signup", signUpHandler);
 userRouter.post("/signin", basicAuth, signInHandler);
 userRouter.put("/user/:id", handleUpdateUser);
-// userRouter.get("/users",acl(['departmentHead','institutionHead']),bearerAuth, handleGetAll);
 userRouter.post("/users", upload('excel'),handleAddMany);
 
-async function handleUpdateUser(req, res) {
+async function handleUpdateUser(req, res,next) {
+  try{
   let user = await usersModel.findOne({
     where:{id:req.params.id}
   });
   let record =await user.update(req.body)
   res.status(200).json(record);
+} catch (e){next(e)}
 }
 
 module.exports = userRouter;
