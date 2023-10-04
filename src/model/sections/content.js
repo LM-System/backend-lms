@@ -3,9 +3,10 @@ Sequelize.define('content',{
     title: {
       type: DataTypes.STRING
     },
-    section_id: {
-      type: DataTypes.INTEGER
-    }
+    file: {
+      type: DataTypes.STRING
+    },
+
 })
 
 module.exports = content

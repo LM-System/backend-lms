@@ -1,235 +1,122 @@
 "use strict";
 const {
   usersModel,
+  adminsModel,
+  instructorsModel,
+  studentsModel,
   coursesModel,
-  departmentsModel,
-  studentSectionModel,
-  institutionModel,
   sectionsModel,
+  studentSectionModel,
+  departmentsModel,
+  institutionModel,
+  announcementModel,
   sectionِAnnouncementModel,
-  contentModel,
-  contentFileModel,
-  prerequisiteModel,
-  coursePrerequisite,
   attendanceModel,
   assignmentModel,
-  announcementModel,
-  assignmentSubmittionModel,
-  userAttendanceModel,
-  chatsModel,
-  feedbackModel
+  studentAssignmentSubmission,
+  contentModel,
+
+  // chatsModel,
+  // prerequisiteModel,
+  // feedbackModel
 } = require("./index");
 
 
+// Users Relations admins
+usersModel.hasOne(studentsModel);
 
-// Users attendance Relations
+// Users Relations instructors
+usersModel.hasOne(instructorsModel);
 
-usersModel.belongsToMany(attendanceModel, {
-  foreignKey: 'attendance_id',
-  through: userAttendanceModel
-}) 
-attendanceModel.belongsToMany(usersModel, {
-  foreignKey: 'user_id',
-  through: userAttendanceModel
-}) 
+// Users Relations students
+usersModel.hasOne(adminsModel);
 
-
-// Courses prerequisite Relations
-coursesModel.belongsToMany(prerequisiteModel, {
-  foreignKey: 'course_id',
-  through: coursePrerequisite
-})
-prerequisiteModel.belongsToMany(coursesModel, {
-  foreignKey: 'prerequisite_id',
-  through: coursePrerequisite
-})
-
-// // Institution users Relations
-institutionModel.hasMany(usersModel, {
-  foreignKey: "institution_id",
-});
-usersModel.belongsTo(institutionModel, {
-  foreignKey: "institution_id",
-});
-
-institutionModel.hasOne(usersModel,{
-  foreignKey: 'user_id'
-
-})
-
-institutionModel.belongsTo(usersModel, {
-  foreignKey: "user_id",
-});
-// usersModel.belongsTo(institutionModel)
-
-// // Attendance sections Relations
-attendanceModel.belongsToMany(sectionsModel,{
-  foreignKey: 'attendance_id',
-  through: 'section_attendance'
-})
-
-sectionsModel.belongsToMany(attendanceModel, {
-  foreignKey: 'section_id',
-  through: 'section_attendance'
-})
-
-// section user relations
-usersModel.hasMany(studentSectionModel, {
-});
-
-studentSectionModel.belongsTo(usersModel, {
-});
-
-usersModel.hasMany(sectionsModel, {
-  foreignKey:'instructor_id'
-});
-
-sectionsModel.belongsTo(usersModel, {
-  foreignKey:'instructor_id'
-});
+// Users Relations students
+usersModel.hasOne(adminsModel);
 
 
-sectionsModel.hasMany(studentSectionModel, {
-});
+// section student relations
+studentsModel.belongsToMany(sectionsModel,{ through: studentSectionModel });
+sectionsModel.belongsToMany(studentsModel,{ through: studentSectionModel });
 
-studentSectionModel.belongsTo(sectionsModel, {
-});
 
-// // Courses department Relations
+// section instructor relations
+instructorsModel.hasMany(sectionsModel);
+sectionsModel.belongsTo(instructorsModel);
 
-departmentsModel.hasMany(coursesModel, {
-  //AbuEssa
-  foreignKey: "department_id",
-  // as: "courses",
-});
-coursesModel.belongsTo(departmentsModel, {
-  //AbuEssa
-  foreignKey: "department_id",
-  // as: "department",
-});
 
-// // Department Users Relations
+//course sections relations
+coursesModel.hasMany(sectionsModel);
+sectionsModel.belongsTo(coursesModel);
 
-usersModel.belongsTo(departmentsModel, {
-  //AbuEssa
-  foreignKey: "department_id",
-  // as: "department",
-});
-departmentsModel.hasMany(usersModel, {
-  //AbuEssa
-  foreignKey: "department_id",
-  as: "users",
-});
 
-departmentsModel.belongsTo(usersModel, {
-  foreignKey: "user_id",
-  as: "department_head",
-});
+//department course relations
+departmentsModel.hasMany(coursesModel);
+coursesModel.belongsTo(departmentsModel);
 
-// // Institution departments Relations
-institutionModel.hasMany(departmentsModel, {
-  foreignKey: "institution_id",
-});
 
-departmentsModel.belongsTo(institutionModel, {
-  foreignKey: "institution_id",
-});
+//institution department relations
+institutionModel.hasMany(departmentsModel);
+departmentsModel.belongsTo(institutionModel);
 
-// // Sections content Relations
-sectionsModel.hasOne(contentModel, {
-  foreignKey: "section_id",
-});
-contentModel.belongsTo(sectionsModel, {
-  foreignKey: "section_id",
-});
 
-// // Sections assignment Relations
+// adminsModel Relations institution
+adminsModel.hasOne(institutionModel);
 
-sectionsModel.hasMany(assignmentModel, {
-  foreignKey: "section_id",
-  // as: "Assignments",
-});
-assignmentModel.belongsTo(sectionsModel, {
-  //AbuEssa
-  foreignKey: "section_id",
-  // as: "Sections",
-});
+// adminsModel Relations institution
+instructorsModel.hasOne(departmentsModel,{ as: 'departmentHead' });
 
-// // Assignment Submittion assignment Relations
+// institution Relations announcment
+institutionModel.hasMany(announcementModel);
+announcementModel.belongsTo(institutionModel)
 
-assignmentModel.hasMany(assignmentSubmittionModel, {
-  //AbuEssa
-  foreignKey: "assignment_id",
-  // as:"assignmentSubmit"
-});
+// sectionsModel Relations sectionِAnnouncementModel
+sectionsModel.hasMany(sectionِAnnouncementModel);
+sectionِAnnouncementModel.belongsTo(sectionsModel)
 
-assignmentSubmittionModel.belongsTo(assignmentModel, {
-  //AbuEssa
-  foreignKey: "assignment_id",
-  // as: "Assignments",
-});
+// sectionsModel Relations attendanceModel
+sectionsModel.hasMany(attendanceModel);
+attendanceModel.belongsTo(sectionsModel)
 
-// // User Assignment Submittion Relations
+// studentsModel Relations attendanceModel
+studentsModel.hasMany(attendanceModel);
+attendanceModel.belongsTo(studentsModel)
 
-usersModel.hasMany(assignmentSubmittionModel, {
-  //AbuEssa
-  foreignKey: "student_id",
-});
+// section student relations
+studentsModel.hasOne(studentAssignmentSubmission);
+studentAssignmentSubmission.belongsTo(studentsModel);
 
-assignmentSubmittionModel.belongsTo(usersModel, {
-  //AbuEssa
-  foreignKey: "student_id",
-});
+// sectionsModel Relations assignmentModel
+sectionsModel.hasMany(assignmentModel);
+assignmentModel.belongsTo(sectionsModel)
 
-// sections ContentFile Relations
-contentFileModel.belongsTo(contentModel, {
-  foreignKey: "content_id",
-}); //zay
+// assignmentModel Relations studentAssignmentSubmission
+assignmentModel.hasMany(studentAssignmentSubmission);
+studentAssignmentSubmission.belongsTo(assignmentModel)
 
-// Announcement Relations
-announcementModel.belongsTo(institutionModel, {
-  foreignKey: "institution_id",
-}); //zay
-//sectionAnnouncment Relation
-sectionِAnnouncementModel.belongsTo(sectionsModel, {
-  foreignKey: "section_id",
-}); //zay
-
-usersModel.hasMany(chatsModel,{
-  foreignKey:'sender_id',
-  sourceKey:'id'
-
-})
-chatsModel.belongsTo(usersModel,{
-  foreignKey:'sender_id',
-  sourceKey:'id'
-})
-
-// feedback section relation
-feedbackModel.belongsTo(sectionsModel,{
-  foreignKey:"section_id"
-})
-sectionsModel.hasMany(feedbackModel,{
-  foreignKey:"section_id"
-})
+// coursesModel Relations contentModel
+coursesModel.hasMany(contentModel);
+contentModel.belongsTo(coursesModel)
 
 
 module.exports = {
   usersModel,
+  adminsModel,
+  instructorsModel,
+  studentsModel,
   coursesModel,
+  sectionsModel,
+  studentSectionModel,
   departmentsModel,
   institutionModel,
-  sectionsModel,
+  announcementModel,
   sectionِAnnouncementModel,
-  contentModel,
-  contentFileModel,
-  prerequisiteModel,
   attendanceModel,
   assignmentModel,
-  announcementModel,
-  studentSectionModel,
-  assignmentSubmittionModel,
-  userAttendanceModel,
-  chatsModel,
-  feedbackModel
+  studentAssignmentSubmission,
+  contentModel,
+
+  // prerequisiteModel,
+  // chatsModel,
+  // feedbackModel
 };

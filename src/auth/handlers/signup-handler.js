@@ -1,6 +1,6 @@
 "use strict";
 
-const { usersModel } = require("../../model/index");
+const { usersModel ,studentsModel} = require("../../model/index");
 
 const bcrypt = require("bcrypt");
 

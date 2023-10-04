@@ -1,14 +1,11 @@
 const sectionAnnouncement = (Sequelize, DataTypes) =>
-Sequelize.define('sectionAnnouncement',{
+  Sequelize.define("sectionAnnouncement", {
     title: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     body: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
-    section_id: {
-      type: DataTypes.INTEGER
-    }
-})
+  });
 
-module.exports = sectionAnnouncement
+module.exports = sectionAnnouncement;

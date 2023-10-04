@@ -4,16 +4,16 @@ const {announcementModel, coursesModel} = require('../../model/relations');
 const acl = require('../../auth/middleware/acl.auth')
 const bearer = require('../../auth/middleware/bearer.auth')
 
-announcementRouter.get('/institutionannouncements/:id',bearer,handleGetAll);
-announcementRouter.post('/announcement',bearer,acl(['institutionHead']), handleCreate);
-announcementRouter.put('/announcement/:id',bearer,acl(['institutionHead']), handleUpdate);
-announcementRouter.delete('/announcement/:id',bearer,acl(['institutionHead']), handleDelete);
+announcementRouter.get('/announcements/:institutionId',bearer,handleGetAll);
+announcementRouter.post('/announcement',bearer,acl(['admin']), handleCreate);
+announcementRouter.put('/announcement/:id',bearer,acl(['admin']), handleUpdate);
+announcementRouter.delete('/announcement/:id',bearer,acl(['admin']), handleDelete);
 
 
 async function handleGetAll(req, res,next) {
   try{
-    let newRecord = await announcementModel.findAll({where:{institution_id:req.params.id},
-    attributes:['title','body']});
+    let newRecord = await announcementModel.findAll({where:{institutionId:req.params.institutionId},
+    attributes:["id",'title','body']});
     res.status(200).json(newRecord);
   } catch (e){next(e)}
 }

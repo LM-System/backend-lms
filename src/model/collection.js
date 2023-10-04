@@ -41,7 +41,6 @@ class Collection{
                 include: {all:true},
             });
             return record;
-
     }
     let record = await this.model.findAll({
         include: {all:true},

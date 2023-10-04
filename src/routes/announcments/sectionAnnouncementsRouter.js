@@ -6,15 +6,15 @@ const bearer = require('../../auth/middleware/bearer.auth')
 const specificity = require('../../auth/middleware/specificity.auth')
 const head = require('../../auth/middleware/head')
 
-sectionAnnouncementRouter.get('/sectionAnnouncements/:id',bearer,acl(['instructor','student']), handleGetAnnoucementsforOneSection);
-sectionAnnouncementRouter.post('/sectionAnnouncement',bearer,acl(['instructor']), handleCreate);
-sectionAnnouncementRouter.put('/sectionAnnouncement/:id',bearer,acl(['instructor']), handleUpdate);
-sectionAnnouncementRouter.delete('/sectionAnnouncement/:id',bearer,acl(['instructor']), handleDelete);
+sectionAnnouncementRouter.get('/sectionAnnouncements/:sectionId',bearer,acl(["instructorDepartmentHead",'instructor','student']), handleGetAnnoucementsforOneSection);
+sectionAnnouncementRouter.post('/sectionAnnouncement',bearer,acl(["instructorDepartmentHead",'instructor']), handleCreate);
+sectionAnnouncementRouter.put('/sectionAnnouncement/:id',bearer,acl(["instructorDepartmentHead",'instructor']), handleUpdate);
+sectionAnnouncementRouter.delete('/sectionAnnouncement/:id',bearer,acl(["instructorDepartmentHead",'instructor']), handleDelete);
 
 
 async function handleGetAnnoucementsforOneSection(req, res,next) {
   try{
-  let newRecord = await sectionِAnnouncementModel.findAll({where:{section_id:req.params.id}});
+  let newRecord = await sectionِAnnouncementModel.findAll({where:{sectionId:req.params.sectionId}});
   res.status(200).json(newRecord);
 } catch (e){next(e)}
 }

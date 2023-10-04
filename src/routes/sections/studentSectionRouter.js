@@ -3,7 +3,7 @@
 const express = require('express');
 const studentSectionRouter = express.Router();
 const {sequelize}= require('../../model/index')
-const {studentSectionModel, usersModel,sectionsModel}= require('../../model/relations')
+const {studentSectionModel, usersModel,sectionsModel,studentsModel}= require('../../model/relations')
 const Collection = require("../../model/collection");
 const bearerAuth = require('../../auth/middleware/bearer.auth');
 const acl = require('../../auth/middleware/acl.auth');
@@ -12,9 +12,9 @@ const userCollection =new Collection(usersModel);
 
 
 // student can register delet or change the section with this Endpoints
-studentSectionRouter.get('/studentsections/:id',bearerAuth,acl('student'), handleGetAllStudentSections);
+studentSectionRouter.get('/studentsections/:email',bearerAuth,acl('student'), handleGetAllStudentSections);
 studentSectionRouter.get('/studentsections',bearerAuth,acl('student'), handleRead);//for testing
-studentSectionRouter.post('/registersection/:userId/:sectionId',bearerAuth,acl('student'), handleRegisterCreate);
+studentSectionRouter.post('/registersection/:stdId/:sectionId',bearerAuth,acl('student'), handleRegisterCreate);
 studentSectionRouter.put('/registersection/:sectionId',bearerAuth,acl('student'), handleRegisterUpdate);
 studentSectionRouter.delete('/registersection/:sectionId',bearerAuth,acl('student'), handleRegisterDelete);
 
@@ -23,12 +23,8 @@ studentSectionRouter.delete('/registersection/:sectionId',bearerAuth,acl('studen
 
 async function handleGetAllStudentSections(req, res) {
   try{
-  const id = req.params.id;
-  const att1=['id','username','email','role','institution_id','department_id'];
-  const att2=['sectionId'];
-  const att3=['id','name','course_id','year','semester','room_no','status','building','days','instructor_id'];
-  const att4=['id','username','email','role','institution_id','department_id'];
-  let allRecords = await userCollection.readAllThingsNestdRelations(studentSectionModel,sectionsModel,usersModel,id,att1,att2,att3,att4)
+  const email = req.params.email;
+  let allRecords = await studentsModel.findAll({ where: { userEmail: email } ,include:{model:sectionsModel}})
   res.status(200).json(allRecords);
 } catch (e){next(e)}
 }
