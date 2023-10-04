@@ -9,7 +9,7 @@ const attendanceCollection = new Collection(attendanceModel);
 
 // Get all attendance records for a specific section
 attendanceModel.post(
-  "/attendance/",
+  "/attendance",
   bearer,
   acl(["instructorDepartmentHead", "instructor"]),
   handleCreate
