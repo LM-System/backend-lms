@@ -6,10 +6,10 @@
 
 ```JSON
 [{
-   id: 'INTEGER',
-   date: 'DATE',
-   section_id: 'INTEGER'
-}, ...]
+   "id": "INTEGER",
+   "date": "DATE",
+   "section_id": "INTEGER"
+}]
 ```
 
 **Endpoint**: /course/section_id/attendance
@@ -19,9 +19,9 @@
 
 ```JSON
 {
-   id: 'INTEGER'
-   date: 'DATE'
-   section_id: 'INTEGER'
+   "id": "INTEGER",
+   "date": "DATE",
+   "section_id": "INTEGER"
 }
 ```
 
@@ -32,10 +32,10 @@
 
 ```JSON
 {
-   id: 'INTEGER'
-   date: 'DATE'
-   section_id: 'INTEGER'
-   user_id: 'INTEGER'
+   "id": "INTEGER",
+   "date": "DATE",
+   "section_id": "INTEGER",
+   "user_id": "INTEGER"
 }
 ```
 
@@ -43,10 +43,10 @@
 
 ```JSON
 [{
-   id: 'INTEGER'
-   date: 'DATE'
-   section_id: 'INTEGER'
-   user_id: 'INTEGER'
+   "id": "INTEGER",
+   "date": "DATE",
+   "section_id": "INTEGER",
+   "user_id": "INTEGER"
 }]
 ```
 
@@ -56,9 +56,9 @@
 
 ```JSON
 {
-   id: 'INTEGER'
-   date: 'DATE'
-   section_id: 'INTEGER'
+   "id": "INTEGER",
+   "date": "DATE",
+   "section_id": "INTEGER"
 }
 ```
 
@@ -68,6 +68,6 @@
 
 ```JSON
 {
-   id: 'INTEGER'
+   "id": "INTEGER",
 }
 ```

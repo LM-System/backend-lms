@@ -10,16 +10,6 @@ Sequelize.define('courses',{
     syllabus: {
         type: DataTypes.STRING,
     },
-    department_id:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    start_date: {
-        type: DataTypes.DATE,
-    },
-    end_date: {
-        type: DataTypes.DATE,
-    },
 
 })
 module.exports = courses

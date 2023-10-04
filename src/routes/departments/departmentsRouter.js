@@ -5,14 +5,16 @@ const acl = require('../../auth/middleware/acl.auth')
 const bearer = require('../../auth/middleware/bearer.auth')
 const specificity = require('../../auth/middleware/specificity.auth')
 const head = require('../../auth/middleware/head')
-const {coursesModel,departmentsModel,usersModel}= require('../../model/relations')
+const {coursesModel,departmentsModel,usersModel, studentsModel, institutionModel, instructorsModel}= require('../../model/relations')
 // departmentsRouter.get('/departments', handleGetAll);
-departmentsRouter.get('/departmentcourses/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleGetDepartmentCourses);
-departmentsRouter.get('/departmentinstructors/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleGetDepartmentInstructors);
-departmentsRouter.get('/departmentstudents/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleGetDepartmentStudents);
-departmentsRouter.get('/department/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleGetOne);
-departmentsRouter.post('/department',bearer,acl(['institutionHead']),head('departmentHead'), handleCreate);
-departmentsRouter.put('/department/:id',bearer,acl(['institutionHead','departmentHead']),specificity('departmentHeader'), handleUpdate);
+departmentsRouter.get('/departmentcourses/:id',bearer,acl(['admin',"instructorDepartmentHead"]),/*specificity('departmentHeader'),*/ handleGetDepartmentCourses);
+departmentsRouter.get('/departmentinstructors/:department_id',bearer,acl(['admin',"instructorDepartmentHead"]),/*specificity('departmentHeader'),*/ handleGetDepartmentInstructors);
+departmentsRouter.get('/departmentstudents/:department_id',bearer,acl(['admin',"instructorDepartmentHead"]),/*specificity('departmentHeader'),*/ handleGetDepartmentStudents);
+departmentsRouter.get('/departmentinstitution/:institutionId',bearer,acl(['admin',"instructorDepartmentHead"]),/*specificity('departmentHeader'),*/ handleGetDepartmentInstitution);
+departmentsRouter.get('/department/:department_id',bearer,acl(['admin',"instructorDepartmentHead"]),/*specificity('departmentHeader'),*/ handleGetOne);
+departmentsRouter.post('/department',bearer,acl(['admin']), handleCreate);
+departmentsRouter.put('/department/:id',bearer,acl(['admin',"instructorDepartmentHead"]),/*specificity('departmentHeader'),*/ handleUpdate);
+
 // departmentsRouter.delete('/department/:id', handleDelete);
 
 // async function handleGetAll(req, res) {
@@ -34,39 +36,35 @@ async function handleGetDepartmentCourses(req, res) {
 
 async function handleGetDepartmentInstructors(req, res) {
   try{
-  let allRecords = await usersModel.findAndCountAll(
-    {
-      where:{role:"instructor",department_id:req.params.id},
-      attributes:['id','username','email','gender','birth_date','phone_number','role','image','address'],
-      
-    });
+    let id =req.params.department_id;
+  let allRecords = await instructorsModel.findAndCountAll({where:{department_id:id}});
   res.status(200).json(allRecords);
 } catch (e){next(e)}
 }
 
 async function handleGetDepartmentStudents(req, res) {
   try{
-  let allRecords = await usersModel.findAndCountAll(
-    {
-      where:{role:"student",department_id:req.params.id},
-      attributes:['id','username','email','gender','birth_date','phone_number','role','image','address'],
-      
-    });
+    let id=req.params.department_id
+  let allRecords = await studentsModel.findAndCountAll({where:{department_id:id}});
+  res.status(200).json(allRecords);
+} catch (e){next(e)}
+}
+
+async function handleGetDepartmentInstitution(req, res) {
+  try{
+    let id=req.params.institutionId
+  let allRecords = await institutionModel.findAndCountAll({where:{institutionId:id}});
   res.status(200).json(allRecords);
 } catch (e){next(e)}
 }
 
 async function handleGetOne(req, res) {
   try{
-  const id = req.params.id;
+  const id = req.params.department_id;
   let theRecord = await departmentsModel.findOne(
     {where:{id:id},
-    attributes:['id','name'],
     include:[
-      // {model:usersModel,as:'users',
-      // attributes:['username','email','gender','birth_date','role']},
-      {model:usersModel,as:'department_head',
-      attributes:['username','email','gender','birth_date','role']}]})
+      {model:instructorsModel,as:'department_head',}]})
   res.status(200).json(theRecord);
 } catch (e){next(e)}
 }

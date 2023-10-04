@@ -24,7 +24,7 @@ const assignmentSubmittionRouter = require("./routes/assignment/assignmentSubmis
 const assignmentAssignmentSubmissionRouter = require("./routes/assignment/assignmentAssignmentSubmissionRouter");
 const chatRouter = require('./routes/chat/chatRouter')
 const prerequisiteRouter= require('./routes/courses/prerequisiteRouter')
-const contentFileRouter = require('./routes/sections/contentFileRouter')
+// const contentFileRouter = require('./routes/sections/contentFileRouter')
 const institutionRouter = require("./routes/institutions/institutionsRouter");
 const feedbackRouter = require("./routes/feedback/feedbackRouter");
 app.use(cors());
@@ -47,7 +47,7 @@ app.use(assignmentAssignmentSubmissionRouter);
 app.use(prerequisiteRouter)
 app.use(chatRouter)
 app.use(contentRouter)
-app.use(contentFileRouter)
+// app.use(contentFileRouter)
 app.use(feedbackRouter)
 app.use(profileImageRouter)
 app.use(notFoundHandler);

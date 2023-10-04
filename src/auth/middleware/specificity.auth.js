@@ -6,7 +6,7 @@ function specificity(params) {
     if(req.user.role === 'superAdmin'){
         next()
     }
-    else if(params === 'institutionHeader'){
+    else if(params === 'admin'){
         const id = req.params.id
         let institution = await institutionModel.findOne({where:{id:id}})
         let institutionHeaderId =await institution.user_id

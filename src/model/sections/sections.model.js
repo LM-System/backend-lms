@@ -1,22 +1,17 @@
 const sections = (Sequelize, DataTypes) =>
 
 Sequelize.define('sections',{
-
-    course_id: {
+  name: {
+    type: DataTypes.STRING,
+},
+  section_number: {
         type: DataTypes.INTEGER,
-        // unique:true,
     },
     year: {
         type: DataTypes.INTEGER,
-        // unique:true
-
     },
     semester: {
         type: DataTypes.STRING,
-        // unique:true
-    },
-    name: {
-      type: DataTypes.STRING,
     },
     room_no: {
       type: DataTypes.STRING,
@@ -32,13 +27,14 @@ Sequelize.define('sections',{
     days: {
       type: DataTypes.STRING,
     },
-    institution_id: {
-      type: DataTypes.INTEGER,
-
-    },
     capacity: {
       type: DataTypes.INTEGER,
     },
+    start_time: {
+      type: DataTypes.DATE,
+    },
+    end_time: {
+      type: DataTypes.DATE,
+    },
   });
 module.exports = sections;
-

@@ -2,19 +2,19 @@
 // section router
 const express = require('express');
 const sectionRouter = express.Router();
-const {sectionsModel,usersModel, studentSectionModel}= require('../../model/relations')
+const {sectionsModel,usersModel, studentSectionModel, studentsModel, instructorsModel}= require('../../model/relations')
 const Collection = require("../../model/collection");
 const bearerAuth = require('../../auth/middleware/bearer.auth');
 const acl = require('../../auth/middleware/acl.auth');
 const sectionCollection =new Collection(sectionsModel);
 
 
-sectionRouter.get('/section',bearerAuth,acl(['departmentHead','institutionHead']), handleGetAll);
-sectionRouter.get('/section/:id',bearerAuth,acl(['departmentHead','institutionHead']), handleGetOne);
-sectionRouter.post('/section',bearerAuth,acl(['departmentHead','institutionHead']), handleCreate);
-sectionRouter.put('/section/:id',bearerAuth,acl(['departmentHead','institutionHead']), handleUpdate);
-sectionRouter.delete('/section/:id',bearerAuth,acl(['departmentHead','institutionHead']), handleDelete);
-sectionRouter.get('/classlist/:id',bearerAuth,acl(['departmentHead','instructor','student']), handleClasslist);
+sectionRouter.get('/section',bearerAuth,acl(['instructorDepartmentHead','admin']), handleGetAll);
+sectionRouter.get('/section/:id',bearerAuth,acl(['instructorDepartmentHead','admin']), handleGetOne);
+sectionRouter.post('/section',bearerAuth,acl(['instructorDepartmentHead','admin']), handleCreate);
+sectionRouter.put('/section/:id',bearerAuth,acl(['instructorDepartmentHead','admin']), handleUpdate);
+sectionRouter.delete('/section/:id',bearerAuth,acl(['instructorDepartmentHead','admin']), handleDelete);
+sectionRouter.get('/classlist/:id',bearerAuth,acl(['instructorDepartmentHead','instructor','student']), handleClasslist);
 
 
 
@@ -25,13 +25,14 @@ async function handleClasslist(req, res,next) {
       where: {
         id: id
       }, include: {
-        model: studentSectionModel,
-        attributes: ['userId'],
-        include: {
-          model: usersModel,
-          attributes: ['id', 'username', 'email'],
-        },
-    }});
+        model: studentsModel,
+        attributes: ['id','fullname',"email"],
+    },include: {
+      model: instructorsModel,
+      attributes: ['id','fullname',"email"],
+  }
+
+  });
     res.status(200).json(allRecords);
   } catch (e){next(e)}
   }

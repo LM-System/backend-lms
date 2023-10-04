@@ -1,12 +1,12 @@
 const attendance = (Sequelize, DataTypes) =>
-Sequelize.define('attendance', {
+  Sequelize.define("attendance", {
     date: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
     },
-    section_id: {
-      type: DataTypes.INTEGER
-      
-    }
-})
+    status: {
+      type: DataTypes.ENUM("present", "absent", "later"),
+      defaultValue: "absent",
+    },
+  });
 
-module.exports = attendance
+module.exports = attendance;
