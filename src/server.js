@@ -27,24 +27,32 @@ const prerequisiteRouter= require('./routes/courses/prerequisiteRouter')
 // const contentFileRouter = require('./routes/sections/contentFileRouter')
 const institutionRouter = require("./routes/institutions/institutionsRouter");
 const feedbackRouter = require("./routes/feedback/feedbackRouter");
+const adminRouter = require("./routes/allUsers/admin.route");
+const studentRouter = require("./routes/allUsers/student.route");
+const instructorRouter = require("./routes/allUsers/instructor.route");
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json ({limit: '500mb'}));
 app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
 app.use(userRouter);
+app.use(adminRouter)
+app.use(studentRouter)
+app.use(instructorRouter)
+
 app.use(courseRouter);
-app.use(studentSectonRouter);
-app.use(instructorsSectionRouter);
 app.use(sectonRouter);
 app.use(departmentsRouter);
 app.use(assignmentRouter);
 app.use(announcementRouter);
 app.use(sectionAnnouncementRouter);
-app.use(institutionRouter);
+app.use(studentSectonRouter);
+app.use(instructorsSectionRouter);
 app.use(sectionAssignmentRouter);
 app.use(assignmentSubmittionRouter);
 app.use(assignmentAssignmentSubmissionRouter);
 app.use(prerequisiteRouter)
+
+app.use(institutionRouter);
 app.use(chatRouter)
 app.use(contentRouter)
 // app.use(contentFileRouter)

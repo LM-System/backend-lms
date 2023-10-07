@@ -6,12 +6,17 @@ const bearer = require("../../auth/middleware/bearer.auth");
 const { sectionsModel, assignmentModel } = require("../../model/relations");
 
 sectionAssignmentRouter.get(
-  "/sectionAssignment/:courseId",
+  "/sectionsAssignment/:courseId",
   bearer,
-  acl([""]),
+  acl(["instructorDepartmentHead", "instructor", "student"]),
   handleGetAll
 );
-sectionAssignmentRouter.get("/sectionAssignment/:id", bearer, handleGetOne);
+sectionAssignmentRouter.get(
+  "/sectionAssignment/:id",
+  bearer,
+  acl(["instructorDepartmentHead", "instructor", "student"]),
+  handleGetOne
+);
 
 async function handleGetAll(req, res, next) {
   try {
