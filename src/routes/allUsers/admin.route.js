@@ -19,7 +19,7 @@ async function handelAddAdmin(req,res,next) {
 
    const user={ 
     email:req.body.email,
-    "role":"admin",
+    role:"admin",
     password:hashedPassword,
 }
    const admin={ 
