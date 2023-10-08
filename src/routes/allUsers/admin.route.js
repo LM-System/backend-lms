@@ -10,8 +10,8 @@ const adminRouter=express.Router();
 adminRouter.get("/getadmins",bearerAuth,acl(["superAdmin"]),handelAllAdmin)
 adminRouter.post("/addadmin",bearerAuth,acl(["superAdmin"]),handelAddAdmin)
 adminRouter.get("/getadmin/:id",bearerAuth,acl(['instructorDepartmentHead','instructor','student',"admin"]),handelOneAdmin)
-adminRouter.put("/updatestudent/:id",bearerAuth,acl(['superAdmin',"admin"]),handelDeleteAdmin)
-adminRouter.delete("/deletestudent/:id",bearerAuth,acl(['superAdmin',"admin"]),handelUpdateAdmin)
+adminRouter.put("/updateadmin/:id",bearerAuth,acl(['superAdmin',"admin"]),handelUpdateAdmin )
+adminRouter.delete("/deleteadmin/:id",bearerAuth,acl(['superAdmin']),handelDeleteAdmin)
 // adminRouter.post("/addinstructor",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAddAdmin)
 
 async function handelAddAdmin(req,res) {
@@ -57,6 +57,8 @@ async function handelUpdateAdmin(req,res){
 async function handelDeleteAdmin(req,res){
     let id=req.params.id;
     const records=await adminsCollection.delete(id);
+    const record=await usersModel.delete(id);
+
     res.status(200).json(records)
 }
 module.exports=adminRouter

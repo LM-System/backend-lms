@@ -1,11 +1,12 @@
 'use strict'
 const express = require('express');
 const contentRouter = express.Router();
-const {sectionsModel,contentModel, contentFileModel}= require('../../model/relations')
+const {sectionsModel,contentModel, contentFileModel, coursesModel}= require('../../model/relations')
 const bearerAuth = require('../../auth/middleware/bearer.auth');
 const acl = require('../../auth/middleware/acl.auth');
 
 
+contentRouter.get('/sectioncontents/:courseId',bearerAuth,acl(['instructor','departmentHead']), handleGetSectionContents);
 contentRouter.get('/content/:id',bearerAuth,acl(['instructor','departmentHead']), handleGetOne);
 contentRouter.get('/contentFiles/:id',bearerAuth, handleGetcontentFiles);
 contentRouter.post('/content',bearerAuth,acl(['instructor','departmentHead']), handleCreate);
@@ -13,7 +14,14 @@ contentRouter.put('/content/:id',bearerAuth,acl(['instructor','departmentHead'])
 contentRouter.delete('/content/:id',bearerAuth,acl(['instructor','departmentHead']), handleDelete);
 
 
-  
+
+  async function handleGetSectionContents(req, res,next) {
+    try{
+    const id = req.params.courseId;
+    let theRecord = await coursesModel.findOne({where:{id:id},include:{model:contentModel}})
+    res.status(200).json(theRecord);
+  } catch (e){next(e)}
+  }
   async function handleGetOne(req, res,next) {
     try{
     const id = req.params.id;
