@@ -19,10 +19,10 @@ async function handelAddHead(req,res,next) {
 
    const user={ 
     email:req.body.email,
-    "role":"instructorDepartmentHead",
+    role:"instructorDepartmentHead",
     password:hashedPassword,
 }
-   const admin={ 
+   const head={ 
     userEmail:req.body.email,
     fullname:req.body.fullname,
     gender:req.body.gender,
@@ -31,8 +31,8 @@ async function handelAddHead(req,res,next) {
 }
 try {
     const userRecord=await usersModel.create(user)
-    const adminRecord=await instructorRouter.create(admin)
-    res.status(200).json(adminRecord)
+    const headRecord=await instructorRouter.create(head)
+    res.status(200).json(headRecord)
     
 } catch (error) {
     next(error);
