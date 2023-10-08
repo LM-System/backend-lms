@@ -16,7 +16,7 @@ const {
   studentAssignmentSubmission,
   contentModel,
 
-  // chatsModel,
+  chatsModel,
   // prerequisiteModel,
   // feedbackModel
 } = require("./index");
@@ -127,6 +127,6 @@ module.exports = {
   contentModel,
 
   // prerequisiteModel,
-  // chatsModel,
+  chatsModel,
   // feedbackModel
 };

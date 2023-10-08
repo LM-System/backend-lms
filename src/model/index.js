@@ -66,7 +66,7 @@ const studentAssignmentSubmission =
   require("./assignment/studentAssignmentSubmission")(sequelize, DataTypes);
 const contentModel = require("./sections/content")(sequelize, DataTypes);
 // const prerequisiteModel = require('./courses/prerequisite')(sequelize, DataTypes)
-// const chatsModel = require('./chat/chat')(sequelize, DataTypes)
+const chatsModel = require('./chat/chat')(sequelize, DataTypes)
 // const feedbackModel = require('./feedback/feedback')(sequelize, DataTypes)
 
 module.exports = {
@@ -92,6 +92,6 @@ module.exports = {
   announcementModel,
 
   // prerequisiteModel,
-  // chatsModel,
+  chatsModel,
   // feedbackModel
 };
