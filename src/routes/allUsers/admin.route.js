@@ -14,12 +14,12 @@ adminRouter.put("/updateadmin/:id",bearerAuth,handelUpdateAdmin )
 adminRouter.delete("/deleteadmin/:id",bearerAuth,acl(['superAdmin']),handelDeleteAdmin)
 // adminRouter.post("/addinstructor",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAddAdmin)
 
-async function handelAddAdmin(req,res) {
+async function handelAddAdmin(req,res,next) {
     const hashedPassword = bcrypt.hashSync(req.body.password, 12);
 
    const user={ 
     email:req.body.email,
-    role:"admin",
+    "role":"admin",
     password:hashedPassword,
 }
    const admin={ 
@@ -32,10 +32,10 @@ async function handelAddAdmin(req,res) {
 try {
     const userRecord=await usersModel.create(user)
     const adminRecord=await adminsModel.create(admin)
-    res.status(200).json(adminRecord)
+    res.status(200).json(adminRecord,userRecord)
     
 } catch (error) {
-    console.log(error);
+    next(error);
 }
 
 }

@@ -3,15 +3,42 @@
 const express=require('express');
 const bearerAuth = require('../../auth/middleware/bearer.auth');
 const acl = require('../../auth/middleware/acl.auth');
-const { instructorsModel } = require('../../model/relations');
+const { instructorsModel,usersModel } = require('../../model/relations');
 const Collection = require("../../model/collection");
 const instructorsCollection=new Collection(instructorsModel)
 const instructorRouter=express.Router();
 instructorRouter.get("/getinstructors/:id",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAllInstrcutor)
+instructorRouter.post("/addhead",bearerAuth,acl(["superAdmin"]),handelAddHead)
 instructorRouter.get("/getinstructor/:id",bearerAuth,acl(['instructorDepartmentHead','instructor','student',"admin"]),handelOneInstrcutor)
 instructorRouter.put("/updateinstructor/:id",bearerAuth,handelUpdateInstrcutor )
 instructorRouter.delete("/deleteinstructor/:id",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelDeleteInstrcutor)
 // instructorRouter.post("/addinstructor",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAddInstrcutor)
+
+async function handelAddHead(req,res,next) {
+    const hashedPassword = bcrypt.hashSync(req.body.password, 12);
+
+   const user={ 
+    email:req.body.email,
+    "role":"instructorDepartmentHead",
+    password:hashedPassword,
+}
+   const admin={ 
+    userEmail:req.body.email,
+    fullname:req.body.fullname,
+    gender:req.body.gender,
+    birth_date:req.body.birth_date,
+    phone_number:req.body.phone_number
+}
+try {
+    const userRecord=await usersModel.create(user)
+    const adminRecord=await instructorRouter.create(admin)
+    res.status(200).json(adminRecord)
+    
+} catch (error) {
+    next(error);
+}
+
+}
 
 async function handelAllInstrcutor(req,res){
     let id=req.params.id;
