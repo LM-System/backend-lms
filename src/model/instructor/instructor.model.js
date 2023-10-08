@@ -22,9 +22,6 @@ const instructor = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    department_id: {
-      type: DataTypes.INTEGER,
-    },
     bio: {
       type: DataTypes.STRING,
       allowNull: true

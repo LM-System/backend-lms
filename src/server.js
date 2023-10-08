@@ -61,6 +61,10 @@ app.use(profileImageRouter)
 app.use(notFoundHandler);
 app.use(internalError);
 
+app.get('/',(req,res)=>{
+  res.send("server is running")
+})
+
 const server = http.createServer(app);
 
 const io = new Server(server, {

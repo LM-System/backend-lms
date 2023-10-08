@@ -10,7 +10,7 @@ const {
 const acl = require("../../auth/middleware/acl.auth");
 const bearer = require("../../auth/middleware/bearer.auth");
 const Collection = require("../../model/collection");
-const institutionCollection = new Collection(instructorsModel);
+const institutionCollection = new Collection(institutionModel);
 
 
 institutionRouter.get(

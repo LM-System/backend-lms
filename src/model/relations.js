@@ -65,6 +65,11 @@ adminsModel.hasOne(institutionModel);
 
 // adminsModel Relations institution
 instructorsModel.hasOne(departmentsModel,{ as: 'departmentHead' });
+departmentsModel.belongsTo(instructorsModel)
+
+departmentsModel.hasOne(instructorsModel);
+instructorsModel.belongsTo(departmentsModel)
+
 
 // institution Relations announcment
 institutionModel.hasMany(announcementModel);
@@ -85,6 +90,10 @@ attendanceModel.belongsTo(studentsModel)
 // section student relations
 studentsModel.hasOne(studentAssignmentSubmission);
 studentAssignmentSubmission.belongsTo(studentsModel);
+
+// section student relations
+departmentsModel.hasOne(studentsModel);
+studentsModel.belongsTo(departmentsModel);
 
 // sectionsModel Relations assignmentModel
 sectionsModel.hasMany(assignmentModel);
