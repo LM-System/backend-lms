@@ -1,17 +1,17 @@
 'use strict'
 const express = require('express');
 const contentRouter = express.Router();
-const {sectionsModel,contentModel, contentFileModel, coursesModel}= require('../../model/relations')
-const bearerAuth = require('../../auth/middleware/bearer.auth');
+const {contentModel, contentFileModel, coursesModel}= require('../../model/relations')
+const bearer = require("../../auth/middleware/bearer.auth");
 const acl = require('../../auth/middleware/acl.auth');
 
 
-contentRouter.get('/sectioncontents/:courseId',bearerAuth,acl(['instructor','departmentHead']), handleGetSectionContents);
-contentRouter.get('/content/:id',bearerAuth,acl(['instructor','departmentHead']), handleGetOne);
-contentRouter.get('/contentFiles/:id',bearerAuth, handleGetcontentFiles);
-contentRouter.post('/content',bearerAuth,acl(['instructor','departmentHead']), handleCreate);
-contentRouter.put('/content/:id',bearerAuth,acl(['instructor','departmentHead']), handleUpdate);
-contentRouter.delete('/content/:id',bearerAuth,acl(['instructor','departmentHead']), handleDelete);
+contentRouter.get('/sectioncontents/:courseId',bearer,acl(['instructor','instructorDepartmentHead']), handleGetSectionContents);
+contentRouter.get('/content/:id',bearer,acl(['instructor','instructorDepartmentHead']), handleGetOne);
+contentRouter.get('/contentFiles/:id',bearer, handleGetcontentFiles);
+contentRouter.post('/content',bearer,acl(['instructor','instructorDepartmentHead']), handleCreate);
+contentRouter.put('/content/:id',bearer,acl(['instructor','instructorDepartmentHead']), handleUpdate);
+contentRouter.delete('/content/:id',bearer,acl(['instructor','instructorDepartmentHead']), handleDelete);
 
 
 

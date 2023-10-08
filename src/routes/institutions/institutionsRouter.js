@@ -6,7 +6,7 @@ const {
   departmentsModel,
   adminsModel,
   instructorsModel,
-} = require("../../model");
+} = require("../../model/relations");
 const acl = require("../../auth/middleware/acl.auth");
 const bearer = require("../../auth/middleware/bearer.auth");
 const Collection = require("../../model/collection");
