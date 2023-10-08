@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 const signUpHandler = require("../handlers/signup-handler");
 const signInHandler = require("../handlers/signin-handler");
-const {usersModel} = require('../../model/relations');
+const {usersModel,instructorsModel} = require('../../model/relations');
 
 const basicAuth = require("../middleware/basic.auth");
 const { upload } = require("../middleware/upload");
@@ -20,7 +20,17 @@ userRouter.put("/user/:id", handleUpdateUser);
 userRouter.post("/student",/*bearerAuth,acl(["instructorDepartmentHead","admin"]),*/ upload('excel'),handleAddManyStudents);
 userRouter.post("/instructor",/*bearerAuth,acl(["admin"]),*/ upload('excel'),handleAddManyInstructor);
 userRouter.post("/changepassword", changePassWordHandler); //AbuEssa
+userRouter.get('/departmenthead',handleDepartmentHead)
 
+
+async function handleDepartmentHead(req, res,next) {
+  try{
+  let user = await usersModel.findAll({
+    where:{role:'instructorDepartmentHead'},includes:{model:instructorsModel}
+  });
+  res.status(200).json(record);
+} catch (e){next(e)}
+}
 
 async function handleUpdateUser(req, res,next) {
   try{

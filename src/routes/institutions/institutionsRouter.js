@@ -79,8 +79,8 @@ async function handleGetOne(req, res, next) {
 async function handleGetinstitutiondepartments(req, res, next) {
   try {
     const id = req.params.id;
-    let theRecord = await institutionModel.findOne({
-      where: { id: id ,include:{ model: departmentsModel,include:{model:instructorsModel,as: "departmentHead"} }},
+    let theRecord = await departmentsModel.findAll({
+      where: { institutionId: id ,include:"departmentHead"},
     });
     res.status(200).json(theRecord);
   } catch (e) {
