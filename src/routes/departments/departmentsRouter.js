@@ -64,7 +64,6 @@ async function handleGetDepartmentCourses(req, res) {
   try {
     let allRecords = await coursesModel.findAndCountAll({
       where: { departmentId: req.params.id },
-      attributes: ["id", "name", "description", "start_date", "end_date"],
     });
     res.status(200).json(allRecords);
   } catch (e) {
