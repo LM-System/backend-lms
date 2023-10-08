@@ -80,7 +80,7 @@ async function handleGetinstitutiondepartments(req, res, next) {
   try {
     const id = req.params.id;
     let theRecord = await departmentsModel.findAndCountAll({
-      where: { institutionId: id },
+      where: { institutionId: id ,include:{ model: instructorsModel, as: "departmentHead" }},
     });
     res.status(200).json(theRecord);
   } catch (e) {
