@@ -26,7 +26,7 @@ async function handleGetDepartmentCourses(req, res) {
   try{
   let allRecords = await coursesModel.findAndCountAll(
     {
-      where:{department_id:req.params.id},
+      where:{departmentId:req.params.id},
       attributes:['id','name',"description","start_date","end_date"],
       
     });
@@ -37,7 +37,7 @@ async function handleGetDepartmentCourses(req, res) {
 async function handleGetDepartmentInstructors(req, res) {
   try{
     let id =req.params.department_id;
-  let allRecords = await instructorsModel.findAndCountAll({where:{department_id:id}});
+  let allRecords = await instructorsModel.findAndCountAll({where:{departmentId:id}});
   res.status(200).json(allRecords);
 } catch (e){next(e)}
 }
@@ -45,7 +45,7 @@ async function handleGetDepartmentInstructors(req, res) {
 async function handleGetDepartmentStudents(req, res) {
   try{
     let id=req.params.department_id
-  let allRecords = await studentsModel.findAndCountAll({where:{department_id:id}});
+  let allRecords = await studentsModel.findAndCountAll({where:{departmentId:id}});
   res.status(200).json(allRecords);
 } catch (e){next(e)}
 }

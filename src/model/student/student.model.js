@@ -1,6 +1,6 @@
 "use strict";
 
-const student = (sequelize, DataTypes) => {
+const studentsModel = (sequelize, DataTypes) => {
   const model = sequelize.define("students", {
     fullname: {
       type: DataTypes.STRING,
@@ -22,9 +22,6 @@ const student = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    department_id: {
-      type: DataTypes.INTEGER,
-    },
     bio: {
       type: DataTypes.STRING,
       allowNull: true
@@ -39,4 +36,4 @@ const student = (sequelize, DataTypes) => {
   return model;
 };
 
-module.exports = student;
+module.exports = studentsModel;
