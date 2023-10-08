@@ -53,7 +53,7 @@ departmentsRouter.put(
   /*specificity('departmentHeader'),*/ handleUpdate
 );
 
-// departmentsRouter.delete('/department/:id', handleDelete);
+// departmentsRouter.delete('/department/:id',acl["admin"], handleDelete);
 
 // async function handleGetAll(req, res) {
 //   let allRecords = await departmentsModel.findAndCountAll();
