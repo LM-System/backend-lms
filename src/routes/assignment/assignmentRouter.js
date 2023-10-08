@@ -28,8 +28,7 @@ assignmentRouter.get(
 assignmentRouter.get("/assignment/:id", bearer, handleGetOne);
 assignmentRouter.post(
   "/assignment",
-  bearer,
-  acl(["instructor", "instructorDepartmentHead"]),
+  // bearer,
   upload.single("assignmentFile"),
   handleCreate
 );
@@ -70,18 +69,20 @@ async function handleCreate(req, res) {
     const { sectionId, title, description, due_date, status, priority } =
       req.body;
     const attachmentUrl = req.file ? req.file.path : null; // The file path where the attachment is stored or null if no file is uploaded
-
+      console.log(req);
     // Create the assignment with the attachment  URL
     const newAssignment = await assignmentModel.create({
-      sectionId,
-      title,
-      description,
-      due_date,
-      status,
-      priority,
+      sectionId:sectionId,
+      title:title,
+      description:description,
+      due_date:due_date,
+      status:status,
+      priority:priority,
       attachment: attachmentUrl,
     });
-
+    // id | title | description | due_date 
+    // | priority | attachment | createdAt 
+    // | updatedAt | sectionId
     res.json({
       message: "Assignment created with attachment.",
       assignment: newAssignment,

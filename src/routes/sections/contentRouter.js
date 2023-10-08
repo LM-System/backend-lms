@@ -1,15 +1,30 @@
 'use strict'
+const multer = require("multer");
+const path = require("path");
 const express = require('express');
 const contentRouter = express.Router();
 const {contentModel, contentFileModel, coursesModel}= require('../../model/relations')
 const bearer = require("../../auth/middleware/bearer.auth");
 const acl = require('../../auth/middleware/acl.auth');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "assets");
+  },
+  filename: function (req, file, cb) {
+    console.log(file);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const extname = path.extname(file.originalname);
+    cb(null, file.fieldname + "-" + uniqueSuffix + extname);
+  },
+});
+
+const upload = multer({ storage });
 
 
 contentRouter.get('/sectioncontents/:courseId',bearer,acl(['instructor','instructorDepartmentHead']), handleGetSectionContents);
 contentRouter.get('/content/:id',bearer,acl(['instructor','instructorDepartmentHead']), handleGetOne);
 contentRouter.get('/contentFiles/:id',bearer, handleGetcontentFiles);
-contentRouter.post('/content',bearer,acl(['instructor','instructorDepartmentHead']), handleCreate);
+contentRouter.post('/content',/*bearer,acl(['instructor','instructorDepartmentHead']),*/  upload.single("contentFile"), handleCreate);
 contentRouter.put('/content/:id',bearer,acl(['instructor','instructorDepartmentHead']), handleUpdate);
 contentRouter.delete('/content/:id',bearer,acl(['instructor','instructorDepartmentHead']), handleDelete);
 
@@ -41,6 +56,8 @@ contentRouter.delete('/content/:id',bearer,acl(['instructor','instructorDepartme
   async function handleCreate(req, res,next) {
     try{
     let obj = req.body;
+    const attachment=req.file ? req.file.path : null;
+    obj.attachment=attachment;
     let newRecord = await contentModel.create(obj);
     res.status(201).json(newRecord);
   } catch (e){next(e)}
