@@ -1,10 +1,13 @@
 "use strict";
 const express = require("express");
 const userRouter = express.Router();
+const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt");
 
 const signUpHandler = require("../handlers/signup-handler");
 const signInHandler = require("../handlers/signin-handler");
 const { usersModel } = require("../../model/relations");
+userRouter.use(bodyParser.json());
 
 const basicAuth = require("../middleware/basic.auth");
 const { upload } = require("../middleware/upload");
