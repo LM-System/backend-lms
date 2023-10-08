@@ -26,6 +26,7 @@ try {
    gender:item.gender,
    birth_date:item.birth_date,
    phone_number:item.phone_number,
+   departmentId: item.departmentId,
 }
 })
    let usersRecords =await instructorsModel.bulkCreate(instructorData)
