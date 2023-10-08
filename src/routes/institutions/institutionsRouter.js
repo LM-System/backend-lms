@@ -59,7 +59,9 @@ institutionRouter.delete(
 
 async function handleGetAll(req, res, next) {
   try {
-    let allRecords = await institutionModel.findAndCountAll();
+    let allRecords = await institutionModel.findAndCountAll(
+      {include:{all:true}}
+    );
     res.status(200).json(allRecords);
   } catch (e) {
     next(e);
