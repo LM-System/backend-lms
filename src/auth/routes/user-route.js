@@ -28,7 +28,7 @@ async function handleDepartmentHead(req, res,next) {
   let user = await usersModel.findAll({
     where:{role:'instructorDepartmentHead'},includes:{model:instructorsModel}
   });
-  res.status(200).json(record);
+  res.status(200).json(user);
 } catch (e){next(e)}
 }
 
