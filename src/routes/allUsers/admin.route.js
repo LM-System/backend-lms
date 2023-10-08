@@ -1,21 +1,46 @@
 "use strict"
-
+const bcrypt=require('bcrypt');
 const express=require('express');
 const bearerAuth = require('../../auth/middleware/bearer.auth');
 const acl = require('../../auth/middleware/acl.auth');
-const { adminsModel } = require('../../model/relations');
+const { adminsModel, usersModel } = require('../../model/relations');
 const Collection = require("../../model/collection");
 const adminsCollection=new Collection(adminsModel)
 const adminRouter=express.Router();
-adminRouter.get("/getadmins/:deptid",bearerAuth,acl(["superAdmin"]),handelAllAdmin)
+adminRouter.get("/getadmins",bearerAuth,acl(["superAdmin"]),handelAllAdmin)
+adminRouter.post("/addadmin",bearerAuth,acl(["superAdmin"]),handelAddAdmin)
 adminRouter.get("/getadmin/:id",bearerAuth,acl(['instructorDepartmentHead','instructor','student',"admin"]),handelOneAdmin)
 adminRouter.put("/updatestudent/:id",bearerAuth,acl(['superAdmin',"admin"]),handelDeleteAdmin)
 adminRouter.delete("/deletestudent/:id",bearerAuth,acl(['superAdmin',"admin"]),handelUpdateAdmin)
 // adminRouter.post("/addinstructor",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAddAdmin)
 
+async function handelAddAdmin(req,res) {
+    const hashedPassword = bcrypt.hashSync(req.body.password, 12);
+
+   const user={ 
+    email:req.body.email,
+    role:req.body.role,
+    password:hashedPassword,
+}
+   const admin={ 
+    userEmail:req.body.email,
+    fullname:req.body.fullname,
+    gender:req.body.gender,
+    birth_date:req.body.birth_date,
+    phone_number:req.body.phone_number
+}
+try {
+    const userRecord=await usersModel.create(user)
+    const adminRecord=await adminsModel.create(admin)
+    res.status(200).json(adminRecord)
+    
+} catch (error) {
+    console.log(error);
+}
+
+}
 async function handelAllAdmin(req,res){
-    let id=req.params.deptid;
-    const records=await adminsModel.findAll({where:{departmentId:id}});
+    const records=await adminsModel.findAll();
     res.status(200).json(records)
 }
 async function handelOneAdmin(req,res){
