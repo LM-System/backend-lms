@@ -30,6 +30,7 @@ const feedbackRouter = require("./routes/feedback/feedbackRouter");
 const adminRouter = require("./routes/allUsers/admin.route");
 const studentRouter = require("./routes/allUsers/student.route");
 const instructorRouter = require("./routes/allUsers/instructor.route");
+const { log } = require("console");
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json ({limit: '500mb'}));
@@ -79,23 +80,36 @@ io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    chatsModel.findOne({where:{id:data}})
+    .then((result)=>{
+      if(result){
+        const messages = JSON.parse(result.messages)
+        socket.emit('prev_messages',messages)
+      }
+    })
+    
   });
 
   socket.on("send_message", async(data) => {
-    await chatsModel.create(data)
+    // await chatsModel.create(data)
     socket.to(data.room_id).emit("receive_message", data);
   });
-  // socket.on("join_section", (data) => {
-  //   socket.join(data);
-  //   console.log(`User with ID: ${socket.id} joined room: ${data}`);
-  // });
-
-  // socket.on("send_notification", async(data) => {
-  //   // console.log(data);
-  //   // await chatsModel.create(data)
-  //   socket.to(data.room_id).emit("receive_notification", data);
-  // });
-
+  socket.on('save_data',(data)=>{
+    const msgs = JSON.stringify(data[0])
+    const id = data[1]
+    console.log(data)
+    console.log('......................',msgs)
+    chatsModel.findOne({where:{id:id}})
+    .then((result)=>{
+        result.update({messages:msgs})
+      })
+      .catch(()=>{
+        chatsModel.create({
+          id:id,
+          messages:msgs
+        })
+      })
+  })
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
   });
