@@ -6,6 +6,9 @@ Sequelize.define('content',{
     file: {
       type: DataTypes.STRING
     },
+    attachment: {
+      type: DataTypes.STRING
+    },
 
 })
 

@@ -101,7 +101,7 @@ async function handleGetDepartmentInstitution(req, res) {
   try {
     let id = req.params.institutionId;
     let allRecords = await institutionModel.findAndCountAll({
-      where: { institutionId: id },
+      where: { id: id },
     });
     res.status(200).json(allRecords);
   } catch (e) {
