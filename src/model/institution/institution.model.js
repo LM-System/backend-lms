@@ -15,7 +15,7 @@ const institution = (Sequelize, DataTypes) =>
     },
     institution_credentials: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING,
