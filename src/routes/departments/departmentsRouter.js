@@ -53,8 +53,11 @@ departmentsRouter.put(
   /*specificity('departmentHeader'),*/ handleUpdate
 );
 
-// departmentsRouter.delete('/department/:id',acl["admin"], handleDelete);
-
+departmentsRouter.delete(
+  "/department/:id",
+  bearer,
+  acl(["admin"]), handleDelete
+);
 // async function handleGetAll(req, res) {
 //   let allRecords = await departmentsModel.findAndCountAll();
 //   res.status(200).json(allRecords);
@@ -141,10 +144,10 @@ async function handleUpdate(req, res, next) {
   }
 }
 
-// async function handleDelete(req, res) {
-//   let id = req.params.id;
-//   let deletedRecord = await departmentsModel.destroy({where:{id:id}});
-//   res.status(204).json(deletedRecord);
-// }
+async function handleDelete(req, res) {
+  let id = req.params.id;
+  let deletedRecord = await departmentsModel.destroy({where:{id:id}});
+  res.status(204).json(deletedRecord);
+}
 
 module.exports = departmentsRouter;

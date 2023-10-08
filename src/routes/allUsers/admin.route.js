@@ -10,7 +10,7 @@ const adminRouter=express.Router();
 adminRouter.get("/getadmins",bearerAuth,acl(["superAdmin"]),handelAllAdmin)
 adminRouter.post("/addadmin",bearerAuth,acl(["superAdmin"]),handelAddAdmin)
 adminRouter.get("/getadmin/:id",bearerAuth,acl(['instructorDepartmentHead','instructor','student',"admin"]),handelOneAdmin)
-adminRouter.put("/updateadmin/:id",bearerAuth,acl(['superAdmin',"admin"]),handelUpdateAdmin )
+adminRouter.put("/updateadmin/:id",bearerAuth,handelUpdateAdmin )
 adminRouter.delete("/deleteadmin/:id",bearerAuth,acl(['superAdmin']),handelDeleteAdmin)
 // adminRouter.post("/addinstructor",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAddAdmin)
 

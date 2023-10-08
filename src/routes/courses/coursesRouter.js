@@ -1,6 +1,6 @@
 const express = require('express');
 const coursesRouter = express.Router();
-const {departmentsModel, coursesModel,sectionsModel} = require('../../model/relations');
+const {departmentsModel, coursesModel,sectionsModel, instructorsModel} = require('../../model/relations');
 const acl = require('../../auth/middleware/acl.auth')
 const bearer = require('../../auth/middleware/bearer.auth')
 const specificity = require('../../auth/middleware/specificity.auth')
@@ -25,7 +25,7 @@ async function handleGetOne(req, res,next) {
   try{
   const id = req.params.id;
   let theRecord = await coursesModel.findOne({where:{id:id},
-    include:{model:departmentsModel,attributes:["id",'name',]}})
+    include:{model:departmentsModel}})
   res.status(200).json(theRecord);
 } catch (e){next(e)}
 }
@@ -33,7 +33,11 @@ async function handleGetOne(req, res,next) {
 async function handleGetcourseSections(req, res,next) {
   try{
   const id = req.params.id;
-  let theRecord = await sectionsModel.findAndCountAll({where:{courseId:id}})
+  let theRecord = await sectionsModel.findAndCountAll(
+    {
+    where:{courseId:id},
+    include:{ model: instructorsModel }
+  })
   res.status(200).json(theRecord);
 } catch (e){next(e)}
 }
