@@ -4,7 +4,7 @@ const {announcementModel, coursesModel} = require('../../model/relations');
 const acl = require('../../auth/middleware/acl.auth')
 const bearer = require('../../auth/middleware/bearer.auth')
 
-announcementRouter.get('/announcements/:institutionId',bearer,handleGetAll);
+announcementRouter.get('/announcements',bearer,handleGetAll);
 announcementRouter.post('/announcement',bearer,acl(['admin']), handleCreate);
 announcementRouter.put('/announcement/:id',bearer,acl(['admin']), handleUpdate);
 announcementRouter.delete('/announcement/:id',bearer,acl(['admin']), handleDelete);
