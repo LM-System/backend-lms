@@ -4,7 +4,6 @@ const {usersModel, sectionsModel, instructorsModel} = require('../../model/relat
 const Collection = require("../../model/collection");
 const bearerAuth = require('../../auth/middleware/bearer.auth');
 const acl = require('../../auth/middleware/acl.auth');
-const userCollection = new Collection(usersModel)
 
 
 instructorsSectionsRouter.get('/instructorSection',bearerAuth,acl(['instructor',"instructorDepartmentHead"]), handleGetAll);
@@ -16,7 +15,6 @@ async function handleGetAll(req, res,next) {
   let allRecords = await instructorsModel.findAll({
   include:{
     model:sectionsModel,
-    attributes:['id','name','courseId','year','semester','room_no','status','building','days',"start_time","end_time"],
   }
 })
   res.status(200).json(allRecords);
@@ -30,10 +28,8 @@ async function handleGetOne(req, res,next) {
   let newRecord = await instructorsModel.findOne({where:{
     id:id
   },
-  attributes:['id','fullname','userEmail','department_id'],
   include:{
     model:sectionsModel,
-    attributes:['id','name','courseId','year','semester','room_no','status','building','days',"start_time","end_time"],
   }
 });
   res.status(201).json(newRecord);

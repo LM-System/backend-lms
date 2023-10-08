@@ -9,12 +9,12 @@ const acl = require('../../auth/middleware/acl.auth');
 const sectionCollection =new Collection(sectionsModel);
 
 
-sectionRouter.get('/section',bearerAuth,acl(['instructorDepartmentHead','admin']), handleGetAll);
-sectionRouter.get('/section/:id',bearerAuth,acl(['instructorDepartmentHead','admin']), handleGetOne);
+sectionRouter.get('/section',bearerAuth, handleGetAll);
+sectionRouter.get('/section/:id',bearerAuth, handleGetOne);
 sectionRouter.post('/section',bearerAuth,acl(['instructorDepartmentHead','admin']), handleCreate);
 sectionRouter.put('/section/:id',bearerAuth,acl(['instructorDepartmentHead','admin']), handleUpdate);
 sectionRouter.delete('/section/:id',bearerAuth,acl(['instructorDepartmentHead','admin']), handleDelete);
-sectionRouter.get('/classlist/:id',bearerAuth,acl(['instructorDepartmentHead','instructor','student']), handleClasslist);
+sectionRouter.get('/classlist/:id',bearerAuth,acl(['instructorDepartmentHead','instructor','student','admin']), handleClasslist);
 
 
 

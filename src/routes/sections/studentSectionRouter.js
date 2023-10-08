@@ -12,7 +12,7 @@ const userCollection =new Collection(usersModel);
 
 
 // student can register delet or change the section with this Endpoints
-studentSectionRouter.get('/studentsections/:email',bearerAuth,acl('student'), handleGetAllStudentSections);
+studentSectionRouter.get('/studentsections/:id',bearerAuth,acl('student'), handleGetAllStudentSections);
 studentSectionRouter.get('/studentsections',bearerAuth,acl('student'), handleRead);//for testing
 studentSectionRouter.post('/registersection/:stdId/:sectionId',bearerAuth,acl('student'), handleRegisterCreate);
 studentSectionRouter.put('/registersection/:sectionId',bearerAuth,acl('student'), handleRegisterUpdate);
@@ -23,11 +23,18 @@ studentSectionRouter.delete('/registersection/:sectionId',bearerAuth,acl('studen
 
 async function handleGetAllStudentSections(req, res) {
   try{
-  const email = req.params.email;
-  let allRecords = await studentsModel.findAll({ where: { userEmail: email } ,include:{model:sectionsModel}})
+  const id = req.params.id;
+  let allRecords = await studentsModel.findAll({ where: { id: id } ,include:{model:sectionsModel}})
   res.status(200).json(allRecords);
 } catch (e){next(e)}
 }
+// async function handleGetOneStudentSections(req, res) {
+//   try{
+//   const id = req.params.id;
+//   let allRecords = await studentsModel.findOne({ where: { id: id } ,include:{model:sectionsModel}})
+//   res.status(200).json(allRecords);
+// } catch (e){next(e)}
+// }
 
 async function handleRead(req, res,next) { //for testing
   try{
