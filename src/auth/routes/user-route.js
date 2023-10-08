@@ -26,7 +26,7 @@ userRouter.get('/departmenthead',handleDepartmentHead)
 async function handleDepartmentHead(req, res,next) {
   try{
   let user = await usersModel.findAll({
-    where:{role:'instructorDepartmentHead'},includes:{model:instructorsModel}
+    where:{role:'instructorDepartmentHead'},include:{model:instructorsModel}
   });
   res.status(200).json(user);
 } catch (e){next(e)}
