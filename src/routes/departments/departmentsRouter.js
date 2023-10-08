@@ -8,7 +8,6 @@ const head = require("../../auth/middleware/head");
 const {
   coursesModel,
   departmentsModel,
-  usersModel,
   studentsModel,
   institutionModel,
   instructorsModel,
