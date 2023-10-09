@@ -21,8 +21,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
-contentRouter.get('/sectioncontents/:courseId',bearer,acl(['instructor','instructorDepartmentHead']), handleGetSectionContents);
-contentRouter.get('/content/:id',bearer,acl(['instructor','instructorDepartmentHead']), handleGetOne);
+contentRouter.get('/sectioncontents/:courseId',bearer, handleGetSectionContents);
+contentRouter.get('/content/:id',bearer, handleGetOne);
 contentRouter.get('/contentFiles/:id',bearer, handleGetcontentFiles);
 contentRouter.post('/content',/*bearer,acl(['instructor','instructorDepartmentHead']),*/  upload.single("contentFile"), handleCreate);
 contentRouter.put('/content/:id',bearer,acl(['instructor','instructorDepartmentHead']), handleUpdate);
@@ -34,6 +34,13 @@ contentRouter.delete('/content/:id',bearer,acl(['instructor','instructorDepartme
     try{
     const id = req.params.courseId;
     let theRecord = await coursesModel.findOne({where:{id:id},include:{model:contentModel}})
+    res.status(200).json(theRecord);
+  } catch (e){next(e)}
+  }
+  async function handleGetAllForSection(req, res,next) {
+    try{
+    const id = req.params.id;
+    let theRecord = await contentModel.findOne({where:{sectionId:id},include:{all:true}})
     res.status(200).json(theRecord);
   } catch (e){next(e)}
   }
@@ -57,7 +64,8 @@ contentRouter.delete('/content/:id',bearer,acl(['instructor','instructorDepartme
     try{
     let obj = req.body;
     const attachment=req.file ? req.file.path : null;
-    obj.attachment=attachment;
+    console.log(req.body);
+    obj.file=attachment;
     let newRecord = await contentModel.create(obj);
     res.status(201).json(newRecord);
   } catch (e){next(e)}

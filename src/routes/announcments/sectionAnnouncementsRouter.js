@@ -6,7 +6,7 @@ const bearer = require('../../auth/middleware/bearer.auth')
 const specificity = require('../../auth/middleware/specificity.auth')
 const head = require('../../auth/middleware/head')
 
-sectionAnnouncementRouter.get('/sectionAnnouncements/:sectionId',bearer,acl(["instructorDepartmentHead",'instructor','student']), handleGetAnnoucementsforOneSection);
+sectionAnnouncementRouter.get('/sectionAnnouncements/:sectionId',bearer, handleGetAnnoucementsforOneSection);
 sectionAnnouncementRouter.post('/sectionAnnouncement',bearer,acl(["instructorDepartmentHead",'instructor']), handleCreate);
 sectionAnnouncementRouter.put('/sectionAnnouncement/:id',bearer,acl(["instructorDepartmentHead",'instructor']), handleUpdate);
 sectionAnnouncementRouter.delete('/sectionAnnouncement/:id',bearer,acl(["instructorDepartmentHead",'instructor']), handleDelete);

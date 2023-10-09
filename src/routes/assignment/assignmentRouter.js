@@ -2,7 +2,7 @@ const express = require("express");
 const assignmentRouter = express.Router();
 const multer = require("multer");
 const path = require("path");
-const { assignmentModel } = require("../../model/relations");
+const { assignmentModel,studentAssignmentSubmission } = require("../../model/relations");
 const acl = require("../../auth/middleware/acl.auth");
 const bearer = require("../../auth/middleware/bearer.auth");
 
@@ -20,9 +20,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 assignmentRouter.get(
-  "/assignment",
+  "/assignments/:id",
   bearer,
-  acl(["instructor", "instructorDepartmentHead"]),
   handleGetAll
 );
 assignmentRouter.get("/assignment/:id", bearer, handleGetOne);
@@ -41,7 +40,10 @@ assignmentRouter.delete(
 );
 async function handleGetAll(req, res) {
   try {
-    let allRecords = await assignmentModel.findAll({ include: { all: true } });
+    const id=req.params.id
+    let allRecords = await assignmentModel.findAll({where:{sectionId:id}, include: { 
+      model: studentAssignmentSubmission,
+     } });
     res.status(200).json(allRecords);
   } catch (e) {
     next(e);

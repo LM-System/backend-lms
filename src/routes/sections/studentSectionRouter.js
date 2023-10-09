@@ -2,7 +2,7 @@
 // section router
 const express = require('express');
 const studentSectionRouter = express.Router();
-const {sequelize}= require('../../model/index')
+const {sequelize, instructorsModel}= require('../../model/index')
 const {studentSectionModel, usersModel,sectionsModel,studentsModel}= require('../../model/relations')
 const Collection = require("../../model/collection");
 const bearerAuth = require('../../auth/middleware/bearer.auth');
@@ -14,7 +14,7 @@ const userCollection =new Collection(usersModel);
 // student can register delet or change the section with this Endpoints
 studentSectionRouter.get('/studentsections/:id',bearerAuth,acl('student'), handleGetAllStudentSections);
 studentSectionRouter.get('/studentsections',bearerAuth,acl('student'), handleRead);//for testing
-studentSectionRouter.post('/registersection/:stdId/:sectionId',bearerAuth,acl('student'), handleRegisterCreate);
+studentSectionRouter.post('/registersection/:studentId/:sectionId',bearerAuth,acl('student'), handleRegisterCreate);
 studentSectionRouter.put('/registersection/:sectionId',bearerAuth,acl('student'), handleRegisterUpdate);
 studentSectionRouter.delete('/registersection/:sectionId',bearerAuth,acl('student'), handleRegisterDelete);
 
@@ -24,7 +24,7 @@ studentSectionRouter.delete('/registersection/:sectionId',bearerAuth,acl('studen
 async function handleGetAllStudentSections(req, res) {
   try{
   const id = req.params.id;
-  let allRecords = await studentsModel.findAll({ where: { id: id } ,include:{model:sectionsModel}})
+  let allRecords = await studentsModel.findOne({ where: { id: id } ,include:{model:sectionsModel,include:{model:instructorsModel}}})
   res.status(200).json(allRecords);
 } catch (e){next(e)}
 }

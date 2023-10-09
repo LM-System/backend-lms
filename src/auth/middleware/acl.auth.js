@@ -3,7 +3,7 @@
 function acl(params) {
   return (req, res, next) => {
     try{
-      console.log(req.user);
+      console.log(req.user.role);
       if (params.includes(req.user.role)||req.user.role === params) {
         next();
       } else {
