@@ -6,8 +6,8 @@ const bearerAuth = require('../../auth/middleware/bearer.auth');
 const acl = require('../../auth/middleware/acl.auth');
 
 
-instructorsSectionsRouter.get('/instructorSection',bearerAuth,acl(['instructor',"instructorDepartmentHead"]), handleGetAll);
-instructorsSectionsRouter.get('/instructorSection/:id',bearerAuth,acl(['instructor',"instructorDepartmentHead"]), handleGetOne);
+instructorsSectionsRouter.get('/instructorSection',bearerAuth,acl(['instructor',"instructorDepartmentHead","admin"]), handleGetAll);
+instructorsSectionsRouter.get('/instructorSection/:id',bearerAuth,acl(['instructor',"instructorDepartmentHead","admin"]), handleGetOne);
 
 
 async function handleGetAll(req, res,next) {
