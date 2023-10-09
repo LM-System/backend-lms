@@ -12,7 +12,8 @@ announcementRouter.delete('/announcement/:id',bearer,acl(['admin']), handleDelet
 
 async function handleGetAll(req, res,next) {
   try{
-    let newRecord = await announcementModel.findAll();
+    let newRecord = await announcementModel.findAll(/*{where:{institutionId:req.params.institutionId},
+    attributes:["id",'title','body']}*/);
     res.status(200).json(newRecord);
   } catch (e){next(e)}
 }
