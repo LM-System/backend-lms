@@ -25,11 +25,8 @@ async function handleClasslist(req, res,next) {
       where: {
         id: id
       }, include: {
-        model: studentsModel,
-    },include: {
-      model: instructorsModel,
-  }
-
+        all: true,
+    },
   });
     res.status(200).json(allRecords);
   } catch (e){next(e)}
