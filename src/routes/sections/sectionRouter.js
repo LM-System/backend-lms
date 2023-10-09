@@ -26,10 +26,8 @@ async function handleClasslist(req, res,next) {
         id: id
       }, include: {
         model: studentsModel,
-        attributes: ['id','fullname',"email"],
     },include: {
       model: instructorsModel,
-      attributes: ['id','fullname',"email"],
   }
 
   });
