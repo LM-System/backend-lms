@@ -17,7 +17,6 @@ const {
 departmentsRouter.get(
   "/departmentcourses/:id",
   bearer,
-  acl(["admin", "instructorDepartmentHead"]),
   /*specificity('departmentHeader'),*/ handleGetDepartmentCourses
 );
 departmentsRouter.get(
