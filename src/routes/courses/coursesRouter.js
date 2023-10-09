@@ -10,7 +10,7 @@ const courseCollection= new Collection(coursesModel);
 
 coursesRouter.get('/courses', handleGetAll);
 coursesRouter.get('/course/:id',bearer,acl(['admin','instructorDepartmentHead','instructor']), handleGetOne);
-coursesRouter.get('/coursesections/:id',bearer,acl(['admin','instructorDepartmentHead','instructor']), handleGetcourseSections);
+coursesRouter.get('/coursesections/:id',bearer, handleGetcourseSections);
 // coursesRouter.get('/courseprerequisite/:id',bearer,acl(['admin','instructorDepartmentHead','instructor']), handleGetcourseprerequisite);
 coursesRouter.post('/course',bearer,acl(['admin','instructorDepartmentHead']), handleCreate);
 coursesRouter.put('/course/:id',bearer,acl(['admin','instructorDepartmentHead','instructor']), handleUpdate);

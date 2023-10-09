@@ -12,11 +12,11 @@ const userCollection =new Collection(usersModel);
 
 
 // student can register delet or change the section with this Endpoints
-studentSectionRouter.get('/studentsections/:id',bearerAuth,acl('student'), handleGetAllStudentSections);
-studentSectionRouter.get('/studentsections',bearerAuth,acl('student'), handleRead);//for testing
-studentSectionRouter.post('/registersection/:studentId/:sectionId',bearerAuth,acl('student'), handleRegisterCreate);
-studentSectionRouter.put('/registersection/:sectionId',bearerAuth,acl('student'), handleRegisterUpdate);
-studentSectionRouter.delete('/registersection/:sectionId',bearerAuth,acl('student'), handleRegisterDelete);
+studentSectionRouter.get('/studentsections/:id',bearerAuth, handleGetAllStudentSections);
+studentSectionRouter.get('/studentsections',bearerAuth, handleRead);//for testing
+studentSectionRouter.post('/registersection/:studentId/:sectionId',bearerAuth, handleRegisterCreate);
+studentSectionRouter.put('/registersection/:sectionId',bearerAuth, handleRegisterUpdate);
+studentSectionRouter.delete('/registersection/:sectionId',bearerAuth, handleRegisterDelete);
 
 
 // student can register , delete , change or get the classlist the section with this function bellow

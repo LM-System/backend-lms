@@ -21,35 +21,6 @@ userRouter.post("/student",/*bearerAuth,acl(["instructorDepartmentHead","admin"]
 userRouter.post("/instructor",/*bearerAuth,acl(["admin"]),*/ upload('excel'),handleAddManyInstructor);
 userRouter.post("/changepassword", changePassWordHandler); //AbuEssa
 userRouter.get('/departmenthead',handleDepartmentHead)
-// userRouter.post("/addadmin",bearerAuth,acl(["superAdmin"]),handelAddAdmin)
-
-
-// async function handelAddAdmin(req,res,next) {
-//   const hashedPassword = bcrypt.hashSync(req.body.password, 12);
-
-//  const user={ 
-//   email:req.body.email,
-//   "role":"admin",
-//   password:hashedPassword,
-// }
-//  const admin={ 
-//   userEmail:req.body.email,
-//   fullname:req.body.fullname,
-//   gender:req.body.gender,
-//   birth_date:req.body.birth_date,
-//   phone_number:req.body.phone_number
-// }
-// try {
-//   const userRecord=await usersModel.create(user)
-//   const adminRecord=await adminsModel.create(admin)
-//   res.status(200).json(adminRecord,userRecord)
-  
-// } catch (error) {
-//   next(error);
-// }
-
-// }
-
 
 async function handleDepartmentHead(req, res,next) {
   try{

@@ -5,6 +5,8 @@ const {
   instructorsModel,
   adminsModel,
   studentsModel,
+  departmentsModel,
+  institutionModel,
 } = require("../../model/relations");
 
 require("dotenv").config();
@@ -17,20 +19,21 @@ async function signInHandler(req, res) {
   ) {
     user = await usersModel.findOne({
       where: { email: req.user.email },
-      include: { model: instructorsModel },
+      include: { model: instructorsModel,include: { model: departmentsModel } },
+      
     });
   } else if (req.user.role === "admin" || req.user.role === "superAdmin") {
     {
       user = await usersModel.findOne({
         where: { email: req.user.email },
-        include: { model: adminsModel },
+        include: { model: adminsModel,include: { model: institutionModel }  },
       });
     }
   } else {
     {
       user = await usersModel.findOne({
         where: { email: req.user.email },
-        include: { model: studentsModel },
+        include: { model: studentsModel ,include: { model: departmentsModel } },
       });
     }
   }
