@@ -58,8 +58,9 @@ async function handelUpdateInstrcutor(req,res){
 }
 async function handelDeleteInstrcutor(req,res){
     let id=req.params.id;
+    const user=await instructorsCollection.read(id);
     const records=await instructorsCollection.delete(id);
-    const record=await usersModel.delete(id);
+    const record=await usersModel.destroy({where:{email:user.userEmail}});
     res.status(200).json(records)
 }
 // async function handelAddInstrcutor(req,res){

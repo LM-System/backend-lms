@@ -31,8 +31,9 @@ async function handelUpdateStudent(req,res){
 }
 async function handelDeleteStudent(req,res){
     let id=req.params.id;
+    const user=await studentsCollection.read(id);
     const records=await studentsCollection.delete(id);
-    const record=await usersModel.delete(id);
+    const record=await usersModel.destroy({where:{email:user.userEmail}});
     res.status(200).json(records)
 }
 module.exports=studentRouter
