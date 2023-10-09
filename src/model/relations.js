@@ -16,7 +16,7 @@ const {
   studentAssignmentSubmission,
   contentModel,
 
-  // chatsModel,
+  chatsModel,
   // prerequisiteModel,
   // feedbackModel
 } = require("./index");
@@ -62,6 +62,7 @@ departmentsModel.belongsTo(institutionModel);
 
 // adminsModel Relations institution
 adminsModel.hasOne(institutionModel);
+institutionModel.belongsTo(adminsModel);
 
 // adminsModel Relations institution
 instructorsModel.hasMany(departmentsModel,{ as: 'departmentHead' });
@@ -126,6 +127,6 @@ module.exports = {
   contentModel,
 
   // prerequisiteModel,
-  // chatsModel,
+  chatsModel,
   // feedbackModel
 };
