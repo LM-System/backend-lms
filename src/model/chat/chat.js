@@ -2,7 +2,7 @@ const chats = (Sequelize, DataTypes) =>
 Sequelize.define('chats',{
     
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.TEXT,
       allowNull: false,
       primaryKey: true
     },
