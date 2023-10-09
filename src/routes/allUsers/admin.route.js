@@ -15,6 +15,7 @@ adminRouter.delete("/deleteadmin/:id",bearerAuth,acl(['superAdmin']),handelDelet
 // adminRouter.post("/addinstructor",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAddAdmin)
 
 async function handelAddAdmin(req,res,next) {
+    try {
     const hashedPassword = bcrypt.hashSync(req.body.password, 12);
 
    const user={ 
@@ -29,10 +30,9 @@ async function handelAddAdmin(req,res,next) {
     birth_date:req.body.birth_date,
     phone_number:req.body.phone_number
 }
-try {
     const userRecord=await usersModel.create(user)
     const adminRecord=await adminsModel.create(admin)
-    res.status(200).json(adminRecord,userRecord)
+    res.status(200).json(adminRecord)
     
 } catch (error) {
     next(error);

@@ -3,6 +3,7 @@
 const express=require('express');
 const bearerAuth = require('../../auth/middleware/bearer.auth');
 const acl = require('../../auth/middleware/acl.auth');
+const bcrypt=require('bcrypt');
 const { instructorsModel,usersModel } = require('../../model/relations');
 const Collection = require("../../model/collection");
 const instructorsCollection=new Collection(instructorsModel)
@@ -16,22 +17,21 @@ instructorRouter.delete("/deleteinstructor/:id",bearerAuth,acl(['instructorDepar
 
 async function handelAddHead(req,res,next) {
     const hashedPassword = bcrypt.hashSync(req.body.password, 12);
-
-   const user={ 
-    email:req.body.email,
-    role:"instructorDepartmentHead",
-    password:hashedPassword,
-}
-   const head={ 
-    userEmail:req.body.email,
-    fullname:req.body.fullname,
-    gender:req.body.gender,
-    birth_date:req.body.birth_date,
-    phone_number:req.body.phone_number
-}
-try {
+    try {
+       const user={ 
+        email:req.body.email,
+        role:"instructorDepartmentHead",
+        password:hashedPassword,
+    }
+       const head={ 
+        userEmail:req.body.email,
+        fullname:req.body.fullname,
+        gender:req.body.gender,
+        birth_date:req.body.birth_date,
+        phone_number:req.body.phone_number
+    }
     const userRecord=await usersModel.create(user)
-    const headRecord=await instructorRouter.create(head)
+    const headRecord=await instructorsModel.create(head)
     res.status(200).json(headRecord)
     
 } catch (error) {
