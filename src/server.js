@@ -110,17 +110,6 @@ io.on("connection", (socket) => {
         })
       })
   })
-  // socket.on("join_section", (data) => {
-  //   socket.join(data);
-  //   console.log(`User with ID: ${socket.id} joined room: ${data}`);
-  // });
-
-  // socket.on("send_notification", async(data) => {
-  //   // console.log(data);
-  //   // await chatsModel.create(data)
-  //   socket.to(data.room_id).emit("receive_notification", data);
-  // });
-
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
   });
