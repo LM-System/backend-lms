@@ -65,7 +65,7 @@ adminsModel.hasOne(institutionModel);
 institutionModel.belongsTo(adminsModel);
 
 // adminsModel Relations institution
-instructorsModel.hasOne(departmentsModel,{ as: 'departmentHead' });
+// instructorsModel.hasOne(departmentsModel,{ as: 'departmentHead' });
 departmentsModel.belongsTo(instructorsModel,{ as: 'departmentHead' })
 
 departmentsModel.hasMany(instructorsModel);
