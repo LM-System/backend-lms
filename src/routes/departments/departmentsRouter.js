@@ -125,7 +125,10 @@ async function handleGetOne(req, res) {
 async function handleCreate(req, res, next) {
   try {
     let obj = req.body;
+    let {departmentHeadId}=obj
     let newRecord = await departmentsModel.create(obj);
+    let updateHead = await instructorsModel.findOne({where:{id:departmentHeadId}})
+    await updateHead.update({departmentId:newRecord.id})
     res.status(201).json(newRecord);
   } catch (e) {
     next(e);
