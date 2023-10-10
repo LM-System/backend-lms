@@ -19,7 +19,7 @@ async function signInHandler(req, res) {
   ) {
     user = await usersModel.findOne({
       where: { email: req.user.email },
-      include:{all:true,nested: true },
+      include: { model: instructorsModel,include: { all: true } },
       
     });
   } else if (req.user.role === "admin" || req.user.role === "superAdmin") {
