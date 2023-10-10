@@ -80,36 +80,32 @@ io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
-    chatsModel.findOne({where:{id:data}})
+    chatsModel.findAll({where:{room_id:data}})
     .then((result)=>{
-      if(result){
-        const messages = JSON.parse(result.messages)
-        socket.emit('prev_messages',messages)
-      }
+        socket.emit('prev_messages',result)
     })
     
   });
 
   socket.on("send_message", async(data) => {
-    // await chatsModel.create(data)
+    await chatsModel.create(data)
     socket.to(data.room_id).emit("receive_message", data);
   });
-  socket.on('save_data',(data)=>{
-    const msgs = JSON.stringify(data[0])
-    const id = data[1]
-    console.log(data)
-    console.log('......................',msgs)
-    chatsModel.findOne({where:{id:id}})
-    .then((result)=>{
-        result.update({messages:msgs})
-      })
-      .catch(()=>{
-        chatsModel.create({
-          id:id,
-          messages:msgs
-        })
-      })
-  })
+  // socket.on('save_data',(data)=>{
+  //   const id = data[1]
+  //   console.log(data)
+  //   console.log('......................',msgs)
+  //   chatsModel.findOne({where:{id:id}})
+  //   .then((result)=>{
+  //       result.update({messages:msgs})
+  //     })
+  //     .catch(()=>{
+  //       chatsModel.create({
+  //         id:id,
+  //         messages:msgs
+  //       })
+  //     })
+  // })
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
   });

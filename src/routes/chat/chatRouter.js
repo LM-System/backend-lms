@@ -1,13 +1,27 @@
 const express = require('express');
 const chatRouter = express.Router();
 const bearerAuth = require('../../auth/middleware/bearer.auth');
+const { Op } = require("sequelize");
 
 
 const {chatsModel} = require('../../model/relations');
 
 chatRouter.get('/chat/:id',bearerAuth, handleGetOne);
+chatRouter.get('/userchats/:id/', handleGetUserChats);
 chatRouter.put('/chat/:id',bearerAuth, handleUpdate);
 chatRouter.delete('/chat/:id',bearerAuth, handleDelete);
+
+
+async function handleGetUserChats(req, res,next) {
+  try{
+  const id = req.params.id;
+  let theRecord = await chatsModel.findAll({where:{ [Op.or]: [
+    { sender_id: id },
+    { reciever_id: id }
+  ]}})
+  res.status(200).json(theRecord);
+} catch (e){next(e)}
+}
 
 
 async function handleGetOne(req, res,next) {
