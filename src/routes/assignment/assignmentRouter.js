@@ -27,7 +27,7 @@ assignmentRouter.get(
 assignmentRouter.get("/assignment/:id", bearer, handleGetOne);
 assignmentRouter.post(
   "/assignment",
-  // bearer,
+  bearer,
   upload.single("assignmentFile"),
   handleCreate
 );
