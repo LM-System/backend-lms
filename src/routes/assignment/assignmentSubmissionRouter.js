@@ -25,7 +25,7 @@ const upload = multer({ storage });
 assignmentSubmittionRouter.get(
   "/assignmentSubmittion/:sectionId",
   bearer,
-  acl(["superAdmin"]),
+  // acl(["superAdmin"]),
   handleGetAll
 );
 assignmentSubmittionRouter.get(
@@ -41,7 +41,7 @@ assignmentSubmittionRouter.put(
 assignmentSubmittionRouter.post(
   "/assignmentSubmittion",
   bearer,
-  acl(["student"]),
+  // acl(["student"]),
   upload.single("assignmentSubmissionFile"),
   handleCreate
 );
