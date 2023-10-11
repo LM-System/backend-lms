@@ -29,7 +29,7 @@ assignmentSubmittionRouter.get(
   handleGetAll
 );
 assignmentSubmittionRouter.get(
-  "/assignmentSubmittion/:sectionId/:assignmentId",
+  "/assignmentSubmittion/:studentId/:assignmentId",
   bearer,
   handleGetOne
 );
@@ -59,12 +59,11 @@ async function handleGetAll(req, res) {
 
 async function handleGetOne(req, res) {
   try {
-    const sectionId = req.params.sectionId;
+    const studentId = req.params.studentId;
     const assignmentId = req.params.assignmentId;
-    // sectionId/:assignmentId
     let theRecord = await studentAssignmentSubmission.findOne({where:{
       assignmentId:assignmentId,
-      sectionId:sectionId
+      studentId:studentId
     }});
     if (theRecord === null) {
       res.status(200).json("Record not found");
@@ -83,12 +82,11 @@ async function handleCreate(req, res) {
 
     // Create the assignment submission with the attachment URL
     const newAssignmentSubmission = await studentAssignmentSubmission.create({
-      content,
+      content:attachmentUrl,
       status,
       priority,
       assignmentId,
       studentId,
-      attachment: attachmentUrl,
     });
 
     res.json({
