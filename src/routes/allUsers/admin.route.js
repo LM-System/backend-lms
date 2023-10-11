@@ -9,6 +9,7 @@ const adminsCollection=new Collection(adminsModel)
 const adminRouter=express.Router();
 adminRouter.get("/getadmins",bearerAuth,acl(["superAdmin"]),handelAllAdmin)
 adminRouter.post("/addadmin",bearerAuth,/*acl(["superAdmin"])*/handelAddAdmin)
+adminRouter.post("/addsuperadmin",/*acl(["superAdmin"])*/handelAddSuperAdmin)
 adminRouter.get("/getadmin/:id",bearerAuth,acl(['instructorDepartmentHead','instructor','student',"admin"]),handelOneAdmin)
 adminRouter.put("/updateadmin/:id",bearerAuth,handelUpdateAdmin )
 adminRouter.delete("/deleteadmin/:id",bearerAuth/*,acl(['superAdmin'])*/,handelDeleteAdmin)
@@ -21,6 +22,31 @@ async function handelAddAdmin(req,res,next) {
    const user={ 
     email:req.body.email,
     role:"admin",
+    password:hashedPassword,
+}
+   const admin={ 
+    userEmail:req.body.email,
+    fullname:req.body.fullname,
+    gender:req.body.gender,
+    birth_date:req.body.birth_date,
+    phone_number:req.body.phone_number
+}
+    const userRecord=await usersModel.create(user)
+    const adminRecord=await adminsModel.create(admin)
+    res.status(200).json(adminRecord)
+    
+} catch (error) {
+    next(error);
+}
+
+}
+async function handelAddSuperAdmin(req,res,next) {
+    try {
+    const hashedPassword = bcrypt.hashSync(req.body.password, 12);
+
+   const user={ 
+    email:req.body.email,
+    role:"superAdmin",
     password:hashedPassword,
 }
    const admin={ 

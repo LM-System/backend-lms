@@ -9,7 +9,7 @@ const Collection = require('../../model/collection');
 const courseCollection= new Collection(coursesModel);
 
 coursesRouter.get('/courses', handleGetAll);
-coursesRouter.get('/course/:id',bearer,acl(['admin','instructorDepartmentHead','instructor']), handleGetOne);
+coursesRouter.get('/course/:id',bearer, handleGetOne);
 coursesRouter.get('/coursesections/:id',bearer, handleGetcourseSections);
 // coursesRouter.get('/courseprerequisite/:id',bearer,acl(['admin','instructorDepartmentHead','instructor']), handleGetcourseprerequisite);
 coursesRouter.post('/course',bearer,acl(['admin','instructorDepartmentHead']), handleCreate);

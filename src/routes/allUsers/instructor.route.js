@@ -9,36 +9,61 @@ const Collection = require("../../model/collection");
 const instructorsCollection=new Collection(instructorsModel)
 const instructorRouter=express.Router();
 instructorRouter.get("/getinstructors/:id",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAllInstrcutor)
-instructorRouter.post("/addhead",bearerAuth,acl(["superAdmin","admin"]),handelAddHead)
+instructorRouter.post("/addhead",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAddHead)
 instructorRouter.get("/getinstructor/:id",bearerAuth,acl(['instructorDepartmentHead','instructor','student',"admin"]),handelOneInstrcutor)
 instructorRouter.put("/updateinstructor/:id",bearerAuth,handelUpdateInstrcutor )
 instructorRouter.delete("/deleteinstructor/:id",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelDeleteInstrcutor)
 // instructorRouter.post("/addinstructor",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAddInstrcutor)
 
 async function handelAddHead(req,res,next) {
-    const hashedPassword = bcrypt.hashSync(req.body.password, 12);
     try {
-       const user={ 
-        email:req.body.email,
-        role:"instructorDepartmentHead",
-        password:hashedPassword,
-    }
-       const head={ 
-        userEmail:req.body.email,
-        fullname:req.body.fullname,
-        gender:req.body.gender,
-        birth_date:req.body.birth_date,
-        phone_number:req.body.phone_number
-    }
+    const hashedPassword = bcrypt.hashSync(req.body.password, 12);
+
+   const user={ 
+    email:req.body.email,
+    role:"instructorDepartmentHead",
+    password:hashedPassword,
+}
+   const admin={ 
+    userEmail:req.body.email,
+    fullname:req.body.fullname,
+    gender:req.body.gender,
+    birth_date:req.body.birth_date,
+    phone_number:req.body.phone_number
+}
     const userRecord=await usersModel.create(user)
-    const headRecord=await instructorsModel.create(head)
-    res.status(200).json(headRecord)
+    const adminRecord=await instructorsModel.create(admin)
+    res.status(200).json(adminRecord)
     
 } catch (error) {
     next(error);
 }
 
 }
+// async function handelAddHead(req,res,next) {
+//     const hashedPassword = bcrypt.hashSync(req.body.password, 12);
+//     try {
+//        const user={ 
+//         email:req.body.email,
+//         role:"instructorDepartmentHead",
+//         password:hashedPassword,
+//     }
+//        const head={ 
+//         userEmail:req.body.email,
+//         fullname:req.body.fullname,
+//         gender:req.body.gender,
+//         birth_date:req.body.birth_date,
+//         phone_number:req.body.phone_number
+//     }
+//     const userRecord=await usersModel.create(user)
+//     const headRecord=await instructorsModel.create(head)
+//     res.status(200).json(headRecord)
+    
+// } catch (error) {
+//     next(error);
+// }
+
+// }
 
 async function handelAllInstrcutor(req,res){
     let id=req.params.id;

@@ -61,7 +61,7 @@ async function handleGetOne(req, res) {
   try {
     const studentId = req.params.studentId;
     const assignmentId = req.params.assignmentId;
-    let theRecord = await studentAssignmentSubmission.findOne({where:{
+    let theRecord = await studentAssignmentSubmission.findAll({where:{
       assignmentId:assignmentId,
       studentId:studentId
     }});

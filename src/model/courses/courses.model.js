@@ -5,7 +5,7 @@ Sequelize.define('courses',{
         allowNull: false,
     },
     description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     syllabus: {
         type: DataTypes.STRING,
