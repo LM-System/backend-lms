@@ -9,7 +9,7 @@ const Collection = require("../../model/collection");
 const instructorsCollection=new Collection(instructorsModel)
 const instructorRouter=express.Router();
 instructorRouter.get("/getinstructors/:id",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelAllInstrcutor)
-instructorRouter.post("/addhead",bearerAuth,acl(["superAdmin"]),handelAddHead)
+instructorRouter.post("/addhead",bearerAuth,acl(["superAdmin","admin"]),handelAddHead)
 instructorRouter.get("/getinstructor/:id",bearerAuth,acl(['instructorDepartmentHead','instructor','student',"admin"]),handelOneInstrcutor)
 instructorRouter.put("/updateinstructor/:id",bearerAuth,handelUpdateInstrcutor )
 instructorRouter.delete("/deleteinstructor/:id",bearerAuth,acl(['instructorDepartmentHead',"admin"]),handelDeleteInstrcutor)
